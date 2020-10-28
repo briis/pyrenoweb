@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+pyrenoweb.code-workspace
+data/addressid.json
+.DS_Store
+data/data.json
+data/municipalities.json
+data/roadid.json
