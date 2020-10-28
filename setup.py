@@ -6,6 +6,9 @@ setup(
     version="0.1.0",
     license="MIT",
     description="Python Wrapper for RenoWeb Garbage System API",
+    long_description=" ".join(
+    ["A module to retrieve Garbage Collection data ",
+    "for Danish Municipalities that are using RenoWeb."]),
     author="Bjarne Riis",
     author_email="bjarne@briis.com",
     url="https://github.com/briis/pyrenoweb",
