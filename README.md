@@ -1,6 +1,6 @@
 # Python Wrapper for RenoWeb Garbage System API
 
-A module to retrieve Garbage Collection data for Danish Municipalities hat are using RenoWeb
+A module to retrieve Garbage Collection data for Danish Municipalities that are using RenoWeb
 
 You need a Municipality ID and a Address ID to get the Sensor Data. In order to get this run the following in exactly this order:
 
