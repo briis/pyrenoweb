@@ -4,7 +4,7 @@ A module to retrieve Garbage Collection data for Danish Municipalities that are 
 
 You need a Municipality ID and a Address ID to get the Sensor Data. In order to get this run the following:
 
-`renoweb.py find <municipality name> <road name> <house number>` - this will return the following:
+`renoweb.py find <municipality name> <road name> <house number>` - this will return the following, if the data is found:
 
 ````
 ID NUMBERS
