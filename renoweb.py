@@ -1,8 +1,10 @@
+from pyrenoweb.errors import ResultError
 from pyrenoweb.client import RenoeWeb
 from aiohttp import ClientSession
 import asyncio
 import logging
 import sys
+import json
 
 API_KEY = "DDDD4A1D-DDD1-4436-DDDD-3F374DD683A1"
 API_KEY2 = "346B43B0-D1F0-4AFC-9EE8-C4AD1BFDC218"
@@ -19,56 +21,72 @@ async def run_function(argv):
 
     if len(argv) < 1:
         print(
-            "\nFølgende kommandoer kan bruges:\n"
-            "renoweb.py kommuner - Find dit Kommune ID\n"
-            "renoweb.py vej <kommune id> <vejnavn> - Find dit Vej ID\n"
-            "renoweb.py adresse <kommune id> <vej id> <hus nummer> - Find dit Adresse ID\n"
-            "renoweb.py data <kommune id> <adresse id> - Vis Data for adressen\n"
+            "\nusage:\n"
+            "renoweb.py find <municipality name> <road name> <house number> - Get the ID's you need to get pickup data\n"
+            "renoweb.py data <municipality id> <address id> - Show pickup data for the Address\n"
+            "or to get individual ID's:\n"
+            "renoweb.py municipality - Find your Municipality ID\n"
+            "renoweb.py road <municipality id> <road name> - Find your Road ID\n"
+            "renoweb.py address <municipality id> <road id> <house number> - Find your Address ID\n"
         )
         sys.exit(2)
     else:
-        if argv[0] == "kommuner":
+        renoweb = RenoeWeb(API_KEY, API_KEY2, session)
+        if argv[0] == "municipality":
             # Print List of Municipalities
-            renoweb = RenoeWeb(API_KEY, session)
             data = await renoweb.get_municipalities()
-            print("\nKOMMUNE LISTE\n**************************")
+            print("\MUNICIPALITY LIST\n**************************")
             for row in data:
-                print(f"BY: {row['municipalityname']} - KODE: {row['municipalitycode']}")
-        elif argv[0] == "vej":
+                print(f"MUNICIPALITY: {row['municipalityname']} - ID: {row['municipalitycode']}")
+        elif argv[0] == "road":
             # Print list of Road ID's
-            renoweb = RenoeWeb(API_KEY2, session)
             data = await renoweb.get_roadids(argv[1], argv[2])
-            print("\nVEJ LISTE\n**************************")
-            print(f"VEJ: {data['name']} - KODE: {data['id']}")
-        elif argv[0] == "adresse":
+            print("\ROAD LIST\n**************************")
+            print(f"ROAD: {data['name']} - ID: {data['id']}")
+        elif argv[0] == "address":
             # Print list of Address ID's
-            renoweb = RenoeWeb(API_KEY2, session)
             data = await renoweb.get_addressids(argv[1], argv[2], argv[3])
-            print("\nADRESSE LISTE\n**************************")
+            print("\nADDRESS LIST\n**************************")
             # print(json.dumps(data, indent=1))
             for row in data:
                 print(
-                    f"VEJ: {row['streetname']} {row['streetBuildingIdentifier']} - KODE: {row['id']}"
+                    f"ROAD: {row['streetname']} {row['streetBuildingIdentifier']} - ID: {row['id']}"
                 )
+        elif argv[0] == "find":
+            # Find needed ID's based on Municipality, Streetname and House number
+            try:
+                data = await renoweb.find_renoweb_ids(argv[1], argv[2], argv[3])
+                print("\nID NUMBERS\n**************************")
+                print(
+                    f"MUNICIPALITY ID: {data['municipality_id']}\n"
+                    f"ADDRESS ID: {data['address_id']}\n"
+                    f"ADDRESS: {data['address']}\n"
+                )
+            except ResultError as error:
+                print(error)
+                pass
+
         elif argv[0] == "data":
             # Print location data
-            renoweb = RenoeWeb(API_KEY2, session)
             data = await renoweb.get_pickup_data(argv[1], argv[2])
-            print("\nAfhentning\n**************************\n")
+            print("\PICK-UP'S\n**************************\n")
             for row in data:
                 print(
                     f"TYPE: {row['type']}\n"
-                    f"BESKRIVELSE: {row['description']}\n"
-                    f"NÆSTE AFHENTNING: {row['nextpickupdate']}\n"
-                    f"DATO: {row['nextpickupdatetimestamp']}\n"
-                    f"FREKVENS: {row['pickupdates']}\n"
+                    f"DESCRIPTION: {row['description']}\n"
+                    f"NEXT PICK-UP: {row['nextpickupdate']}\n"
+                    f"DATE: {row['nextpickupdatetimestamp']}\n"
+                    f"FREQUENCY: {row['pickupdates']}\n"
                 )
         else:
             print(
-                "\nFølgende kommandoer kan bruges:\n"
-                "renoweb.py kommuner - Find dit Kommune ID\n"
-                "renoweb.py vej <kommune id> <vejnavn> <hus nummer> - Find dit Vej ID\n"
-                "renoweb.py data <kommune id> <adresse id> - Vis Data for adressen\n"
+                "\nusage:\n"
+                "renoweb.py find <municipality name> <road name> <house number> - Get the ID's you need to get pickup data\n"
+                "renoweb.py data <municipality id> <address id> - Show pickup data for the Address\n"
+                "or to get individual ID's:\n"
+                "renoweb.py municipality - Find your Municipality ID\n"
+                "renoweb.py road <municipality id> <road name> - Find your Road ID\n"
+                "renoweb.py address <municipality id> <road id> <house number> - Find your Address ID\n"
             )
 
     # Close the Session

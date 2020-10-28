@@ -21,6 +21,7 @@ from pyrenoweb.const import (
 from pyrenoweb.errors import (
     InvalidApiKey,
     RequestError,
+    ResultError,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -32,9 +33,11 @@ class RenoeWeb:
     def __init__(
         self,
         api_key: str,
+        api_key_2: str,
         session: Optional[ClientSession] = None,
     ):
         self._api_key = api_key
+        self._api_key_2 = api_key_2
         self._session: ClientSession = session
 
     async def get_municipalities(self) -> None:
@@ -53,7 +56,7 @@ class RenoeWeb:
 
     async def get_roadids(self, municipality_id: str, road_name: str) -> None:
         """Return a Formatted list with all Roads in the Municipality."""
-        endpoint = f"GetJSONRoad.aspx?municipalitycode={municipality_id}&apikey={self._api_key}&roadname={road_name}"
+        endpoint = f"GetJSONRoad.aspx?municipalitycode={municipality_id}&apikey={self._api_key_2}&roadname={road_name}"
         json_data = await self.async_request("get", endpoint)
 
         for row in json_data["list"]:
@@ -67,7 +70,7 @@ class RenoeWeb:
         self, municipality_id: str, road_id: str, house_number: str
     ) -> None:
         """Return a Formatted list with all Roads in the Municipality."""
-        endpoint = f"GetJSONAdress.aspx?municipalitycode={municipality_id}&apikey={self._api_key}&roadid={road_id}"
+        endpoint = f"GetJSONAdress.aspx?municipalitycode={municipality_id}&apikey={self._api_key_2}&roadid={road_id}"
         json_data = await self.async_request("get", endpoint)
         items = []
 
@@ -79,14 +82,56 @@ class RenoeWeb:
                     "streetBuildingIdentifier": str(
                         row.get("streetBuildingIdentifier")
                     ),
+                    "address": row.get("presentationString"),
                     "id": str(row.get("id")),
                 }
                 items.append(item)
         return items
 
+    async def find_renoweb_ids(self, municipality_name: str, street_name: str, house_number: str):
+        """Returns Municipality ID and Address ID, based on search Criteria."""
+        municipality_id = None
+        road_id = None
+        address_id = None
+        address = None
+
+        # Search Municipalities
+        json_data = await self.get_municipalities()
+        for row in json_data:
+            municipality = row.get("municipalityname")
+            if municipality is not None and (str(municipality).lower() == municipality_name.lower()):
+                municipality_id = row.get("municipalitycode")
+        if municipality_id is None:
+            raise ResultError("Municipality is not Found")
+
+        # Municipality Found, search for Road ID
+        json_data = await self.get_roadids(municipality_id, street_name)
+        if json_data is not None:
+            road_id = json_data.get("id")
+        else:
+            raise ResultError("Road Name not Found")
+
+        # Road found, search for Address ID
+        json_data = await self.get_addressids(municipality_id, road_id, house_number)
+        if json_data is not None:
+            # return json_data
+            for row in json_data:
+                address_id = row.get("id")
+                address = row.get("address")
+        else:
+            raise ResultError("House Number not found on address")
+
+        # We got to here, so return final results
+        return {
+            "municipality_id": municipality_id,
+            "address_id": address_id,
+            "address": address,
+            "road_id": road_id,
+        }
+
     async def get_pickup_data(self, municipality_id: str, address_id: str) -> None:
         """Return json data array with pick up data for the address."""
-        endpoint = f"GetJSONContainerList.aspx?municipalitycode={municipality_id}&apikey={self._api_key}&adressId={address_id}&fullinfo=1&supportsSharedEquipment=1"
+        endpoint = f"GetJSONContainerList.aspx?municipalitycode={municipality_id}&apikey={self._api_key_2}&adressId={address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
         items = []
 
