@@ -2,7 +2,6 @@
 
 import datetime
 
-
 class PickupData:
     """A representation of all data available for a Pickup Location."""
 
