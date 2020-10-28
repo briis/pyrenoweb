@@ -137,8 +137,8 @@ class RenoeWeb:
 
         for row in json_data["list"]:
             module = row.get("module")
-            next_pickup = datetime.datetime.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
-            today = datetime.datetime.today()
+            next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
+            today = datetime.date.today()
             next_pickup_days = (next_pickup - today).days
             item = {
                 "type": module.get("name"),
