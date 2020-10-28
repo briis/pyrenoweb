@@ -6,3 +6,8 @@ from pyrenoweb.errors import (
     RequestError,
     ResultError,
 )
+from pyrenoweb.const import (
+    TYPE_METAL_GLASS,
+    TYPE_PAPER,
+    TYPE_RESIDUAL,
+)
