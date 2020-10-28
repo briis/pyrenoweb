@@ -1,5 +1,5 @@
 from pyrenoweb.errors import ResultError
-from pyrenoweb.client import RenoWeb
+from pyrenoweb.client import RenoWeb, RenoWebData
 from aiohttp import ClientSession
 import asyncio
 import logging
@@ -68,16 +68,17 @@ async def run_function(argv):
 
         elif argv[0] == "data":
             # Print location data
-            data = await renoweb.get_pickup_data(argv[1], argv[2])
+            renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
+            data = await renoweb.get_pickup_data()
             print("\PICK-UP'S\n**************************\n")
             for row in data:
                 print(
-                    f"TYPE: {row['type']}\n"
-                    f"DESCRIPTION: {row['description']}\n"
-                    f"NEXT PICK-UP: {row['nextpickupdate']}\n"
-                    f"DATE: {row['nextpickupdatetimestamp']}\n"
-                    f"FREQUENCY: {row['pickupdates']}\n"
-                    f"DAYS TO PICK-UP: {row['nextpickupdays']}\n"
+                    f"TYPE: {row.type}\n"
+                    f"DESCRIPTION: {row.description}\n"
+                    f"NEXT PICK-UP: {row.nextpickupdatetext}\n"
+                    f"DATE: {row.nextpickupdate}\n"
+                    f"SCHEDULE: {row.schedule}\n"
+                    f"DAYS TO PICK-UP: {row.daysuntilpickup}\n"
                 )
         else:
             print(

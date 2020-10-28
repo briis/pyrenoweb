@@ -24,6 +24,7 @@ from pyrenoweb.errors import (
     ResultError,
     MunicipalityError,
 )
+from .dataclasses import PickupData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -188,15 +189,13 @@ class RenoWebData:
             today = datetime.date.today()
             next_pickup_days = (next_pickup - today).days
             item = {
-                module.get("name"): {
-                    "description": row.get("name"),
-                    "nextpickupdate": row.get("nextpickupdate"),
-                    "nextpickupdatetimestamp": next_pickup.isoformat(),
-                    "pickupdates": row.get("pickupdates"),
-                    "nextpickupdays": next_pickup_days,
-                }
+                "type": module.get("name"),
+                "description": row.get("name"),
+                "nextpickupdate": row.get("nextpickupdate"),
+                "nextpickupdatetimestamp": row.get("nextpickupdatetimestamp"),
+                "schedule": row.get("pickupdates"),
             }
-            items.append(item)
+            items.append(PickupData(item))
         return items
 
     async def async_request(self, method: str, endpoint: str) -> dict:
