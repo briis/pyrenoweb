@@ -77,6 +77,7 @@ async def run_function(argv):
                     f"NEXT PICK-UP: {row['nextpickupdate']}\n"
                     f"DATE: {row['nextpickupdatetimestamp']}\n"
                     f"FREQUENCY: {row['pickupdates']}\n"
+                    f"DAYS TO PICK-UP: {row['nextpickupdays']}\n"
                 )
         else:
             print(
