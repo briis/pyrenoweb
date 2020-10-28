@@ -15,4 +15,6 @@ After this you have to ID's you need to retrieve Pick Up data:
 
 Now you can test and validate the sensor data, by running `renoweb.py data <Municipality ID> <Address ID>`. This should output the data for your address.
 
-This module is solely based on the work done by @esbenr and @AngelFreak, who did all the work in sniffing out the API and Keys, thank you Guys.
+## Credits
+
+This module is solely based on the work done by **@esbenr** and **@AngelFreak**, who did all the work in sniffing out the API and Keys, thank you Guys.
