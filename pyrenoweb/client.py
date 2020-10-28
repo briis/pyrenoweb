@@ -109,7 +109,7 @@ class RenoeWeb:
         if json_data is not None:
             road_id = json_data.get("id")
         else:
-            raise ResultError("Road Name not Found")
+            raise ResultError("Municipality found, but Road Name is not")
 
         # Road found, search for Address ID
         json_data = await self.get_addressids(municipality_id, road_id, house_number)
