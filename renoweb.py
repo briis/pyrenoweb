@@ -1,5 +1,5 @@
 from pyrenoweb.errors import ResultError
-from pyrenoweb.client import RenoeWeb
+from pyrenoweb.client import RenoWeb
 from aiohttp import ClientSession
 import asyncio
 import logging
@@ -31,7 +31,7 @@ async def run_function(argv):
         )
         sys.exit(2)
     else:
-        renoweb = RenoeWeb(API_KEY, API_KEY2, session)
+        renoweb = RenoWeb(API_KEY, API_KEY2, session)
         if argv[0] == "municipality":
             # Print List of Municipalities
             data = await renoweb.get_municipalities()

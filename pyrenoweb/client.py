@@ -27,7 +27,7 @@ from pyrenoweb.errors import (
 _LOGGER = logging.getLogger(__name__)
 
 
-class RenoeWeb:
+class RenoWeb:
     """Main class to retrive data."""
 
     def __init__(
