@@ -14,7 +14,7 @@ ADDRESS ID: YYYYY
 ADDRESS: Streetname number, ZipCode City
 ````
 
-You will need the *MUNICIPALITY ID* and *ADDRESS ID* to retieve your Pick-Up Schedule.
+You will need the *MUNICIPALITY ID* and *ADDRESS ID* to retrieve your Pick-Up Schedule.
 
 Now you can test and validate the sensor data, by running `renoweb.py data <Municipality ID> <Address ID>`. This should output the data for your address.
 
