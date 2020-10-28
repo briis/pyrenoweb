@@ -8,7 +8,7 @@ You need a Municipality ID and a Address ID to get the Sensor Data. In order to 
 2. `renoweb.py vej <municipality_id> <road name>` - Use the ID from step 1 and type the name of the road you live on. This returns a Road ID for use in step 3.
 3. `renoweb.py adresse <municipality_id> <road_id> <house number>` - Use ID from step 2 as road_id and type your House Number. Returns an Address ID, that you need for getting the sensor data.
 
-After this you have to ID's you need to retrieve Pick Up data:
+After this you have two ID's you need, to retrieve Pick Up data:
 
 * *Municipality ID* from Step 1
 * *Address ID* from Step 3
