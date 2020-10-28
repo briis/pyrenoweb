@@ -23,3 +23,9 @@ class ResultError(RenowebError):
     """Define an error related to the result returned from a request."""
 
     pass
+
+
+class MunicipalityError(RenowebError):
+    """Define an error if municipality is not supported by the API."""
+
+    pass

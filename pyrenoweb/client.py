@@ -22,6 +22,7 @@ from pyrenoweb.errors import (
     InvalidApiKey,
     RequestError,
     ResultError,
+    MunicipalityError,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -102,7 +103,7 @@ class RenoWeb:
             if municipality is not None and (str(municipality).lower() == municipality_name.lower()):
                 municipality_id = row.get("municipalitycode")
         if municipality_id is None:
-            raise ResultError("Municipality is not Found")
+            raise MunicipalityError("Municipality is not Found")
 
         # Municipality Found, search for Road ID
         json_data = await self.get_roadids(municipality_id, street_name)
@@ -129,9 +130,55 @@ class RenoWeb:
             "road_id": road_id,
         }
 
-    async def get_pickup_data(self, municipality_id: str, address_id: str) -> None:
+    async def async_request(self, method: str, endpoint: str) -> dict:
+        """Make a request against the Weatherbit API."""
+
+        use_running_session = self._session and not self._session.closed
+
+        if use_running_session:
+            session = self._session
+        else:
+            session = ClientSession(timeout=ClientTimeout(total=DEFAULT_TIMEOUT))
+
+        try:
+            async with session.request(method, f"{BASE_URL}/{endpoint}") as resp:
+                resp.raise_for_status()
+                data = await resp.json()
+                return data
+        except asyncio.TimeoutError:
+            raise RequestError(f"Request to endpoint timed out: {BASE_URL}/{endpoint}")
+        except ClientError as err:
+            if "Forbidden" in str(err):
+                raise InvalidApiKey(
+                    "Your API Key is invalid or does not support this operation"
+                )
+            else:
+                raise RequestError(f"Error requesting data from {BASE_URL}: {str(err)}")
+        except:
+            raise RequestError(f"Error occurred: {sys.exc_info()[1]}")
+        finally:
+            if not use_running_session:
+                await session.close()
+
+class RenoWebData:
+    """Class to retrive pick-up data."""
+
+    def __init__(
+        self,
+        api_key: str,
+        municipality_id: str,
+        address_id: str,
+        session: Optional[ClientSession] = None,
+    ):
+        self._api_key = api_key
+        self._municipality_id = municipality_id
+        self._address_id = address_id
+        self._session: ClientSession = session
+
+
+    async def get_pickup_data(self) -> None:
         """Return json data array with pick up data for the address."""
-        endpoint = f"GetJSONContainerList.aspx?municipalitycode={municipality_id}&apikey={self._api_key_2}&adressId={address_id}&fullinfo=1&supportsSharedEquipment=1"
+        endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
         items = []
 
@@ -141,12 +188,13 @@ class RenoWeb:
             today = datetime.date.today()
             next_pickup_days = (next_pickup - today).days
             item = {
-                "type": module.get("name"),
-                "description": row.get("name"),
-                "nextpickupdate": row.get("nextpickupdate"),
-                "nextpickupdatetimestamp": next_pickup.isoformat(),
-                "pickupdates": row.get("pickupdates"),
-                "nextpickupdays": next_pickup_days,
+                module.get("name"): {
+                    "description": row.get("name"),
+                    "nextpickupdate": row.get("nextpickupdate"),
+                    "nextpickupdatetimestamp": next_pickup.isoformat(),
+                    "pickupdates": row.get("pickupdates"),
+                    "nextpickupdays": next_pickup_days,
+                }
             }
             items.append(item)
         return items
