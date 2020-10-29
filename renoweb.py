@@ -35,9 +35,9 @@ async def run_function(argv):
         if argv[0] == "municipality":
             # Print List of Municipalities
             data = await renoweb.get_municipalities()
-            print("\MUNICIPALITY LIST\n**************************")
+            print("\nMUNICIPALITY LIST\n**************************")
             for row in data:
-                print(f"MUNICIPALITY: {row['municipalityname']} - ID: {row['municipalitycode']}")
+                print(f"{row['municipalityname']} - ID: {row['municipalitycode']}")
         elif argv[0] == "road":
             # Print list of Road ID's
             data = await renoweb.get_roadids(argv[1], argv[2])
