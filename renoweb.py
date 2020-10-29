@@ -47,7 +47,6 @@ async def run_function(argv):
             # Print list of Address ID's
             data = await renoweb.get_addressids(argv[1], argv[2], argv[3])
             print("\nADDRESS LIST\n**************************")
-            # print(json.dumps(data, indent=1))
             for row in data:
                 print(
                     f"ROAD: {row['streetname']} {row['streetBuildingIdentifier']} - ID: {row['id']}"
@@ -70,15 +69,16 @@ async def run_function(argv):
             # Print location data
             renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
             data = await renoweb.get_pickup_data()
-            print("\PICK-UP'S\n**************************\n")
+            print("\nPICK-UP'S\n**************************\n")
             for row in data:
+                item = data.get(row)
                 print(
-                    f"TYPE: {row.type}\n"
-                    f"DESCRIPTION: {row.description}\n"
-                    f"NEXT PICK-UP: {row.nextpickupdatetext}\n"
-                    f"DATE: {row.nextpickupdate}\n"
-                    f"SCHEDULE: {row.schedule}\n"
-                    f"DAYS TO PICK-UP: {row.daysuntilpickup}\n"
+                    f"TYPE: {row}\n"
+                    f"DESCRIPTION: {item['description']}\n"
+                    f"NEXT PICK-UP: {item['nextpickupdatetext']}\n"
+                    f"DATE: {item['nextpickupdate']}\n"
+                    f"SCHEDULE: {item['schedule']}\n"
+                    f"DAYS TO PICK-UP: {item['daysuntilpickup']}\n"
                 )
         else:
             print(

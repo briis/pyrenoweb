@@ -24,7 +24,6 @@ from pyrenoweb.errors import (
     ResultError,
     MunicipalityError,
 )
-from .dataclasses import PickupData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -181,7 +180,7 @@ class RenoWebData:
         """Return json data array with pick up data for the address."""
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
-        items = []
+        items = {}
 
         for row in json_data["list"]:
             module = row.get("module")
@@ -189,13 +188,15 @@ class RenoWebData:
             today = datetime.date.today()
             next_pickup_days = (next_pickup - today).days
             item = {
-                "type": module.get("name"),
-                "description": row.get("name"),
-                "nextpickupdate": row.get("nextpickupdate"),
-                "nextpickupdatetimestamp": row.get("nextpickupdatetimestamp"),
-                "schedule": row.get("pickupdates"),
+                module.get("name"): {
+                    "description": row.get("name"),
+                    "nextpickupdatetext": row.get("nextpickupdate"),
+                    "nextpickupdate": next_pickup.isoformat(),
+                    "schedule": row.get("pickupdates"),
+                    "daysuntilpickup": next_pickup_days,
+                }
             }
-            items.append(PickupData(item))
+            items.update(item)
         return items
 
     async def async_request(self, method: str, endpoint: str) -> dict:
