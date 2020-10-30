@@ -4,7 +4,7 @@ DEFAULT_TIMEOUT = 10
 
 TYPE_RESIDUAL = ["Restaffald-Madaffald", "Dagrenovation"]
 TYPE_GLASS = ["Glas"]
-TYPE_METAL_GLASS = ["Metal-Glas", "Jern"]
+TYPE_METAL_GLASS = ["Metal-Glas"]
 TYPE_METAL = ["Jern"]
 TYPE_PAPER = ["Papir", "Pap"]
 TYPE_PLASTIC = ["Plast"]

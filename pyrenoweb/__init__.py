@@ -14,4 +14,6 @@ from pyrenoweb.const import (
     TYPE_PLASTIC,
     TYPE_STORSKRALD,
     TYPE_HAVEAFFALD,
+    TYPE_GLASS,
+    TYPE_METAL,
 )
