@@ -181,22 +181,22 @@ class RenoWebData:
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
         items = {}
-
         for row in json_data["list"]:
             module = row.get("module")
-            next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
-            today = datetime.date.today()
-            next_pickup_days = (next_pickup - today).days
-            item = {
-                module.get("name"): {
-                    "description": row.get("name"),
-                    "nextpickupdatetext": row.get("nextpickupdate"),
-                    "nextpickupdate": next_pickup.isoformat(),
-                    "schedule": row.get("pickupdates"),
-                    "daysuntilpickup": next_pickup_days,
+            if row.get("nextpickupdatetimestamp").isnumeric():
+                next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
+                today = datetime.date.today()
+                next_pickup_days = (next_pickup - today).days
+                item = {
+                    module.get("fractionname"): {
+                        "description": row.get("name"),
+                        "nextpickupdatetext": row.get("nextpickupdate"),
+                        "nextpickupdate": next_pickup.isoformat(),
+                        "schedule": row.get("pickupdates"),
+                        "daysuntilpickup": next_pickup_days,
+                    }
                 }
-            }
-            items.update(item)
+                items.update(item)
         return items
 
     async def async_request(self, method: str, endpoint: str) -> dict:

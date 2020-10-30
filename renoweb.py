@@ -70,6 +70,7 @@ async def run_function(argv):
             # Print location data
             renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
             data = await renoweb.get_pickup_data()
+            # print(json.dumps(data, indent=1))
             print(colored("\nPICK-UP'S\n**************************\n", 'green', attrs=['bold']))
             for row in data:
                 item = data.get(row)
