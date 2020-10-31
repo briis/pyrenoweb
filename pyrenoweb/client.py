@@ -191,6 +191,8 @@ class RenoWebData:
                     module.get("fractionname"): {
                         "description": row.get("name"),
                         "nextpickupdatetext": row.get("nextpickupdate"),
+                        "nextpickupdatetimestamp": row.get("nextpickupdatetimestamp"),
+                        "updatetime": datetime.datetime.now(),
                         "nextpickupdate": next_pickup.isoformat(),
                         "schedule": row.get("pickupdates"),
                         "daysuntilpickup": next_pickup_days,
