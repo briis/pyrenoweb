@@ -201,6 +201,7 @@ class RenoWebData:
                 items.update(item)
         return items
 
+
     async def async_request(self, method: str, endpoint: str) -> dict:
         """Make a request against the Weatherbit API."""
 
