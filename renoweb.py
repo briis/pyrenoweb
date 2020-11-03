@@ -23,11 +23,11 @@ async def run_function(argv):
     if len(argv) < 1:
         print(
             "\nusage:\n"
-            "renoweb.py find <municipality name> <road name> <house number> - Get the ID's you need to get pickup data\n"
+            "renoweb.py find <municipality name> <zip_code> <road name> <house number> - Get the ID's you need to get pickup data\n"
             "renoweb.py data <municipality id> <address id> - Show pickup data for the Address\n"
             "or to get individual ID's:\n"
             "renoweb.py municipality - Find your Municipality ID\n"
-            "renoweb.py road <municipality id> <road name> - Find your Road ID\n"
+            "renoweb.py road <municipality id> <zip_code> <road name> - Find your Road ID\n"
             "renoweb.py address <municipality id> <road id> <house number> - Find your Address ID\n"
         )
         sys.exit(2)
@@ -41,9 +41,12 @@ async def run_function(argv):
                 print(f"{colored(row['municipalityname'], attrs=['bold'])} - ID: {row['municipalitycode']}")
         elif argv[0] == "road":
             # Print list of Road ID's
-            data = await renoweb.get_roadids(argv[1], argv[2])
-            print("\ROAD LIST\n**************************")
-            print(f"ROAD: {data['name']} - ID: {data['id']}")
+            data = await renoweb.get_roadids(argv[1], argv[2], argv[3])
+            print("\nROAD LIST\n**************************")
+            if data is not None:
+                print(f"ROAD: {data['name']} - ID: {data['id']}")
+            else:
+                print("Road Not found in this Municipality")
         elif argv[0] == "address":
             # Print list of Address ID's
             data = await renoweb.get_addressids(argv[1], argv[2], argv[3])
@@ -55,7 +58,7 @@ async def run_function(argv):
         elif argv[0] == "find":
             # Find needed ID's based on Municipality, Streetname and House number
             try:
-                data = await renoweb.find_renoweb_ids(argv[1], argv[2], argv[3])
+                data = await renoweb.find_renoweb_ids(argv[1], argv[2], argv[3], argv[4])
                 print("\nID NUMBERS\n**************************")
                 print(
                     f"MUNICIPALITY ID: {data['municipality_id']}\n"
@@ -86,11 +89,11 @@ async def run_function(argv):
         else:
             print(
                 "\nusage:\n"
-                "renoweb.py find <municipality name> <road name> <house number> - Get the ID's you need to get pickup data\n"
+                "renoweb.py find <municipality name> <zip_code> <road name> <house number> - Get the ID's you need to get pickup data\n"
                 "renoweb.py data <municipality id> <address id> - Show pickup data for the Address\n"
                 "or to get individual ID's:\n"
                 "renoweb.py municipality - Find your Municipality ID\n"
-                "renoweb.py road <municipality id> <road name> - Find your Road ID\n"
+                "renoweb.py road <municipality id> <zip_code> <road name> - Find your Road ID\n"
                 "renoweb.py address <municipality id> <road id> <house number> - Find your Address ID\n"
             )
 

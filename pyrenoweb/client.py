@@ -62,17 +62,21 @@ class RenoWeb:
 
         return json_data
 
-    async def get_roadids(self, municipality_id: str, road_name: str) -> None:
+    async def get_roadids(self, municipality_id: str, zipcode: str, road_name: str) -> None:
         """Return a Formatted list with all Roads in the Municipality."""
         endpoint = f"GetJSONRoad.aspx?municipalitycode={municipality_id}&apikey={self._api_key_2}&roadname={road_name}"
         json_data = await self.async_request("get", endpoint)
+        item = {}
 
         for row in json_data["list"]:
-            item = {
-                "name": row.get("name"),
-                "id": row.get("id"),
-            }
-            return item
+            postal_start = str(row.get("name")).find("(") + 1
+            postal = str(row.get("name"))[postal_start:postal_start + 4]
+            if postal == zipcode:
+                item = {
+                    "name": row.get("name"),
+                    "id": row.get("id"),
+                }
+        return item
 
     async def get_addressids(
         self, municipality_id: str, road_id: str, house_number: str
@@ -97,7 +101,7 @@ class RenoWeb:
                 items.append(item)
         return items
 
-    async def find_renoweb_ids(self, municipality_name: str, street_name: str, house_number: str):
+    async def find_renoweb_ids(self, municipality_name: str, zipcode: str, street_name: str, house_number: str):
         """Returns Municipality ID and Address ID, based on search Criteria."""
         municipality_id = None
         road_id = None
@@ -118,7 +122,7 @@ class RenoWeb:
             municipality_id = municipality_name
 
         # Municipality Found, search for Road ID
-        json_data = await self.get_roadids(municipality_id, street_name)
+        json_data = await self.get_roadids(municipality_id, zipcode, street_name)
         if json_data is not None:
             road_id = json_data.get("id")
         else:
