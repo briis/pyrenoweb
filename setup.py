@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name="pyrenoweb",
     packages=["pyrenoweb"],
-    version="0.1.15",
+    version="0.1.16",
     license="MIT",
     description="Python Wrapper for RenoWeb Garbage System API",
     long_description=" ".join(
