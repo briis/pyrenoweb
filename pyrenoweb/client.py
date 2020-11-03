@@ -91,6 +91,7 @@ class RenoWeb:
                         row.get("streetBuildingIdentifier")
                     ),
                     "address": row.get("presentationString"),
+                    "districtName": row.get("districtName"),
                     "id": str(row.get("id")),
                 }
                 items.append(item)
@@ -102,6 +103,7 @@ class RenoWeb:
         road_id = None
         address_id = None
         address = None
+        districtName = None
 
         # Search Municipalities
         if not municipality_name.isnumeric():
@@ -129,12 +131,14 @@ class RenoWeb:
             for row in json_data:
                 address_id = row.get("id")
                 address = row.get("address")
+                districtName = row.get("districtName")
         else:
             raise ResultError("House Number not found on address")
 
         # We got to here, so return final results
         return {
             "municipality_id": municipality_id,
+            "municipality": districtName,
             "address_id": address_id,
             "address": address,
             "road_id": road_id,

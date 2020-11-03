@@ -59,6 +59,7 @@ async def run_function(argv):
                 print("\nID NUMBERS\n**************************")
                 print(
                     f"MUNICIPALITY ID: {data['municipality_id']}\n"
+                    f"MUNICIPALITY NAME: {data['municipality']}\n"
                     f"ADDRESS ID: {data['address_id']}\n"
                     f"ADDRESS: {data['address']}\n"
                 )
