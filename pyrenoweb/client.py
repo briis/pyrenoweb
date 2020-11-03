@@ -55,6 +55,13 @@ class RenoWeb:
             items.append(item)
         return items
 
+    async def get_municipalities_raw(self) -> None:
+        """Return a Un-Formatted json array with all Municipalities."""
+        endpoint = f"AFP2/GetAffaldsportal2Config.aspx?appidentifier={self._api_key}"
+        json_data = await self.async_request("get", endpoint)
+
+        return json_data
+
     async def get_roadids(self, municipality_id: str, road_name: str) -> None:
         """Return a Formatted list with all Roads in the Municipality."""
         endpoint = f"GetJSONRoad.aspx?municipalitycode={municipality_id}&apikey={self._api_key_2}&roadname={road_name}"
@@ -97,13 +104,16 @@ class RenoWeb:
         address = None
 
         # Search Municipalities
-        json_data = await self.get_municipalities()
-        for row in json_data:
-            municipality = row.get("municipalityname")
-            if municipality is not None and (str(municipality).lower() == municipality_name.lower()):
-                municipality_id = row.get("municipalitycode")
-        if municipality_id is None:
-            raise MunicipalityError("Municipality is not Found")
+        if not municipality_name.isnumeric():
+            json_data = await self.get_municipalities()
+            for row in json_data:
+                municipality = row.get("municipalityname")
+                if municipality is not None and (str(municipality).lower() == municipality_name.lower()):
+                    municipality_id = row.get("municipalitycode")
+            if municipality_id is None:
+                raise MunicipalityError("Municipality is not Found")
+        else:
+            municipality_id = municipality_name
 
         # Municipality Found, search for Road ID
         json_data = await self.get_roadids(municipality_id, street_name)
