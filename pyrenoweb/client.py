@@ -62,6 +62,38 @@ class RenoWeb:
 
         return json_data
 
+    async def find_municipality(self, zipcode: str, road_name: str) -> None:
+        """Loops through Municipality ID's to see if we can find an ID."""
+
+        items = []
+        for id in range(1, 1000):
+            _LOGGER.info(f"Trying ID {id}")
+            endpoint = f"GetJSONRoad.aspx?municipalitycode={id}&apikey={self._api_key_2}&roadname={road_name}"
+            json_data = await self.async_request("get", endpoint)
+            if json_data["status"]["msg"] == "Ok":
+                for row in json_data["list"]:
+                    postal_start = str(row.get("name")).find("(") + 1
+                    postal = str(row.get("name"))[postal_start:postal_start + 4]
+                    if postal == zipcode:
+                        item = {
+                            "municipality_id": id,
+                            "name": row.get("name"),
+                            "id": row.get("id"),
+                        }
+                        items.append(item)
+
+            await asyncio.sleep(0.5)    
+
+        if len(items) == 0:            
+            item = {
+                "municipality_id": "Not Found",
+                "name": None,
+                "id": None,
+            }
+            items.append(item)
+
+        return items
+
     async def get_roadids(self, municipality_id: str, zipcode: str, road_name: str) -> None:
         """Return a Formatted list with all Roads in the Municipality."""
         endpoint = f"GetJSONRoad.aspx?municipalitycode={municipality_id}&apikey={self._api_key_2}&roadname={road_name}"
