@@ -67,21 +67,24 @@ class RenoWeb:
 
         items = []
         for id in range(100, 1000):
-            _LOGGER.info(f"Trying ID {id}")
-            endpoint = f"GetJSONRoad.aspx?municipalitycode={id}&apikey={self._api_key_2}&roadname={road_name}"
-            json_data = await self.async_request("get", endpoint)
-            if json_data["status"]["msg"] == "Ok":
-                _LOGGER.info(f"Found Road")
-                for row in json_data["list"]:
-                    postal_start = str(row.get("name")).find("(") + 1
-                    postal = str(row.get("name"))[postal_start:postal_start + 4]
-                    if postal == zipcode:
-                        item = {
-                            "municipality_id": id,
-                            "name": row.get("name"),
-                            "id": row.get("id"),
-                        }
-                        items.append(item)
+            try:
+                _LOGGER.info(f"Trying ID {id}")
+                endpoint = f"GetJSONRoad.aspx?municipalitycode={id}&apikey={self._api_key_2}&roadname={road_name}"
+                json_data = await self.async_request("get", endpoint)
+                if json_data["status"]["msg"] == "Ok":
+                    _LOGGER.info(f"Found Road")
+                    for row in json_data["list"]:
+                        postal_start = str(row.get("name")).find("(") + 1
+                        postal = str(row.get("name"))[postal_start:postal_start + 4]
+                        if postal == zipcode:
+                            item = {
+                                "municipality_id": id,
+                                "name": row.get("name"),
+                                "id": row.get("id"),
+                            }
+                            items.append(item)
+            except:
+                pass
 
             await asyncio.sleep(0.5)    
 
