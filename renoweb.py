@@ -5,7 +5,6 @@ import asyncio
 import logging
 import sys
 import json
-from termcolor import colored
 
 API_KEY = "DDDD4A1D-DDD1-4436-DDDD-3F374DD683A1"
 API_KEY2 = "346B43B0-D1F0-4AFC-9EE8-C4AD1BFDC218"
@@ -37,9 +36,9 @@ async def run_function(argv):
         if argv[0] == "municipality":
             # Print List of Municipalities
             data = await renoweb.get_municipalities()
-            print(colored("\nMUNICIPALITY LIST\n**************************", 'blue', attrs=['bold']))
+            print("\nMUNICIPALITY LIST\n**************************")
             for row in data:
-                print(f"{colored(row['municipalityname'], attrs=['bold'])} - ID: {row['municipalitycode']}")
+                print(f"{row['municipalityname']} - ID: {row['municipalitycode']}")
         elif argv[0] == "find_municipality":
             # See if we can find a Municipality ID
             data = await renoweb.find_municipality(argv[1], argv[2], argv[3], argv[4])
@@ -84,11 +83,11 @@ async def run_function(argv):
             renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
             data = await renoweb.get_pickup_data()
             # print(json.dumps(data, indent=1))
-            print(colored("\nPICK-UP'S\n**************************\n", 'green', attrs=['bold']))
+            print("\nPICK-UP'S\n**************************\n")
             for row in data:
                 item = data.get(row)
                 print(
-                    f"TYPE: {colored(row, attrs=['bold'])}\n"
+                    f"TYPE: {row}\n"
                     f"DESCRIPTION: {item['description']}\n"
                     f"NEXT PICK-UP: {item['nextpickupdatetext']}\n"
                     f"DATE: {item['nextpickupdate']}\n"
