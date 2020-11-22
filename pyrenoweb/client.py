@@ -62,11 +62,11 @@ class RenoWeb:
 
         return json_data
 
-    async def find_municipality(self, zipcode: str, road_name: str) -> None:
+    async def find_municipality(self, zipcode: str, road_name: str, start_id: int, end_id: int) -> None:
         """Loops through Municipality ID's to see if we can find an ID."""
 
         items = []
-        for id in range(100, 1000):
+        for id in range(start_id, end_id):
             try:
                 _LOGGER.info(f"Trying ID {id}")
                 endpoint = f"GetJSONRoad.aspx?municipalitycode={id}&apikey={self._api_key_2}&roadname={road_name}"

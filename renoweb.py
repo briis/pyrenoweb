@@ -29,7 +29,7 @@ async def run_function(argv):
             "renoweb.py municipality - Find your Municipality ID\n"
             "renoweb.py road <municipality id> <zip_code> <road name> - Find your Road ID\n"
             "renoweb.py address <municipality id> <road id> <house number> - Find your Address ID\n"
-            "renoweb.py find_municipality <zip_code> <road name> - Find Municipality ID - Takes a Long Time\n"
+            "renoweb.py find_municipality <zip_code> <road name> <start id> <end id> - Find Municipality ID - Takes a Long Time\n"
         )
         sys.exit(2)
     else:
@@ -42,7 +42,7 @@ async def run_function(argv):
                 print(f"{colored(row['municipalityname'], attrs=['bold'])} - ID: {row['municipalitycode']}")
         elif argv[0] == "find_municipality":
             # See if we can find a Municipality ID
-            data = await renoweb.find_municipality(argv[1], argv[2])
+            data = await renoweb.find_municipality(argv[1], argv[2], argv[3], argv[4])
             print("\nMUNICIPALITIES WITH THIS ROAD\n**************************")
             for row in data:
                 print(
@@ -104,7 +104,7 @@ async def run_function(argv):
                 "renoweb.py municipality - Find your Municipality ID\n"
                 "renoweb.py road <municipality id> <zip_code> <road name> - Find your Road ID\n"
                 "renoweb.py address <municipality id> <road id> <house number> - Find your Address ID\n"
-                "renoweb.py find_municipality <zip_code> <road name> - Find Municipality ID - Takes a Long Time\n"
+                "renoweb.py find_municipality <zip_code> <road name> <start id> <end id> - Find Municipality ID - Takes a Long Time\n"
             )
 
     # Close the Session
