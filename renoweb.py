@@ -16,6 +16,18 @@ async def run_function(argv):
 
     logging.basicConfig(level=logging.DEBUG)
 
+    # Define some Colors when Printing
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
+
     # Get a RenoWeb Object
     session = ClientSession()
 
@@ -36,9 +48,9 @@ async def run_function(argv):
         if argv[0] == "municipality":
             # Print List of Municipalities
             data = await renoweb.get_municipalities()
-            print("\nMUNICIPALITY LIST\n**************************")
+            print(f"{BOLD}\nMUNICIPALITY LIST\n**************************{END}")
             for row in data:
-                print(f"{row['municipalityname']} - ID: {row['municipalitycode']}")
+                print(f"{row['municipalityname']} - ID: {BLUE}{row['municipalitycode']}{END}")
         elif argv[0] == "find_municipality":
             # See if we can find a Municipality ID
             data = await renoweb.find_municipality(argv[1], argv[2], argv[3], argv[4])
@@ -83,16 +95,16 @@ async def run_function(argv):
             renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
             data = await renoweb.get_pickup_data()
             # print(json.dumps(data, indent=1))
-            print("\nPICK-UP'S\n**************************\n")
+            print(f"\n{RED}PICK-UP'S\n**************************{END}\n")
             for row in data:
                 item = data.get(row)
                 print(
-                    f"TYPE: {row}\n"
-                    f"DESCRIPTION: {item['description']}\n"
-                    f"NEXT PICK-UP: {item['nextpickupdatetext']}\n"
-                    f"DATE: {item['nextpickupdate']}\n"
-                    f"SCHEDULE: {item['schedule']}\n"
-                    f"DAYS TO PICK-UP: {item['daysuntilpickup']}\n"
+                    f"{BOLD}TYPE{END}: {row}\n"
+                    f"{BOLD}DESCRIPTION{END}: {item['description']}\n"
+                    f"{BOLD}NEXT PICK-UP{END}: {item['nextpickupdatetext']}\n"
+                    f"{BOLD}DATE{END}: {item['nextpickupdate']}\n"
+                    f"{BOLD}SCHEDULE{END}: {item['schedule']}\n"
+                    f"{BOLD}DAYS TO PICK-UP{END}: {item['daysuntilpickup']}\n"
                 )
         else:
             print(
@@ -113,3 +125,5 @@ async def run_function(argv):
 loop = asyncio.get_event_loop()
 loop.run_until_complete(run_function(sys.argv[1:]))
 loop.close()
+
+
