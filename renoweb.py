@@ -22,14 +22,14 @@ async def run_function(argv):
 
     if len(argv) < 1:
         print(
-            "\nusage:\n"
-            "renoweb.py find <municipality name> <zip_code> <road name> <house number> - Get the ID's you need to get pickup data\n"
-            "renoweb.py data <municipality id> <address id> - Show pickup data for the Address\n"
-            "or to get individual ID's:\n"
-            "renoweb.py municipality - Find your Municipality ID\n"
-            "renoweb.py road <municipality id> <zip_code> <road name> - Find your Road ID\n"
-            "renoweb.py address <municipality id> <road id> <house number> - Find your Address ID\n"
-            "renoweb.py find_municipality <zip_code> <road name> <start id> <end id> - Find Municipality ID - Takes a Long Time\n"
+            f"{color.BOLD}\nusage:{color.END}\n"
+            f"renoweb.py {color.BOLD}find{color.END} <municipality name> <zip_code> <road name> <house number> - Get the ID's you need to get pickup data\n"
+            f"renoweb.py {color.BOLD}data{color.END} <municipality id> <address id> - Show pickup data for the Address\n"
+            f"or to get individual ID's:\n"
+            f"renoweb.py {color.BOLD}municipality{color.END} - Find your Municipality ID\n"
+            f"renoweb.py {color.BOLD}road{color.END} <municipality id> <zip_code> <road name> - Find your Road ID\n"
+            f"renoweb.py {color.BOLD}address{color.END} <municipality id> <road id> <house number> - Find your Address ID\n"
+            f"renoweb.py {color.BOLD}find_municipality{color.END} <zip_code> <road name> <start id> <end id> - Find Municipality ID - Takes a Long Time\n"
         )
         sys.exit(2)
     else:
@@ -97,14 +97,14 @@ async def run_function(argv):
                 )
         else:
             print(
-                "\nusage:\n"
-                "renoweb.py find <municipality name> <zip_code> <road name> <house number> - Get the ID's you need to get pickup data\n"
-                "renoweb.py data <municipality id> <address id> - Show pickup data for the Address\n"
-                "or to get individual ID's:\n"
-                "renoweb.py municipality - Find your Municipality ID\n"
-                "renoweb.py road <municipality id> <zip_code> <road name> - Find your Road ID\n"
-                "renoweb.py address <municipality id> <road id> <house number> - Find your Address ID\n"
-                "renoweb.py find_municipality <zip_code> <road name> <start id> <end id> - Find Municipality ID - Takes a Long Time\n"
+                f"{color.BOLD}\nusage:{color.END}\n"
+                f"renoweb.py {color.BOLD}find{color.END} <municipality name> <zip_code> <road name> <house number> - Get the ID's you need to get pickup data\n"
+                f"renoweb.py {color.BOLD}data{color.END} <municipality id> <address id> - Show pickup data for the Address\n"
+                f"or to get individual ID's:\n"
+                f"renoweb.py {color.BOLD}municipality{color.END} - Find your Municipality ID\n"
+                f"renoweb.py {color.BOLD}road{color.END} <municipality id> <zip_code> <road name> - Find your Road ID\n"
+                f"renoweb.py {color.BOLD}address{color.END} <municipality id> <road id> <house number> - Find your Address ID\n"
+                f"renoweb.py {color.BOLD}find_municipality{color.END} <zip_code> <road name> <start id> <end id> - Find Municipality ID - Takes a Long Time\n"
             )
 
     # Close the Session
