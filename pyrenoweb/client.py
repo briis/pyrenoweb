@@ -235,6 +235,7 @@ class RenoWebData:
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
         items = {}
+        item = {}
         for row in json_data["list"]:
             module = row.get("module")
             if row.get("nextpickupdatetimestamp").isnumeric():
@@ -252,9 +253,30 @@ class RenoWebData:
                         "daysuntilpickup": next_pickup_days,
                     }
                 }
-                items.update(item)
+            else:
+                # Nect Pick-Up is yet to be specified - Happens around year-end
+                element = datetime.datetime.strptime("01/01/2020", "%d/%m/%Y")
+                ts = datetime.datetime.timestamp(element)
+                item = {
+                    module.get("fractionname"): {
+                        "description": row.get("name"),
+                        "nextpickupdatetext": "Ingen planlagte tømninger",
+                        "nextpickupdatetimestamp": ts,
+                        "updatetime": datetime.datetime.now(),
+                        "nextpickupdate": element.date().isoformat(),
+                        "schedule": row.get("pickupdates"),
+                        "daysuntilpickup": -1,
+                    }
+                }
+            items.update(item)
         return items
 
+
+    async def get_raw_pickup_data(self) -> None:
+        """Return raw json data array with pick up data for the address."""
+        endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
+        json_data = await self.async_request("get", endpoint)
+        return json_data
 
     async def async_request(self, method: str, endpoint: str) -> dict:
         """Make a request against the Weatherbit API."""
