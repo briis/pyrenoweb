@@ -12,6 +12,8 @@ API_KEY2 = "346B43B0-D1F0-4AFC-9EE8-C4AD1BFDC218"
 
 _LOGGER = logging.getLogger(__name__)
 
+def sortKey(e):
+  return e['municipalityname']
 
 async def run_function(argv):
 
@@ -37,11 +39,18 @@ async def run_function(argv):
         if argv[0] == "municipality":
             # Print List of Municipalities
             data = await renoweb.get_municipalities_new()
-            print(f"{color.BOLD}\nMUNICIPALITY LIST\n**************************{color.END}")
+            data.sort(key=sortKey)
+
+            print(f"\nMUNICIPALITY LIST\n**************************")
             cnt = 1
             for row in data:
-                print(f"{cnt}: {row['municipalityname']} - ID: {color.BLUE}{row['municipalitycode']}{color.END}")
+                print(f"{cnt}: {row['municipalityname']} - ID: {row['municipalitycode']}")
                 cnt += 1
+            # print(f"{color.BOLD}\nMUNICIPALITY LIST\n**************************{color.END}")
+            # cnt = 1
+            # for row in data:
+            #     print(f"{cnt}: {row['municipalityname']} - ID: {color.BLUE}{row['municipalitycode']}{color.END}")
+            #     cnt += 1
         elif argv[0] == "find_municipality":
             # See if we can find a Municipality ID
             data = await renoweb.find_municipality(argv[1], argv[2], argv[3], argv[4])
