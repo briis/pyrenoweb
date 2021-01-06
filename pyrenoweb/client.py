@@ -16,6 +16,7 @@ import logging
 
 from pyrenoweb.const import (
     BASE_URL,
+    DAWA_URL,
     DEFAULT_TIMEOUT,
 )
 from pyrenoweb.errors import (
@@ -51,6 +52,19 @@ class RenoWeb:
             item = {
                 "municipalityname": row.get("municipalityname"),
                 "municipalitycode": row.get("municipalitycode"),
+            }
+            items.append(item)
+        return items
+
+    async def get_municipalities_new(self) -> None:
+        """Return a Formatted list with all Municipalities."""
+        json_data = await self.async_request("get", None)
+        items = []
+
+        for row in json_data:
+            item = {
+                "municipalityname": row.get("navn"),
+                "municipalitycode": row.get("kode"),
             }
             items.append(item)
         return items
@@ -147,7 +161,7 @@ class RenoWeb:
 
         # Search Municipalities
         if not municipality_name.isnumeric():
-            json_data = await self.get_municipalities()
+            json_data = await self.get_municipalities_new()
             for row in json_data:
                 municipality = row.get("municipalityname")
                 if municipality is not None and (str(municipality).lower() == municipality_name.lower()):
@@ -194,8 +208,13 @@ class RenoWeb:
         else:
             session = ClientSession(timeout=ClientTimeout(total=DEFAULT_TIMEOUT))
 
+        if endpoint is None:
+            url = DAWA_URL
+        else:
+            url = f"{BASE_URL}/{endpoint}"
+
         try:
-            async with session.request(method, f"{BASE_URL}/{endpoint}") as resp:
+            async with session.request(method, url) as resp:
                 resp.raise_for_status()
                 data = await resp.json()
                 return data

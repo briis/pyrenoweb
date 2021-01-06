@@ -1,4 +1,5 @@
 BASE_URL = "https://servicesgh.renoweb.dk/v1_13"
+DAWA_URL = "https://dawa.aws.dk/kommuner"
 
 DEFAULT_TIMEOUT = 10
 

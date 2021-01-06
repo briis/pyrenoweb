@@ -36,10 +36,12 @@ async def run_function(argv):
         renoweb = RenoWeb(API_KEY, API_KEY2, session)
         if argv[0] == "municipality":
             # Print List of Municipalities
-            data = await renoweb.get_municipalities()
+            data = await renoweb.get_municipalities_new()
             print(f"{color.BOLD}\nMUNICIPALITY LIST\n**************************{color.END}")
+            cnt = 1
             for row in data:
-                print(f"{row['municipalityname']} - ID: {color.BLUE}{row['municipalitycode']}{color.END}")
+                print(f"{cnt}: {row['municipalityname']} - ID: {color.BLUE}{row['municipalitycode']}{color.END}")
+                cnt += 1
         elif argv[0] == "find_municipality":
             # See if we can find a Municipality ID
             data = await renoweb.find_municipality(argv[1], argv[2], argv[3], argv[4])
