@@ -4,11 +4,12 @@ DAWA_URL = "https://dawa.aws.dk/kommuner"
 DEFAULT_TIMEOUT = 10
 
 TYPE_RESIDUAL = ["Restaffald-Madaffald", "Dagrenovation"]
-TYPE_GLASS = ["Glas"]
+TYPE_GLASS = ["Glas", "Glas Papir"]
 TYPE_METAL_GLASS = ["Metal-Glas"]
 TYPE_METAL = ["Jern"]
 TYPE_PAPER = ["Papir", "Pap"]
-TYPE_PLASTIC = ["Plast", "Metal"]
+TYPE_PLASTIC = ["Plast"]
+TYPE_PLASTIC_METAL = ["Plast Metal"]
 TYPE_STORSKRALD = ["Storskrald"]
 TYPE_HAVEAFFALD = ["Haveaffald"]
 
