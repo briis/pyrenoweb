@@ -257,12 +257,15 @@ class RenoWebData:
         item = {}
         for row in json_data["list"]:
             module = row.get("module")
+            fraction_name = module.get("fractionname").replace("/", "_")
+            fraction_id = row.get("id")
+            _LOGGER.info(f"{fraction_name}{fraction_id}")
             if row.get("nextpickupdatetimestamp").isnumeric():
                 next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
                 today = datetime.date.today()
                 next_pickup_days = (next_pickup - today).days
                 item = {
-                    module.get("fractionname"): {
+                    f"{fraction_name}_{fraction_id}": {
                         "description": row.get("name"),
                         "nextpickupdatetext": row.get("nextpickupdate"),
                         "nextpickupdatetimestamp": row.get("nextpickupdatetimestamp"),
@@ -277,7 +280,7 @@ class RenoWebData:
                 element = datetime.datetime.strptime("01/01/2020", "%d/%m/%Y")
                 ts = datetime.datetime.timestamp(element)
                 item = {
-                    module.get("fractionname"): {
+                    f"{fraction_name}_{fraction_id}": {
                         "description": row.get("name"),
                         "nextpickupdatetext": "Ingen planlagte tømninger",
                         "nextpickupdatetimestamp": ts,
