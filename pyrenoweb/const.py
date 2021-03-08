@@ -8,7 +8,7 @@ TYPE_GLASS = ["Glas"]
 TYPE_METAL_GLASS = ["Metal-Glas"]
 TYPE_METAL = ["Jern"]
 TYPE_PAPER = ["Papir", "Pap"]
-TYPE_PLASTIC = ["Plast"]
+TYPE_PLASTIC = ["Plast", "Metal"]
 TYPE_STORSKRALD = ["Storskrald"]
 TYPE_HAVEAFFALD = ["Haveaffald"]
 
