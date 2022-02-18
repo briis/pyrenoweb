@@ -111,6 +111,10 @@ async def run_function(argv):
             renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
             data = await renoweb.get_raw_pickup_data()
             print(json.dumps(data, indent=1))
+        elif argv[0] == "rawdata_mun":
+            # Print Raw JSOn Data
+            data = await renoweb.get_municipalities_raw()
+            print(json.dumps(data, indent=1))
         else:
             print(
                 f"{color.BOLD}\nusage:{color.END}\n"

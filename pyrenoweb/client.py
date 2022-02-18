@@ -80,7 +80,7 @@ class RenoWeb:
         """Loops through Municipality ID's to see if we can find an ID."""
 
         items = []
-        for id in range(start_id, end_id):
+        for id in range(int(start_id), int(end_id)):
             try:
                 _LOGGER.info(f"Trying ID {id}")
                 endpoint = f"GetJSONRoad.aspx?municipalitycode={id}&apikey={self._api_key_2}&roadname={road_name}"
@@ -118,15 +118,18 @@ class RenoWeb:
         json_data = await self.async_request("get", endpoint)
         item = {}
 
-        for row in json_data["list"]:
-            postal_start = str(row.get("name")).find("(") + 1
-            postal = str(row.get("name"))[postal_start:postal_start + 4]
-            if postal == zipcode:
-                item = {
-                    "name": row.get("name"),
-                    "id": row.get("id"),
-                }
-        return item
+        if "list" in json_data:
+            for row in json_data["list"]:
+                postal_start = str(row.get("name")).find("(") + 1
+                postal = str(row.get("name"))[postal_start:postal_start + 4]
+                if postal == zipcode:
+                    item = {
+                        "name": row.get("name"),
+                        "id": row.get("id"),
+                    }
+            return item
+        else:
+            return None
 
     async def get_addressids(
         self, municipality_id: str, road_id: str, house_number: str
