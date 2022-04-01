@@ -47,7 +47,6 @@ class RenoWeb:
         endpoint = f"AFP2/GetAffaldsportal2Config.aspx?appidentifier={self._api_key}"
         json_data = await self.async_request("get", endpoint)
         items = []
-
         for row in json_data["list"]:
             item = {
                 "municipalityname": row.get("municipalityname"),
@@ -117,7 +116,6 @@ class RenoWeb:
         endpoint = f"GetJSONRoad.aspx?municipalitycode={municipality_id}&apikey={self._api_key_2}&roadname={road_name}"
         json_data = await self.async_request("get", endpoint)
         item = {}
-
         if "list" in json_data:
             for row in json_data["list"]:
                 postal_start = str(row.get("name")).find("(") + 1

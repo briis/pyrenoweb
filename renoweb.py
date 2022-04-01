@@ -63,7 +63,7 @@ async def run_function(argv):
             # Print list of Road ID's
             data = await renoweb.get_roadids(argv[1], argv[2], argv[3])
             print("\nROAD LIST\n**************************")
-            if data is not None:
+            if "name" in data:
                 print(f"ROAD: {data['name']} - ID: {data['id']}")
             else:
                 print("Road Not found in this Municipality")
@@ -73,7 +73,7 @@ async def run_function(argv):
             print("\nADDRESS LIST\n**************************")
             for row in data:
                 print(
-                    f"ROAD: {row['streetname']} {row['streetBuildingIdentifier']} - ID: {row['id']}"
+                    f"ROAD: {row['streetname']} {row['streetBuildingIdentifier']} - ADDRESS: {row['address']} - ID: {row['id']}"
                 )
         elif argv[0] == "find":
             # Find needed ID's based on Municipality, Streetname and House number
@@ -130,9 +130,13 @@ async def run_function(argv):
     # Close the Session
     await session.close()
 
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(run_function(sys.argv[1:]))
-loop.close()
+try:
+    loop = asyncio.get_event_loop()
+except (DeprecationWarning, RuntimeError) as ex:
+    loop = asyncio.new_event_loop()
+try:
+    loop.run_until_complete(run_function(sys.argv[1:]))
+finally:
+    loop.close()
 
 
