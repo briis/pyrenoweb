@@ -38,7 +38,7 @@ async def run_function(argv):
         renoweb = RenoWeb(API_KEY, API_KEY2, session)
         if argv[0] == "municipality":
             # Print List of Municipalities
-            data = await renoweb.get_municipalities_new()
+            data = await renoweb.get_municipalities()
             data.sort(key=sortKey)
 
             print(f"\nMUNICIPALITY LIST\n**************************")
