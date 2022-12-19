@@ -11,6 +11,7 @@ from aiohttp.client_exceptions import ClientError
 from typing import Optional
 import sys
 import datetime
+import json
 
 import logging
 
@@ -256,6 +257,9 @@ class RenoWebData:
         json_data = await self.async_request("get", endpoint)
         items = {}
         item = {}
+        min_pickup_days = 999
+        min_pickup_timestamp = None
+        min_pickup_date = None
         for row in json_data["list"]:
             module = row.get("module")
             fraction_name = module.get("fractionname").replace("/", "_")
@@ -265,6 +269,13 @@ class RenoWebData:
                 next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
                 today = datetime.date.today()
                 next_pickup_days = (next_pickup - today).days
+
+                # Check if this is the next Pickup
+                if next_pickup_days < min_pickup_days:
+                    min_pickup_days = next_pickup_days
+                    min_pickup_timestamp = row.get("nextpickupdatetimestamp")
+                    min_pickup_date = next_pickup.isoformat()
+
                 item = {
                     f"{fraction_name}_{fraction_id}": {
                         "description": row.get("name"),
@@ -292,6 +303,20 @@ class RenoWebData:
                     }
                 }
             items.update(item)
+        # Add Minimum Pickup Days Sensor
+        item = {
+            "days_until_next_pickup": {
+                "description": "Days until next pickup",
+                "nextpickupdatetext": "",
+                "nextpickupdatetimestamp": min_pickup_timestamp,
+                "updatetime": datetime.datetime.now(),
+                "nextpickupdate": min_pickup_date,
+                "schedule": "",
+                "daysuntilpickup": min_pickup_days,
+            }
+        }
+        items.update(item)
+
         return items
 
 
