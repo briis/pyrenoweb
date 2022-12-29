@@ -1,6 +1,7 @@
 from pyrenoweb.errors import ResultError
 from pyrenoweb.client import RenoWeb, RenoWebData
 from pyrenoweb.const import color
+from pyrenoweb.collection import RenoWebSensorDescription
 from aiohttp import ClientSession
 import asyncio
 import logging
@@ -106,6 +107,12 @@ async def run_function(argv):
                     f"{color.BOLD}SCHEDULE{color.END}: {item['schedule']}\n"
                     f"{color.BOLD}DAYS TO PICK-UP{color.END}: {item['daysuntilpickup']}\n"
                 )
+        elif argv[0] == "newdata":
+            # Print Raw JSOn Data
+            renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
+            data:RenoWebSensorDescription = await renoweb.fetch_waste_data()
+            print(data)
+
         elif argv[0] == "rawdata":
             # Print Raw JSOn Data
             renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
