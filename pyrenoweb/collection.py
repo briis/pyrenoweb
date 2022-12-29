@@ -15,9 +15,18 @@ class RenoWebSensorDescription:
     icon: str
     valid_data: bool
     days_to: int = field(init=False)
+    icon_color: str = field(init=False)
     name: str | None = None
     schedule: str | None = None
     picture: str | None = None
 
     def __post_init__(self):
         self.days_to = (self.date - datetime.datetime.now()).days
+        
+        if self.days_to == 0:
+            icon_color = "#F54336"
+        elif self.days_to == 1:
+            icon_color = "#FFC108"
+        else:
+            icon_color = "#9E9E9E"
+        self.icon_color = icon_color
