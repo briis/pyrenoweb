@@ -276,7 +276,7 @@ class RenoWebData:
                 icon_list = list(filter(lambda WASTE_LIST: WASTE_LIST['type'] == fraction_name, WASTE_LIST))
 
                 entity_data = RenoWebSensorDescription(
-                    key=f"{fraction_name}_{fraction_id}",
+                    key=f"{fraction_name}",
                     date=next_pickup,
                     icon=icon_list[0]['icon'],
                     valid_data=valid_data,
