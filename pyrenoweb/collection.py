@@ -16,13 +16,14 @@ class RenoWebSensorDescription:
     valid_data: bool
     days_to: int = field(init=False)
     icon_color: str = field(init=False)
+    device_class: str | None = "date"
     name: str | None = None
     schedule: str | None = None
     picture: str | None = None
 
     def __post_init__(self):
         self.days_to = (self.date - datetime.datetime.now()).days
-        
+
         if self.days_to == 0:
             icon_color = "#F54336"
         elif self.days_to == 1:
