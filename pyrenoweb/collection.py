@@ -17,6 +17,8 @@ class RenoWebSensorDescription:
     days_to: int = field(init=False)
     icon_color: str = field(init=False)
     device_class: str | None = "date"
+    device_class: str | None = "date"
+    suggested_unit_of_measurement: str | None = "date"
     name: str | None = None
     schedule: str | None = None
     picture: str | None = None
