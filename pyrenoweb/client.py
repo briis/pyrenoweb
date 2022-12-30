@@ -291,6 +291,7 @@ class RenoWebData:
                         "schedule": schedule,
                         "days_to": days_to,
                         "icon_color": icon_color,
+                        "id": fraction_id,
                     }
                 } 
                 entries.update(sensor_item)
