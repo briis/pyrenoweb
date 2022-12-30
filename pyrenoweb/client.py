@@ -266,17 +266,17 @@ class RenoWebData:
                 fraction_name = module.get("fractionname").replace("/", "_")
                 fraction_id = row.get("id")
                 if row.get("nextpickupdatetimestamp").isnumeric():
-                    next_pickup = time_zone.localize(datetime.datetime.utcfromtimestamp(int(row.get("nextpickupdatetimestamp"))))
+                    next_pickup = datetime.datetime.utcfromtimestamp(int(row.get("nextpickupdatetimestamp")))
                     valid_data = True
                 else:
                     # There is currently no data for the Waste Type, so set a future date
-                    next_pickup = time_zone.localize(datetime.datetime.utcfromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP))
+                    next_pickup = datetime.datetime.utcfromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP)
                     valid_data = False
 
                 name = row["name"]
                 schedule = row.get("pickupdates")
                 icon_list = list(filter(lambda WASTE_LIST: WASTE_LIST['type'] == fraction_name, WASTE_LIST))
-                days_to = (next_pickup - time_zone.localize(datetime.datetime.now())).days
+                days_to = (next_pickup - datetime.datetime.now()).days
                 if days_to == 0:
                     icon_color = "#F54336"
                 elif days_to == 1:
@@ -286,7 +286,7 @@ class RenoWebData:
 
                 # Build Data for the Next Collection Sensor
                 if days_to < next_days_to:
-                    next_date: datetime.datetime = next_pickup
+                    next_date = next_pickup
                     next_icon = icon_list[0]['icon']
                     next_valid_data = valid_data
                     next_schedule = schedule
@@ -297,7 +297,7 @@ class RenoWebData:
                 sensor_item = {
                     f"{fraction_name}_{self._municipality_id}_{self._address_id}": {
                         "key": f"{fraction_name}",
-                        "date": next_pickup,
+                        "date": str(time_zone.localize(next_pickup)),
                         "icon": icon_list[0]['icon'],
                         "valid_data": valid_data,
                         "name": name,
@@ -313,7 +313,7 @@ class RenoWebData:
         sensor_item = {
             f"Next Collection_{self._municipality_id}_{self._address_id}": {
                 "key": "Next Collection",
-                "date": next_date,
+                "date": str(time_zone.localize(next_date)),
                 "icon": next_icon,
                 "valid_data": next_valid_data,
                 "name": "Næste tømning",
