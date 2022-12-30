@@ -30,8 +30,6 @@ from pyrenoweb.errors import (
     MunicipalityError,
 )
 
-UTC = pytz.timezone('UTC')
-
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -259,7 +257,7 @@ class RenoWebData:
         """Return json data with the schedules for waste pick-up."""
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
-        time_zone = pytz.timezone(UTC)
+        time_zone = pytz.timezone('UTC')
         next_days_to = 10000
         entries = {}
         if json_data["list"] is not None:
@@ -278,7 +276,7 @@ class RenoWebData:
                 name = row["name"]
                 schedule = row.get("pickupdates")
                 icon_list = list(filter(lambda WASTE_LIST: WASTE_LIST['type'] == fraction_name, WASTE_LIST))
-                days_to = (next_pickup - datetime.datetime.now()).days
+                days_to = (next_pickup - time_zone.localize(datetime.datetime.now())).days
                 if days_to == 0:
                     icon_color = "#F54336"
                 elif days_to == 1:
@@ -288,7 +286,7 @@ class RenoWebData:
 
                 # Build Data for the Next Collection Sensor
                 if days_to < next_days_to:
-                    next_date = next_pickup
+                    next_date: datetime.datetime = next_pickup
                     next_icon = icon_list[0]['icon']
                     next_valid_data = valid_data
                     next_schedule = schedule
