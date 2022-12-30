@@ -11,7 +11,6 @@ from aiohttp.client_exceptions import ClientError
 from typing import Optional
 import sys
 import datetime
-import json
 
 import logging
 
@@ -19,6 +18,8 @@ from pyrenoweb.const import (
     BASE_URL,
     DAWA_URL,
     DEFAULT_TIMEOUT,
+    NO_WASTE_SCHEDULE_TIMESTAMP,
+    WASTE_LIST,
 )
 from pyrenoweb.errors import (
     InvalidApiKey,
@@ -250,75 +251,79 @@ class RenoWebData:
         self._address_id = address_id
         self._session: ClientSession = session
 
-
-    async def get_pickup_data(self) -> None:
-        """Return json data array with pick up data for the address."""
+    async def fetch_waste_data(self) -> None:
+        """Return json data with the schedules for waste pick-up."""
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
-        items = {}
-        item = {}
-        min_pickup_days = 999
-        min_pickup_timestamp = None
-        min_pickup_date = None
-        for row in json_data["list"]:
-            module = row.get("module")
-            fraction_name = module.get("fractionname").replace("/", "_")
-            fraction_id = row.get("id")
-            _LOGGER.info(f"{fraction_name}{fraction_id}")
-            if row.get("nextpickupdatetimestamp").isnumeric():
-                next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
-                today = datetime.date.today()
-                next_pickup_days = (next_pickup - today).days
+        next_days_to = 10000
+        entries = {}
+        if json_data["list"] is not None:
+            for row in json_data["list"]:
+                module = row.get("module")
+                fraction_name = module.get("fractionname").replace("/", "_")
+                fraction_id = row.get("id")
+                if row.get("nextpickupdatetimestamp").isnumeric():
+                    next_pickup = datetime.datetime.utcfromtimestamp(int(row.get("nextpickupdatetimestamp")))
+                    valid_data = True
+                else:
+                    # There is currently no data for the Waste Type, so set a future date
+                    next_pickup = datetime.datetime.utcfromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP)
+                    valid_data = False
 
-                # Check if this is the next Pickup
-                if next_pickup_days < min_pickup_days:
-                    min_pickup_days = next_pickup_days
-                    min_pickup_timestamp = row.get("nextpickupdatetimestamp")
-                    min_pickup_date = next_pickup.isoformat()
+                name = row["name"]
+                schedule = row.get("pickupdates")
+                icon_list = list(filter(lambda WASTE_LIST: WASTE_LIST['type'] == fraction_name, WASTE_LIST))
+                days_to = (next_pickup - datetime.datetime.now()).days
+                if days_to == 0:
+                    icon_color = "#F54336"
+                elif days_to == 1:
+                    icon_color = "#FFC108"
+                else:
+                    icon_color = "#9E9E9E"
 
-                item = {
-                    f"{fraction_name}_{fraction_id}": {
-                        "description": row.get("name"),
-                        "nextpickupdatetext": row.get("nextpickupdate"),
-                        "nextpickupdatetimestamp": row.get("nextpickupdatetimestamp"),
-                        "updatetime": datetime.datetime.now(),
-                        "nextpickupdate": next_pickup.isoformat(),
-                        "schedule": row.get("pickupdates"),
-                        "daysuntilpickup": next_pickup_days,
+                # Build Data for the Next Collection Sensor
+                if days_to < next_days_to:
+                    next_date = next_pickup
+                    next_icon = icon_list[0]['icon']
+                    next_valid_data = valid_data
+                    next_schedule = schedule
+                    next_days_to = days_to
+                    next_icon_color = icon_color
+                    next_id = fraction_id
+
+                sensor_item = {
+                    f"{fraction_name}_{self._municipality_id}_{self._address_id}": {
+                        "key": f"{fraction_name}",
+                        "date": next_pickup,
+                        "icon": icon_list[0]['icon'],
+                        "valid_data": valid_data,
+                        "name": name,
+                        "schedule": schedule,
+                        "days_to": days_to,
+                        "icon_color": icon_color,
+                        "id": fraction_id,
                     }
-                }
-            else:
-                # Nect Pick-Up is yet to be specified - Happens around year-end
-                element = datetime.datetime.strptime("01/01/2020", "%d/%m/%Y")
-                ts = datetime.datetime.timestamp(element)
-                item = {
-                    f"{fraction_name}_{fraction_id}": {
-                        "description": row.get("name"),
-                        "nextpickupdatetext": "Ingen planlagte tømninger",
-                        "nextpickupdatetimestamp": ts,
-                        "updatetime": datetime.datetime.now(),
-                        "nextpickupdate": element.date().isoformat(),
-                        "schedule": row.get("pickupdates"),
-                        "daysuntilpickup": -1,
-                    }
-                }
-            items.update(item)
-        # Add Minimum Pickup Days Sensor
-        item = {
-            "days_until_next_pickup": {
-                "description": "Days until next pickup",
-                "nextpickupdatetext": "",
-                "nextpickupdatetimestamp": min_pickup_timestamp,
-                "updatetime": datetime.datetime.now(),
-                "nextpickupdate": min_pickup_date,
-                "schedule": "",
-                "daysuntilpickup": min_pickup_days,
+                } 
+                entries.update(sensor_item)
+
+        # Add a Status Sensor
+        sensor_item = {
+            f"Next Collection_{self._municipality_id}_{self._address_id}": {
+                "key": "Next Collection",
+                "date": next_date,
+                "icon": next_icon,
+                "valid_data": next_valid_data,
+                "name": "Næste tømning",
+                "schedule": next_schedule,
+                "days_to": next_days_to,
+                "icon_color": next_icon_color,
+                "id": next_id,
             }
-        }
-        items.update(item)
+        } 
+        entries.update(sensor_item)
 
-        return items
 
+        return entries
 
     async def get_raw_pickup_data(self) -> None:
         """Return raw json data array with pick up data for the address."""

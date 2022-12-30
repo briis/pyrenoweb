@@ -106,6 +106,13 @@ async def run_function(argv):
                     f"{color.BOLD}SCHEDULE{color.END}: {item['schedule']}\n"
                     f"{color.BOLD}DAYS TO PICK-UP{color.END}: {item['daysuntilpickup']}\n"
                 )
+        elif argv[0] == "newdata":
+            # Print Raw JSOn Data
+            renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
+            data = await renoweb.fetch_waste_data()
+            # print(data)
+            print(json.dumps(data, indent=1, default=str))
+
         elif argv[0] == "rawdata":
             # Print Raw JSOn Data
             renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
