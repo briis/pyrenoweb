@@ -16,10 +16,17 @@ TYPE_HAVEAFFALD = ["Haveaffald"]
 
 WASTE_LIST = [
     {"type": "Restaffald-Madaffald", "icon": "mdi:trash-can"},
+    {"type": "Dagrenovation", "icon": "mdi:trash-can"},
     {"type": "Metal-Glas", "icon": "mdi:glass-fragile"},
     {"type": "PAPPI", "icon": "mdi:recycle"},
     {"type": "Farligt affald", "icon": "mdi:biohazard"},
     {"type": "Tekstiler", "icon": "mdi:hanger"},
+    {"type": "Jern", "icon": "mdi:bucket"},
+    {"type": "Papir", "icon": "mdi:file"},
+    {"type": "Pap", "icon": "mdi:note"},
+    {"type": "Plast Metal", "icon": "mdi:trash-can-outline"},
+    {"type": "Storskrald", "icon": "mdi:table-furniture"},
+    {"type": "Haveaffald", "icon": "mdi:leaf"},
 ]
 
 class color:

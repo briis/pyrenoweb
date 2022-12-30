@@ -273,6 +273,13 @@ class RenoWebData:
                 name = row["name"]
                 schedule = row.get("pickupdates")
                 icon_list = list(filter(lambda WASTE_LIST: WASTE_LIST['type'] == fraction_name, WASTE_LIST))
+                days_to = (next_pickup - datetime.datetime.now()).days
+                if days_to == 0:
+                    icon_color = "#F54336"
+                elif days_to == 1:
+                    icon_color = "#FFC108"
+                else:
+                    icon_color = "#9E9E9E"
 
                 sensor_item = {
                     f"{fraction_name}_{self._municipality_id}_{self._address_id}": {
@@ -282,6 +289,8 @@ class RenoWebData:
                         "valid_data": valid_data,
                         "name": name,
                         "schedule": schedule,
+                        "days_to": days_to,
+                        "icon_color": icon_color,
                     }
                 } 
                 entries.update(sensor_item)
