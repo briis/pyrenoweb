@@ -272,6 +272,7 @@ class RenoWebData:
                     next_pickup = datetime.date.fromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP)
                     valid_data = False
 
+                # Format and create attributes
                 name = row["name"]
                 schedule = row.get("pickupdates")
                 icon_list = list(filter(lambda WASTE_LIST: WASTE_LIST['type'] == fraction_name, WASTE_LIST))
@@ -280,10 +281,13 @@ class RenoWebData:
                 next_pickup_short = DA_WEEKDAYS_SHORT[int(next_pickup.strftime("%w"))] + next_pickup.strftime(" d. %d-%m")
                 if days_to == 0:
                     icon_color = "#F54336"
+                    template_text = "I dag"
                 elif days_to == 1:
                     icon_color = "#FFC108"
+                    template_text = "I morgen"
                 else:
                     icon_color = "#9E9E9E"
+                    template_text = f"Om {days_to} dage"
 
                 # Build Data for the Next Collection Sensor
                 if days_to < next_days_to:
@@ -291,6 +295,7 @@ class RenoWebData:
                     next_date_long = next_pickup_long
                     next_date_short = next_pickup_short
                     next_icon = icon_list[0]['icon']
+                    next_template_text = template_text
                     next_valid_data = valid_data
                     next_schedule = schedule
                     next_days_to = days_to
@@ -309,6 +314,7 @@ class RenoWebData:
                         "schedule": schedule,
                         "days_to": days_to,
                         "icon_color": icon_color,
+                        "template_text": template_text,
                         "id": fraction_id,
                     }
                 } 
@@ -327,6 +333,7 @@ class RenoWebData:
                 "schedule": next_schedule,
                 "days_to": next_days_to,
                 "icon_color": next_icon_color,
+                "template_text": next_template_text,
                 "id": next_id,
             }
         } 
