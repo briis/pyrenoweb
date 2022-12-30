@@ -17,4 +17,3 @@ from pyrenoweb.const import (
     TYPE_GLASS,
     TYPE_METAL,
 )
-from pyrenoweb.collection import RenoWebSensorDescription

@@ -15,7 +15,6 @@ import json
 
 import logging
 
-from pyrenoweb.collection import RenoWebSensorDescription
 from pyrenoweb.const import (
     BASE_URL,
     DAWA_URL,
@@ -286,16 +285,6 @@ class RenoWebData:
                     }
                 } 
                 entries.update(sensor_item)
-
-                # entity_data = RenoWebSensorDescription(
-                #     key=f"{fraction_name}",
-                #     date=next_pickup,
-                #     icon=icon_list[0]['icon'],
-                #     valid_data=valid_data,
-                #     name=name,
-                #     schedule=schedule,
-                # )
-                # entries.append(entity_data)
 
         return entries
 
