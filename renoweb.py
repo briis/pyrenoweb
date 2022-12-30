@@ -1,7 +1,6 @@
 from pyrenoweb.errors import ResultError
 from pyrenoweb.client import RenoWeb, RenoWebData
 from pyrenoweb.const import color
-from pyrenoweb.collection import RenoWebSensorDescription
 from aiohttp import ClientSession
 import asyncio
 import logging
