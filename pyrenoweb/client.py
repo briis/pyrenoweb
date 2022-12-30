@@ -257,7 +257,7 @@ class RenoWebData:
         """Return json data with the schedules for waste pick-up."""
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
-        entries = []
+        entries = {}
         if json_data["list"] is not None:
             for row in json_data["list"]:
                 module = row.get("module")
@@ -275,15 +275,27 @@ class RenoWebData:
                 schedule = row.get("pickupdates")
                 icon_list = list(filter(lambda WASTE_LIST: WASTE_LIST['type'] == fraction_name, WASTE_LIST))
 
-                entity_data = RenoWebSensorDescription(
-                    key=f"{fraction_name}",
-                    date=next_pickup,
-                    icon=icon_list[0]['icon'],
-                    valid_data=valid_data,
-                    name=name,
-                    schedule=schedule,
-                )
-                entries.append(entity_data)
+                sensor_item = {
+                    f"{fraction_name}_{fraction_id}": {
+                        "key": f"{fraction_name}",
+                        "date": next_pickup,
+                        "icon": icon_list[0]['icon'],
+                        "valid_data": valid_data,
+                        "name": name,
+                        "schedule": schedule,
+                    }
+                } 
+                entries.update(sensor_item)
+
+                # entity_data = RenoWebSensorDescription(
+                #     key=f"{fraction_name}",
+                #     date=next_pickup,
+                #     icon=icon_list[0]['icon'],
+                #     valid_data=valid_data,
+                #     name=name,
+                #     schedule=schedule,
+                # )
+                # entries.append(entity_data)
 
         return entries
 
