@@ -11,6 +11,7 @@ from aiohttp.client_exceptions import ClientError
 from typing import Optional
 import sys
 import datetime
+from datetime import timezone
 
 import logging
 
@@ -264,12 +265,12 @@ class RenoWebData:
                 fraction_id = row.get("id")
                 if row.get("nextpickupdatetimestamp").isnumeric():
                     next_pickup = datetime.datetime.utcfromtimestamp(int(row.get("nextpickupdatetimestamp")))
-                    timestamp = int(row.get("nextpickupdatetimestamp"))
+                    timestamp = next_pickup.replace(tzinfo=timezone.utc).timestamp()
                     valid_data = True
                 else:
                     # There is currently no data for the Waste Type, so set a future date
                     next_pickup = datetime.datetime.utcfromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP)
-                    timestamp = NO_WASTE_SCHEDULE_TIMESTAMP
+                    timestamp = next_pickup.replace(tzinfo=timezone.utc).timestamp()
                     valid_data = False
 
                 name = row["name"]
