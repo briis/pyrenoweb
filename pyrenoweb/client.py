@@ -256,6 +256,7 @@ class RenoWebData:
         """Return json data with the schedules for waste pick-up."""
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
+        next_days_to = 10000
         entries = {}
         if json_data["list"] is not None:
             for row in json_data["list"]:
@@ -281,6 +282,16 @@ class RenoWebData:
                 else:
                     icon_color = "#9E9E9E"
 
+                # Build Data for the Next Collection Sensor
+                if days_to < next_days_to:
+                    next_date = next_pickup
+                    next_icon = icon_list[0]['icon']
+                    next_valid_data = valid_data
+                    next_schedule = schedule
+                    next_days_to = days_to
+                    next_icon_color = icon_color
+                    next_id = fraction_id
+
                 sensor_item = {
                     f"{fraction_name}_{self._municipality_id}_{self._address_id}": {
                         "key": f"{fraction_name}",
@@ -295,6 +306,23 @@ class RenoWebData:
                     }
                 } 
                 entries.update(sensor_item)
+
+        # Add a Status Sensor
+        sensor_item = {
+            f"Next Collection_{self._municipality_id}_{self._address_id}": {
+                "key": "Next Collection",
+                "date": next_date,
+                "icon": next_icon,
+                "valid_data": next_valid_data,
+                "name": "Næste tømning",
+                "schedule": next_schedule,
+                "days_to": next_days_to,
+                "icon_color": next_icon_color,
+                "id": next_id,
+            }
+        } 
+        entries.update(sensor_item)
+
 
         return entries
 
