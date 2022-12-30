@@ -11,6 +11,7 @@ from aiohttp.client_exceptions import ClientError
 from typing import Optional
 import sys
 import datetime
+import pytz
 from datetime import timezone
 
 import logging
@@ -28,6 +29,8 @@ from pyrenoweb.errors import (
     ResultError,
     MunicipalityError,
 )
+
+UTC = pytz.timezone('UTC')
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -256,6 +259,7 @@ class RenoWebData:
         """Return json data with the schedules for waste pick-up."""
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
+        time_zone = pytz.timezone(UTC)
         next_days_to = 10000
         entries = {}
         if json_data["list"] is not None:
@@ -264,13 +268,11 @@ class RenoWebData:
                 fraction_name = module.get("fractionname").replace("/", "_")
                 fraction_id = row.get("id")
                 if row.get("nextpickupdatetimestamp").isnumeric():
-                    next_pickup = datetime.datetime.utcfromtimestamp(int(row.get("nextpickupdatetimestamp")))
-                    timestamp = next_pickup.replace(tzinfo=timezone.utc).timestamp()
+                    next_pickup = time_zone.localize(datetime.datetime.utcfromtimestamp(int(row.get("nextpickupdatetimestamp"))))
                     valid_data = True
                 else:
                     # There is currently no data for the Waste Type, so set a future date
-                    next_pickup = datetime.datetime.utcfromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP)
-                    timestamp = next_pickup.replace(tzinfo=timezone.utc).timestamp()
+                    next_pickup = time_zone.localize(datetime.datetime.utcfromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP))
                     valid_data = False
 
                 name = row["name"]
@@ -287,7 +289,6 @@ class RenoWebData:
                 # Build Data for the Next Collection Sensor
                 if days_to < next_days_to:
                     next_date = next_pickup
-                    next_timestamp = timestamp
                     next_icon = icon_list[0]['icon']
                     next_valid_data = valid_data
                     next_schedule = schedule
@@ -299,7 +300,6 @@ class RenoWebData:
                     f"{fraction_name}_{self._municipality_id}_{self._address_id}": {
                         "key": f"{fraction_name}",
                         "date": next_pickup,
-                        "timestamp": timestamp,
                         "icon": icon_list[0]['icon'],
                         "valid_data": valid_data,
                         "name": name,
@@ -316,7 +316,6 @@ class RenoWebData:
             f"Next Collection_{self._municipality_id}_{self._address_id}": {
                 "key": "Next Collection",
                 "date": next_date,
-                "timestamp": next_timestamp,
                 "icon": next_icon,
                 "valid_data": next_valid_data,
                 "name": "Næste tømning",
