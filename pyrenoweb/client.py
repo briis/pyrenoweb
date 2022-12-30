@@ -11,13 +11,13 @@ from aiohttp.client_exceptions import ClientError
 from typing import Optional
 import sys
 import datetime
-import pytz
-from datetime import timezone
 
 import logging
 
 from pyrenoweb.const import (
     BASE_URL,
+    DA_WEEKDAYS_LONG,
+    DA_WEEKDAYS_SHORT,
     DAWA_URL,
     DEFAULT_TIMEOUT,
     NO_WASTE_SCHEDULE_TIMESTAMP,
@@ -257,7 +257,6 @@ class RenoWebData:
         """Return json data with the schedules for waste pick-up."""
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
-        time_zone = pytz.timezone('UTC')
         next_days_to = 10000
         entries = {}
         if json_data["list"] is not None:
@@ -266,17 +265,19 @@ class RenoWebData:
                 fraction_name = module.get("fractionname").replace("/", "_")
                 fraction_id = row.get("id")
                 if row.get("nextpickupdatetimestamp").isnumeric():
-                    next_pickup = datetime.datetime.utcfromtimestamp(int(row.get("nextpickupdatetimestamp")))
+                    next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
                     valid_data = True
                 else:
                     # There is currently no data for the Waste Type, so set a future date
-                    next_pickup = datetime.datetime.utcfromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP)
+                    next_pickup = datetime.date.fromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP)
                     valid_data = False
 
                 name = row["name"]
                 schedule = row.get("pickupdates")
                 icon_list = list(filter(lambda WASTE_LIST: WASTE_LIST['type'] == fraction_name, WASTE_LIST))
-                days_to = (next_pickup - datetime.datetime.now()).days
+                days_to = (next_pickup - datetime.date.today()).days 
+                next_pickup_long = DA_WEEKDAYS_LONG[int(next_pickup.strftime("%w"))] + next_pickup.strftime(" d. %d-%m-%Y")
+                next_pickup_short = DA_WEEKDAYS_SHORT[int(next_pickup.strftime("%w"))] + next_pickup.strftime(" d. %d-%m")
                 if days_to == 0:
                     icon_color = "#F54336"
                 elif days_to == 1:
@@ -287,6 +288,8 @@ class RenoWebData:
                 # Build Data for the Next Collection Sensor
                 if days_to < next_days_to:
                     next_date = next_pickup
+                    next_date_long = next_pickup_long
+                    next_date_short = next_pickup_short
                     next_icon = icon_list[0]['icon']
                     next_valid_data = valid_data
                     next_schedule = schedule
@@ -297,7 +300,9 @@ class RenoWebData:
                 sensor_item = {
                     f"{fraction_name}_{self._municipality_id}_{self._address_id}": {
                         "key": f"{fraction_name}",
-                        "date": str(time_zone.localize(next_pickup)),
+                        "date": next_pickup,
+                        "date_long": next_pickup_long,
+                        "date_short": next_pickup_short,
                         "icon": icon_list[0]['icon'],
                         "valid_data": valid_data,
                         "name": name,
@@ -313,7 +318,9 @@ class RenoWebData:
         sensor_item = {
             f"Next Collection_{self._municipality_id}_{self._address_id}": {
                 "key": "Next Collection",
-                "date": str(time_zone.localize(next_date)),
+                "date": next_date,
+                "date_long": next_date_long,
+                "date_short": next_date_short,
                 "icon": next_icon,
                 "valid_data": next_valid_data,
                 "name": "Næste tømning",

@@ -19,6 +19,9 @@ WASTE_LIST = [
     {"type": "Haveaffald", "icon": "mdi:leaf"},
 ]
 
+DA_WEEKDAYS_LONG = ["Søndag", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"]
+DA_WEEKDAYS_SHORT = ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"]
+
 class color:
     """Defines colors used for Terminal Output."""
 
