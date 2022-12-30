@@ -4,16 +4,6 @@ DAWA_URL = "https://dawa.aws.dk/kommuner"
 DEFAULT_TIMEOUT = 10
 NO_WASTE_SCHEDULE_TIMESTAMP = 1767135600
 
-TYPE_RESIDUAL = ["Restaffald-Madaffald", "Dagrenovation"]
-TYPE_GLASS = ["Glas", "Glas Papir"]
-TYPE_METAL_GLASS = ["Metal-Glas"]
-TYPE_METAL = ["Jern"]
-TYPE_PAPER = ["Papir", "Pap"]
-TYPE_PLASTIC = ["Plast"]
-TYPE_PLASTIC_METAL = ["Plast Metal"]
-TYPE_STORSKRALD = ["Storskrald"]
-TYPE_HAVEAFFALD = ["Haveaffald"]
-
 WASTE_LIST = [
     {"type": "Restaffald-Madaffald", "icon": "mdi:trash-can"},
     {"type": "Dagrenovation", "icon": "mdi:trash-can"},

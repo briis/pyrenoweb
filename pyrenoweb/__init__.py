@@ -8,12 +8,6 @@ from pyrenoweb.errors import (
     MunicipalityError,
 )
 from pyrenoweb.const import (
-    TYPE_METAL_GLASS,
-    TYPE_PAPER,
-    TYPE_RESIDUAL,
-    TYPE_PLASTIC,
-    TYPE_STORSKRALD,
-    TYPE_HAVEAFFALD,
-    TYPE_GLASS,
-    TYPE_METAL,
+    WASTE_LIST,
+
 )

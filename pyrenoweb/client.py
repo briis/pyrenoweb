@@ -11,7 +11,6 @@ from aiohttp.client_exceptions import ClientError
 from typing import Optional
 import sys
 import datetime
-import json
 
 import logging
 
@@ -325,75 +324,6 @@ class RenoWebData:
 
 
         return entries
-
-    # async def get_pickup_data(self) -> None:
-    #     """Return json data array with pick up data for the address."""
-    #     endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
-    #     json_data = await self.async_request("get", endpoint)
-    #     items = {}
-    #     item = {}
-    #     min_pickup_days = 999
-    #     min_pickup_timestamp = None
-    #     min_pickup_date = None
-    #     for row in json_data["list"]:
-    #         module = row.get("module")
-    #         fraction_name = module.get("fractionname").replace("/", "_")
-    #         fraction_id = row.get("id")
-    #         _LOGGER.info(f"{fraction_name}{fraction_id}")
-    #         if row.get("nextpickupdatetimestamp").isnumeric():
-    #             next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
-    #             today = datetime.date.today()
-    #             next_pickup_days = (next_pickup - today).days
-
-    #             # Check if this is the next Pickup
-    #             if next_pickup_days < min_pickup_days:
-    #                 min_pickup_days = next_pickup_days
-    #                 min_pickup_timestamp = row.get("nextpickupdatetimestamp")
-    #                 min_pickup_date = next_pickup.isoformat()
-
-    #             item = {
-    #                 f"{fraction_name}_{fraction_id}": {
-    #                     "description": row.get("name"),
-    #                     "nextpickupdatetext": row.get("nextpickupdate"),
-    #                     "nextpickupdatetimestamp": row.get("nextpickupdatetimestamp"),
-    #                     "updatetime": datetime.datetime.now(),
-    #                     "nextpickupdate": next_pickup.isoformat(),
-    #                     "schedule": row.get("pickupdates"),
-    #                     "daysuntilpickup": next_pickup_days,
-    #                 }
-    #             }
-    #         else:
-    #             # Nect Pick-Up is yet to be specified - Happens around year-end
-    #             element = datetime.datetime.strptime("01/01/2020", "%d/%m/%Y")
-    #             ts = datetime.datetime.timestamp(element)
-    #             item = {
-    #                 f"{fraction_name}_{fraction_id}": {
-    #                     "description": row.get("name"),
-    #                     "nextpickupdatetext": "Ingen planlagte tømninger",
-    #                     "nextpickupdatetimestamp": ts,
-    #                     "updatetime": datetime.datetime.now(),
-    #                     "nextpickupdate": element.date().isoformat(),
-    #                     "schedule": row.get("pickupdates"),
-    #                     "daysuntilpickup": -1,
-    #                 }
-    #             }
-    #         items.update(item)
-    #     # Add Minimum Pickup Days Sensor
-    #     item = {
-    #         "days_until_next_pickup": {
-    #             "description": "Days until next pickup",
-    #             "nextpickupdatetext": "",
-    #             "nextpickupdatetimestamp": min_pickup_timestamp,
-    #             "updatetime": datetime.datetime.now(),
-    #             "nextpickupdate": min_pickup_date,
-    #             "schedule": "",
-    #             "daysuntilpickup": min_pickup_days,
-    #         }
-    #     }
-    #     items.update(item)
-
-    #     return items
-
 
     async def get_raw_pickup_data(self) -> None:
         """Return raw json data array with pick up data for the address."""
