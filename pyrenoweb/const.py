@@ -2,25 +2,31 @@ BASE_URL = "https://servicesgh.renoweb.dk/v1_13"
 DAWA_URL = "https://dawa.aws.dk/kommuner"
 
 DEFAULT_TIMEOUT = 10
-NO_WASTE_SCHEDULE_TIMESTAMP = 1767135600
 
-WASTE_LIST = [
-    {"type": "Restaffald-Madaffald", "icon": "mdi:trash-can"},
-    {"type": "Dagrenovation", "icon": "mdi:trash-can"},
-    {"type": "Metal-Glas", "icon": "mdi:glass-fragile"},
-    {"type": "PAPPI", "icon": "mdi:recycle"},
-    {"type": "Farligt affald", "icon": "mdi:biohazard"},
-    {"type": "Tekstiler", "icon": "mdi:hanger"},
-    {"type": "Jern", "icon": "mdi:bucket"},
-    {"type": "Papir", "icon": "mdi:file"},
-    {"type": "Pap", "icon": "mdi:note"},
-    {"type": "Plast Metal", "icon": "mdi:trash-can-outline"},
-    {"type": "Storskrald", "icon": "mdi:table-furniture"},
-    {"type": "Haveaffald", "icon": "mdi:leaf"},
-]
+TYPE_RESIDUAL = ["Restaffald-Madaffald", "Dagrenovation"]
+TYPE_GLASS = ["Glas", "Glas Papir"]
+TYPE_METAL_GLASS = ["Metal-Glas"]
+TYPE_METAL = ["Jern"]
+TYPE_PAPER = ["Papir", "Pap"]
+TYPE_PLASTIC = ["Plast"]
+TYPE_PLASTIC_METAL = ["Plast Metal"]
+TYPE_STORSKRALD = ["Storskrald"]
+TYPE_HAVEAFFALD = ["Haveaffald"]
 
-DA_WEEKDAYS_LONG = ["Søndag", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag"]
-DA_WEEKDAYS_SHORT = ["Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"]
+ICON_LIST = {
+    "Restaffald-Madaffald": "mdi:trash-can",
+    "Dagrenovation": "mdi:trash-can",
+    "Metal-Glas": "mdi:glass-fragile",
+    "PAPPI": "mdi:recycle",
+    "Farligt affald": "mdi:biohazard",
+    "Tekstiler": "mdi:hanger",
+    "Jern": "mdi:bucket",
+    "Papir": "mdi:file",
+    "Pap": "mdi:note",
+    "Plast Metal": "mdi:trash-can-outline",
+    "Storskrald": "mdi:table-furniture",
+    "Haveaffald": "mdi:leaf",
+}
 
 class color:
     """Defines colors used for Terminal Output."""
