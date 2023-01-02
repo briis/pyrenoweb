@@ -285,6 +285,7 @@ class RenoWebData:
                         "nextpickupdate": next_pickup.isoformat(),
                         "schedule": row.get("pickupdates"),
                         "daysuntilpickup": next_pickup_days,
+                        "data_valid": True,
                     }
                 }
             else:
@@ -300,6 +301,7 @@ class RenoWebData:
                         "nextpickupdate": element.date().isoformat(),
                         "schedule": row.get("pickupdates"),
                         "daysuntilpickup": -1,
+                        "data_valid": False,
                     }
                 }
             items.update(item)
