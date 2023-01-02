@@ -23,7 +23,11 @@ from pyrenoweb.const import (
     NO_WASTE_SCHEDULE_TIMESTAMP,
     WASTE_LIST,
 )
-from pyrenoweb.data import RenowWebDataItem
+from pyrenoweb.data import (
+    RenowWebDataItem,
+    RenoWebDataSet,
+)
+
 from pyrenoweb.errors import (
     InvalidApiKey,
     RequestError,
@@ -303,43 +307,48 @@ class RenoWebData:
                     next_icon_color = icon_color
                     next_id = fraction_id
 
-                data_item = RenowWebDataItem(
-                    key=f"{fraction_name}",
-                    date=next_pickup,
-                    date_long=next_pickup_long,
-                    date_short=next_pickup_short,
-                    icon=icon_list[0]['icon'],
-                    icon_color=icon_color,
-                    valid_data=valid_data,
-                    name=name,
-                    schedule=schedule,
-                    days_to=days_to,
-                    state_text=template_text,
-                    fraction_id=fraction_id,
-                    last_refresh=datetime.datetime.now(),
+                data_item = RenoWebDataSet(
+                    key=f"{fraction_name}_{self._municipality_id}_{self._address_id}",
+                    item=RenowWebDataItem(
+                        key=f"{fraction_name}",
+                        date=next_pickup,
+                        date_long=next_pickup_long,
+                        date_short=next_pickup_short,
+                        icon=icon_list[0]['icon'],
+                        icon_color=icon_color,
+                        valid_data=valid_data,
+                        name=name,
+                        schedule=schedule,
+                        days_to=days_to,
+                        state_text=template_text,
+                        fraction_id=fraction_id,
+                        last_refresh=datetime.datetime.now(),
+                    )
                 )
                 data_set.append(data_item)
 
         # Add a Status Sensor
-        data_item = RenowWebDataItem(
-            key="Next Collection",
-            date=next_date,
-            date_long=next_date_long,
-            date_short=next_date_short,
-            icon=next_icon,
-            icon_color=next_icon_color,
-            valid_data=next_valid_data,
-            name="Næste tømning",
-            schedule=next_schedule,
-            days_to=next_days_to,
-            state_text=next_template_text,
-            fraction_id=next_id,
-            last_refresh=datetime.datetime.now(),
+        data_item = RenoWebDataSet(
+            key=f"Next Collection_{self._municipality_id}_{self._address_id}",
+            item=RenowWebDataItem(
+                key="Next Collection",
+                date=next_date,
+                date_long=next_date_long,
+                date_short=next_date_short,
+                icon=next_icon,
+                icon_color=next_icon_color,
+                valid_data=next_valid_data,
+                name="Næste tømning",
+                schedule=next_schedule,
+                days_to=next_days_to,
+                state_text=next_template_text,
+                fraction_id=next_id,
+                last_refresh=datetime.datetime.now(),
+            )
         )
         data_set.append(data_item)
 
         return data_set
-        # return entries
 
     async def get_raw_pickup_data(self) -> None:
         """Return raw json data array with pick up data for the address."""

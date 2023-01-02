@@ -17,3 +17,9 @@ class RenowWebDataItem:
     state_text: str
     fraction_id: str
     last_refresh: datetime.datetime
+
+@dataclass
+class RenoWebDataSet:
+    """Represent a RenoWeb dataset"""
+    key: str
+    item: RenowWebDataItem

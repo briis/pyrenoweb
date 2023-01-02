@@ -8,4 +8,4 @@ from pyrenoweb.errors import (
     MunicipalityError,
 )
 from pyrenoweb.const import WASTE_LIST
-from pyrenoweb.data import RenowWebDataItem
+from pyrenoweb.data import RenowWebDataItem, RenoWebDataSet
