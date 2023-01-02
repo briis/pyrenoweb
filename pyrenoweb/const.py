@@ -13,6 +13,21 @@ TYPE_PLASTIC_METAL = ["Plast Metal"]
 TYPE_STORSKRALD = ["Storskrald"]
 TYPE_HAVEAFFALD = ["Haveaffald"]
 
+ICON_LIST = {
+    "Restaffald-Madaffald": "mdi:trash-can",
+    "Dagrenovation": "mdi:trash-can",
+    "Metal-Glas": "mdi:glass-fragile",
+    "PAPPI": "mdi:recycle",
+    "Farligt affald": "mdi:biohazard",
+    "Tekstiler": "mdi:hanger",
+    "Jern": "mdi:bucket",
+    "Papir": "mdi:file",
+    "Pap": "mdi:note",
+    "Plast Metal": "mdi:trash-can-outline",
+    "Storskrald": "mdi:table-furniture",
+    "Haveaffald": "mdi:leaf",
+}
+
 class color:
     """Defines colors used for Terminal Output."""
 

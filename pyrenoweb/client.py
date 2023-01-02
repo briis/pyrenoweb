@@ -19,6 +19,7 @@ from pyrenoweb.const import (
     BASE_URL,
     DAWA_URL,
     DEFAULT_TIMEOUT,
+    ICON_LIST,
 )
 from pyrenoweb.errors import (
     InvalidApiKey,
@@ -264,17 +265,33 @@ class RenoWebData:
             module = row.get("module")
             fraction_name = module.get("fractionname").replace("/", "_")
             fraction_id = row.get("id")
+            icon = ICON_LIST.get(fraction_name, "mdi:trash-can")
+            schedule = row.get("pickupdates")
             _LOGGER.info(f"{fraction_name}{fraction_id}")
             if row.get("nextpickupdatetimestamp").isnumeric():
                 next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
                 today = datetime.date.today()
                 next_pickup_days = (next_pickup - today).days
+                if next_pickup_days == 0:
+                    icon_color = "#F54336"
+                    state_text = "I dag"
+                elif next_pickup_days == 1:
+                    icon_color = "#FFC108"
+                    template_text = "I morgen"
+                else:
+                    icon_color = "#9E9E9E"
+                    state_text = f"Om {next_pickup_days} dage"
 
                 # Check if this is the next Pickup
                 if next_pickup_days < min_pickup_days:
                     min_pickup_days = next_pickup_days
                     min_pickup_timestamp = row.get("nextpickupdatetimestamp")
+                    min_pickup_date_text = row.get("nextpickupdate")
                     min_pickup_date = next_pickup.isoformat()
+                    min_icon_color = icon_color
+                    min_state_text = state_text
+                    min_icon = icon
+                    min_schedule = schedule
 
                 item = {
                     f"{fraction_name}_{fraction_id}": {
@@ -283,15 +300,20 @@ class RenoWebData:
                         "nextpickupdatetimestamp": row.get("nextpickupdatetimestamp"),
                         "updatetime": datetime.datetime.now(),
                         "nextpickupdate": next_pickup.isoformat(),
-                        "schedule": row.get("pickupdates"),
+                        "schedule": schedule,
                         "daysuntilpickup": next_pickup_days,
                         "data_valid": True,
+                        "icon": icon,
+                        "icon_color": icon_color,
+                        "state_text": state_text,
                     }
                 }
             else:
                 # Nect Pick-Up is yet to be specified - Happens around year-end
                 element = datetime.datetime.strptime("01/01/2020", "%d/%m/%Y")
                 ts = datetime.datetime.timestamp(element)
+                icon_color = "#9E9E9E"
+                state_text = "Ingen data"
                 item = {
                     f"{fraction_name}_{fraction_id}": {
                         "description": row.get("name"),
@@ -299,9 +321,12 @@ class RenoWebData:
                         "nextpickupdatetimestamp": ts,
                         "updatetime": datetime.datetime.now(),
                         "nextpickupdate": element.date().isoformat(),
-                        "schedule": row.get("pickupdates"),
+                        "schedule": schedule,
                         "daysuntilpickup": -1,
                         "data_valid": False,
+                        "icon": icon,
+                        "icon_color": icon_color,
+                        "state_text": state_text,
                     }
                 }
             items.update(item)
@@ -309,11 +334,14 @@ class RenoWebData:
         item = {
             "days_until_next_pickup": {
                 "description": "Days until next pickup",
-                "nextpickupdatetext": "",
+                "nextpickupdatetext": min_pickup_date_text,
                 "nextpickupdatetimestamp": min_pickup_timestamp,
                 "updatetime": datetime.datetime.now(),
                 "nextpickupdate": min_pickup_date,
-                "schedule": "",
+                "icon": min_icon,
+                "icon_color": min_icon_color,
+                "state_text": min_state_text,
+                "schedule": min_schedule,
                 "daysuntilpickup": min_pickup_days,
             }
         }
