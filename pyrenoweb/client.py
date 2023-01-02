@@ -11,23 +11,15 @@ from aiohttp.client_exceptions import ClientError
 from typing import Optional
 import sys
 import datetime
+import json
 
 import logging
 
 from pyrenoweb.const import (
     BASE_URL,
-    DA_WEEKDAYS_LONG,
-    DA_WEEKDAYS_SHORT,
     DAWA_URL,
     DEFAULT_TIMEOUT,
-    NO_WASTE_SCHEDULE_TIMESTAMP,
-    WASTE_LIST,
 )
-from pyrenoweb.data import (
-    RenowWebDataItem,
-    RenoWebDataSet,
-)
-
 from pyrenoweb.errors import (
     InvalidApiKey,
     RequestError,
@@ -258,97 +250,75 @@ class RenoWebData:
         self._address_id = address_id
         self._session: ClientSession = session
 
-    async def fetch_waste_data(self) -> None:
-        """Return json data with the schedules for waste pick-up."""
+
+    async def get_pickup_data(self) -> None:
+        """Return json data array with pick up data for the address."""
         endpoint = f"GetJSONContainerList.aspx?municipalitycode={self._municipality_id}&apikey={self._api_key}&adressId={self._address_id}&fullinfo=1&supportsSharedEquipment=1"
         json_data = await self.async_request("get", endpoint)
-        next_days_to = 10000
-        data_set = []
-        if json_data["list"] is not None:
-            for row in json_data["list"]:
-                module = row.get("module")
-                fraction_name = module.get("fractionname").replace("/", "_")
-                fraction_id = row.get("id")
-                if row.get("nextpickupdatetimestamp").isnumeric():
-                    next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
-                    valid_data = True
-                else:
-                    # There is currently no data for the Waste Type, so set a future date
-                    next_pickup = datetime.date.fromtimestamp(NO_WASTE_SCHEDULE_TIMESTAMP)
-                    valid_data = False
+        items = {}
+        item = {}
+        min_pickup_days = 999
+        min_pickup_timestamp = None
+        min_pickup_date = None
+        for row in json_data["list"]:
+            module = row.get("module")
+            fraction_name = module.get("fractionname").replace("/", "_")
+            fraction_id = row.get("id")
+            _LOGGER.info(f"{fraction_name}{fraction_id}")
+            if row.get("nextpickupdatetimestamp").isnumeric():
+                next_pickup = datetime.date.fromtimestamp(int(row.get("nextpickupdatetimestamp")))
+                today = datetime.date.today()
+                next_pickup_days = (next_pickup - today).days
 
-                # Format and create attributes
-                name = row["name"]
-                schedule = row.get("pickupdates")
-                icon_list = list(filter(lambda WASTE_LIST: WASTE_LIST['type'] == fraction_name, WASTE_LIST))
-                days_to = (next_pickup - datetime.date.today()).days 
-                next_pickup_long = DA_WEEKDAYS_LONG[int(next_pickup.strftime("%w"))] + next_pickup.strftime(" d. %d-%m-%Y")
-                next_pickup_short = DA_WEEKDAYS_SHORT[int(next_pickup.strftime("%w"))] + next_pickup.strftime(" d. %d-%m")
-                if days_to == 0:
-                    icon_color = "#F54336"
-                    template_text = "I dag"
-                elif days_to == 1:
-                    icon_color = "#FFC108"
-                    template_text = "I morgen"
-                else:
-                    icon_color = "#9E9E9E"
-                    template_text = f"Om {days_to} dage"
+                # Check if this is the next Pickup
+                if next_pickup_days < min_pickup_days:
+                    min_pickup_days = next_pickup_days
+                    min_pickup_timestamp = row.get("nextpickupdatetimestamp")
+                    min_pickup_date = next_pickup.isoformat()
 
-                # Build Data for the Next Collection Sensor
-                if days_to < next_days_to:
-                    next_date = next_pickup
-                    next_date_long = next_pickup_long
-                    next_date_short = next_pickup_short
-                    next_icon = icon_list[0]['icon']
-                    next_template_text = template_text
-                    next_valid_data = valid_data
-                    next_schedule = schedule
-                    next_days_to = days_to
-                    next_icon_color = icon_color
-                    next_id = fraction_id
+                item = {
+                    f"{fraction_name}_{fraction_id}": {
+                        "description": row.get("name"),
+                        "nextpickupdatetext": row.get("nextpickupdate"),
+                        "nextpickupdatetimestamp": row.get("nextpickupdatetimestamp"),
+                        "updatetime": datetime.datetime.now(),
+                        "nextpickupdate": next_pickup.isoformat(),
+                        "schedule": row.get("pickupdates"),
+                        "daysuntilpickup": next_pickup_days,
+                    }
+                }
+            else:
+                # Nect Pick-Up is yet to be specified - Happens around year-end
+                element = datetime.datetime.strptime("01/01/2020", "%d/%m/%Y")
+                ts = datetime.datetime.timestamp(element)
+                item = {
+                    f"{fraction_name}_{fraction_id}": {
+                        "description": row.get("name"),
+                        "nextpickupdatetext": "Ingen planlagte tømninger",
+                        "nextpickupdatetimestamp": ts,
+                        "updatetime": datetime.datetime.now(),
+                        "nextpickupdate": element.date().isoformat(),
+                        "schedule": row.get("pickupdates"),
+                        "daysuntilpickup": -1,
+                    }
+                }
+            items.update(item)
+        # Add Minimum Pickup Days Sensor
+        item = {
+            "days_until_next_pickup": {
+                "description": "Days until next pickup",
+                "nextpickupdatetext": "",
+                "nextpickupdatetimestamp": min_pickup_timestamp,
+                "updatetime": datetime.datetime.now(),
+                "nextpickupdate": min_pickup_date,
+                "schedule": "",
+                "daysuntilpickup": min_pickup_days,
+            }
+        }
+        items.update(item)
 
-                data_item = RenoWebDataSet(
-                    key=f"{fraction_name}_{self._municipality_id}_{self._address_id}",
-                    item=RenowWebDataItem(
-                        key=f"{fraction_name}",
-                        date=next_pickup,
-                        date_long=next_pickup_long,
-                        date_short=next_pickup_short,
-                        icon=icon_list[0]['icon'],
-                        icon_color=icon_color,
-                        valid_data=valid_data,
-                        name=name,
-                        schedule=schedule,
-                        days_to=days_to,
-                        state_text=template_text,
-                        fraction_id=fraction_id,
-                        last_refresh=datetime.datetime.now(),
-                    )
-                )
-                data_set.append(data_item)
+        return items
 
-        # Add a Status Sensor
-        data_item = RenoWebDataSet(
-            key=f"Next Collection_{self._municipality_id}_{self._address_id}",
-            item=RenowWebDataItem(
-                key="Next Collection",
-                date=next_date,
-                date_long=next_date_long,
-                date_short=next_date_short,
-                icon=next_icon,
-                icon_color=next_icon_color,
-                valid_data=next_valid_data,
-                name="Næste tømning",
-                schedule=next_schedule,
-                days_to=next_days_to,
-                state_text=next_template_text,
-                fraction_id=next_id,
-                last_refresh=datetime.datetime.now(),
-            )
-        )
-        data_set.append(data_item)
-
-        return data_set
 
     async def get_raw_pickup_data(self) -> None:
         """Return raw json data array with pick up data for the address."""
