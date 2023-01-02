@@ -277,7 +277,7 @@ class RenoWebData:
                     state_text = "I dag"
                 elif next_pickup_days == 1:
                     icon_color = "#FFC108"
-                    template_text = "I morgen"
+                    state_text = "I morgen"
                 else:
                     icon_color = "#9E9E9E"
                     state_text = f"Om {next_pickup_days} dage"
