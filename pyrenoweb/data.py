@@ -1,5 +1,5 @@
 import datetime
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 @dataclass
 class RenowWebDataItem:
@@ -22,4 +22,4 @@ class RenowWebDataItem:
 class RenoWebDataSet:
     """Represent a RenoWeb dataset"""
     key: str
-    item: RenowWebDataItem
+    item: list[RenowWebDataItem] = field(default_factory=list)
