@@ -7,7 +7,5 @@ from pyrenoweb.errors import (
     ResultError,
     MunicipalityError,
 )
-from pyrenoweb.const import (
-    WASTE_LIST,
-
-)
+from pyrenoweb.const import WASTE_LIST
+from pyrenoweb.data import RenowWebDataItem

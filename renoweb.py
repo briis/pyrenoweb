@@ -110,8 +110,8 @@ async def run_function(argv):
             # Print Raw JSOn Data
             renoweb = RenoWebData(API_KEY2, argv[1], argv[2], session)
             data = await renoweb.fetch_waste_data()
-            # print(data)
-            print(json.dumps(data, indent=1, default=str))
+            print(data)
+            # print(json.dumps(data, indent=1, default=str))
 
         elif argv[0] == "rawdata":
             # Print Raw JSOn Data
