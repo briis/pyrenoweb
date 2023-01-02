@@ -279,6 +279,7 @@ class RenoWebData:
                 days_to = (next_pickup - datetime.date.today()).days 
                 next_pickup_long = DA_WEEKDAYS_LONG[int(next_pickup.strftime("%w"))] + next_pickup.strftime(" d. %d-%m-%Y")
                 next_pickup_short = DA_WEEKDAYS_SHORT[int(next_pickup.strftime("%w"))] + next_pickup.strftime(" d. %d-%m")
+                now = datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")
                 if days_to == 0:
                     icon_color = "#F54336"
                     template_text = "I dag"
@@ -316,6 +317,7 @@ class RenoWebData:
                         "icon_color": icon_color,
                         "template_text": template_text,
                         "id": fraction_id,
+                        "last_refresh": now,
                     }
                 } 
                 entries.update(sensor_item)
@@ -335,6 +337,7 @@ class RenoWebData:
                 "icon_color": next_icon_color,
                 "template_text": next_template_text,
                 "id": next_id,
+                "last_refresh": now,
             }
         } 
         entries.update(sensor_item)
