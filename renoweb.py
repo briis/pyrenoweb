@@ -100,11 +100,14 @@ async def run_function(argv):
                 item = data.get(row)
                 print(
                     f"{color.BOLD}TYPE{color.END}: {row}\n"
+                    f"{color.BOLD}NAME{color.END}: {item['name']}\n"
                     f"{color.BOLD}DESCRIPTION{color.END}: {item['description']}\n"
                     f"{color.BOLD}NEXT PICK-UP{color.END}: {item['nextpickupdatetext']}\n"
                     f"{color.BOLD}DATE{color.END}: {item['nextpickupdate']}\n"
                     f"{color.BOLD}SCHEDULE{color.END}: {item['schedule']}\n"
                     f"{color.BOLD}DAYS TO PICK-UP{color.END}: {item['daysuntilpickup']}\n"
+                    f"{color.BOLD}ICON{color.END}: {item['icon']}\n"
+                    f"{color.BOLD}STATE TEXT{color.END}: {item['state_text']}\n"
                 )
         elif argv[0] == "rawdata":
             # Print Raw JSOn Data
