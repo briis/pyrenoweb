@@ -28,6 +28,21 @@ ICON_LIST = {
     "Haveaffald": "mdi:leaf",
 }
 
+NAME_LIST = {
+    "Restaffald-Madaffald": "Rest og madaffald",
+    "Dagrenovation": "Dagrenovation",
+    "Metal-Glas": "Meta og glas",
+    "PAPPI": "Papir og plast",
+    "Farligt affald": "Farligt affald",
+    "Tekstiler": "Tekstiler",
+    "Jern": "Jern",
+    "Papir": "Papir",
+    "Pap": "Pap",
+    "Plast Metal": "Plast og metal",
+    "Storskrald": "Storskrald",
+    "Haveaffald": "Haveaffald",
+}
+
 class color:
     """Defines colors used for Terminal Output."""
 

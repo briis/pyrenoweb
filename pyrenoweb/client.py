@@ -20,6 +20,7 @@ from pyrenoweb.const import (
     DAWA_URL,
     DEFAULT_TIMEOUT,
     ICON_LIST,
+    NAME_LIST,
 )
 from pyrenoweb.errors import (
     InvalidApiKey,
@@ -266,6 +267,7 @@ class RenoWebData:
             fraction_name = module.get("fractionname").replace("/", "_")
             fraction_id = row.get("id")
             icon = ICON_LIST.get(fraction_name, "mdi:trash-can")
+            friendly_name = NAME_LIST.get(fraction_name, row.get("name"))
             schedule = row.get("pickupdates")
             _LOGGER.info(f"{fraction_name}{fraction_id}")
             if row.get("nextpickupdatetimestamp").isnumeric():
@@ -292,9 +294,11 @@ class RenoWebData:
                     min_state_text = state_text
                     min_icon = icon
                     min_schedule = schedule
+                    min_friendly_name = friendly_name
 
                 item = {
                     f"{fraction_name}_{fraction_id}": {
+                        "name": friendly_name,
                         "description": row.get("name"),
                         "nextpickupdatetext": row.get("nextpickupdate"),
                         "nextpickupdatetimestamp": row.get("nextpickupdatetimestamp"),
@@ -316,6 +320,7 @@ class RenoWebData:
                 state_text = "Ingen data"
                 item = {
                     f"{fraction_name}_{fraction_id}": {
+                        "name": friendly_name,
                         "description": row.get("name"),
                         "nextpickupdatetext": "Ingen planlagte tømninger",
                         "nextpickupdatetimestamp": ts,
@@ -333,7 +338,8 @@ class RenoWebData:
         # Add Minimum Pickup Days Sensor
         item = {
             "days_until_next_pickup": {
-                "description": "Days until next pickup",
+                "name": "Days until next pickup",
+                "description": min_friendly_name,
                 "nextpickupdatetext": min_pickup_date_text,
                 "nextpickupdatetimestamp": min_pickup_timestamp,
                 "updatetime": datetime.datetime.now(),
