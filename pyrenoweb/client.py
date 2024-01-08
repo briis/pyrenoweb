@@ -141,6 +141,8 @@ class RenoWeb:
         items = []
 
         for row in json_data["list"]:
+            if house_number.find(",") > -1:
+                house_number = house_number[:house_number.find(",")]
             building_id = str(row.get("streetBuildingIdentifier"))
             if building_id == house_number:
                 item = {
@@ -185,11 +187,19 @@ class RenoWeb:
         # Road found, search for Address ID
         json_data = await self.get_addressids(municipality_id, road_id, house_number)
         if json_data is not None:
-            # return json_data
+            _LOGGER.info(json_data)
+
             for row in json_data:
-                address_id = row.get("id")
-                address = row.get("address")
-                districtName = row.get("districtName")
+                if house_number.find(",") > -1:
+                    if house_number[house_number.find(",") + 1:] == row["id"]:
+                        address_id = row.get("id")
+                        address = row.get("address")
+                        districtName = row.get("districtName")
+                        break
+                else:
+                    address_id = row.get("id")
+                    address = row.get("address")
+                    districtName = row.get("districtName")
         else:
             raise ResultError("House Number not found on address")
 
