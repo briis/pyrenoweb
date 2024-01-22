@@ -119,6 +119,7 @@ class RenoWeb:
         endpoint = f"GetJSONRoad.aspx?municipalitycode={municipality_id}&apikey={self._api_key_2}&roadname={road_name}"
         json_data = await self.async_request("get", endpoint)
         item = {}
+        _LOGGER.debug(json_data)
         if "list" in json_data:
             for row in json_data["list"]:
                 postal_start = str(row.get("name")).find("(") + 1
@@ -187,7 +188,7 @@ class RenoWeb:
         # Road found, search for Address ID
         json_data = await self.get_addressids(municipality_id, road_id, house_number)
         if json_data is not None:
-            _LOGGER.info(json_data)
+            _LOGGER.debug(json_data)
 
             for row in json_data:
                 if house_number.find(",") > -1:
