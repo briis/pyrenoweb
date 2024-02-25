@@ -7,6 +7,7 @@ from pyrenoweb.errors import (
     ResultError,
     MunicipalityError,
 )
+from pyrenoweb.api import GarbageCollection
 from pyrenoweb.const import (
     TYPE_METAL_GLASS,
     TYPE_PAPER,
@@ -17,3 +18,4 @@ from pyrenoweb.const import (
     TYPE_GLASS,
     TYPE_METAL,
 )
+from pyrenoweb.data import RenoWebPickupData

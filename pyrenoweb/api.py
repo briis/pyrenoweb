@@ -16,7 +16,7 @@ from .const import (
     API_URL_SEARCH,
     MUNICIPALITIES_LIST,
 )
-
+from .data import RenoWebPickupData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -47,7 +47,8 @@ class RenoWebAPI(RenoWebAPIBase):
     async def async_api_request(self, url: str, body: str) -> dict[str, Any]:
         """Make an API request."""
 
-        _LOGGER.debug("URL: %s", url)
+        # _LOGGER.debug("URL: %s", url)
+        # _LOGGER.debug("BODY: %s", body)
         is_new_session = False
         if self.session is None:
             self.session = aiohttp.ClientSession()
@@ -82,6 +83,7 @@ class GarbageCollection:
         municipality: str, 
         street: str, 
         house_number: str,
+        address_id = None,
         session: aiohttp.ClientSession = None,
         api: RenoWebAPIBase = RenoWebAPI(),
     ) -> None:
@@ -91,28 +93,56 @@ class GarbageCollection:
         self._house_number = house_number
         self._api = api
         self._data = None
+        self._municipality_url = None
+        self._address_id = address_id
         if session:
             self._api.session = session
 
-    async def get_address_id(self) -> str:
-        """Get the address id."""
-        mun_url = None
         for key, value in MUNICIPALITIES_LIST.items():
             if key == self._municipality.lower():
-                mun_url = value
+                self._municipality_url = value
                 break
 
-        if mun_url is not None:
-            url = f"https://{mun_url}{API_URL_SEARCH}"
+    async def get_address_id(self) -> str:
+        """Get the address id."""
+
+        if self._municipality_url is not None:
+            url = f"https://{self._municipality_url}{API_URL_SEARCH}"
             body = {"searchterm":f"{self._street} {self._house_number}", "addresswithmateriel":7}
             data: dict[str, Any] = await self._api.async_api_request(url, body)
             result = json.loads(data['d'])
-            address_id = result['list'][0]['value']
+            self._address_id = result['list'][0]['value']
 
-            if address_id == "0000":
+            if self._address_id  == "0000":
                 raise RenowWebNotValidAddressError("Address not found")
 
-            return address_id
+            return self._address_id 
         else:
             raise RenowWebNotSupportedError("Cannot find Municipality")
-        
+
+    async def get_data(self) -> dict[str, Any]:
+        """Get the garbage collection data."""
+
+        pickup_data: list[RenoWebPickupData] = []
+        if self._municipality_url is not None:
+            url = f"https://{self._municipality_url}{API_URL_DATA}"
+            body = {"adrid":f"{self._address_id}", "common":"false"}
+            data = await self._api.async_api_request(url, body)
+            result = json.loads(data['d'])
+            garbage_data = result['list']
+            for row in garbage_data:
+                pickup_data.append(
+                    RenoWebPickupData(
+                        row['id'],
+                        row['materielnavn'],
+                        row['ordningnavn'],
+                        row['toemningsdage'],
+                        row['toemningsdato'],
+                        row['mattypeid'],
+                        row['antal'],
+                        row['vejnavn'],
+                        row['fractionid'],
+                        row['modulId'],
+                    )
+                )
+            return pickup_data
