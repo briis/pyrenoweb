@@ -19,16 +19,6 @@ async def main() -> None:
     logging.basicConfig(level=logging.DEBUG)
     start = time.time()
 
-    MUNICIPALITY = "Roskilde"
-    STREET = "Toftebuen"
-    HOUSE_NUMBER = "69"
-    ADDRESS_ID = "85146"
-
-    # MUNICIPALITY = "Hillerød"
-    # STREET = "Tværvej"
-    # HOUSE_NUMBER = "1"
-    # ADDRESS_ID = "17330"
-
     session = aiohttp.ClientSession()
     garbage = GarbageCollection(municipality=sys.argv[2], session=session)
     await garbage.async_init()

@@ -2,12 +2,10 @@
 from __future__ import annotations
 
 import abc
-import datetime
 import json
 import logging
 
 from typing import Any
-from urllib.request import urlopen
 
 import aiohttp
 
@@ -106,7 +104,7 @@ class GarbageCollection:
 
             url = f"https://{self._municipality_url}{API_URL_SEARCH}"
             body = {"searchterm":f"{self._street} {self._house_number}", "addresswithmateriel":7}
-            data: dict[str, Any] = await self._api.async_api_request(url, body)
+            await self._api.async_api_request(url, body)
 
 
     async def get_address_id(self, street: str, house_number: str) -> str:
