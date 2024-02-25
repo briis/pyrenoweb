@@ -7,6 +7,14 @@ from .const import (
 )
 
 @dataclass
+class RenoWebAddressInfo:
+    """Represent RenoWeb address info."""
+    address_id: str
+    kommunenavn: str
+    vejnavn: str
+    husnr: str
+
+@dataclass
 class RenoWebPickupData:
     """Represent RenoWeb pickup data."""
     id: int

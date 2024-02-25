@@ -14,7 +14,7 @@ from .const import (
     API_URL_SEARCH,
     MUNICIPALITIES_LIST,
 )
-from .data import RenoWebPickupData
+from .data import RenoWebAddressInfo, RenoWebPickupData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -107,7 +107,7 @@ class GarbageCollection:
             await self._api.async_api_request(url, body)
 
 
-    async def get_address_id(self, street: str, house_number: str) -> str:
+    async def get_address_id(self, street: str, house_number: str) -> RenoWebAddressInfo:
         """Get the address id."""
 
         if self._municipality_url is not None:
@@ -121,11 +121,17 @@ class GarbageCollection:
             if self._address_id  == "0000":
                 raise RenowWebNotValidAddressError("Address not found")
 
-            return self._address_id
+            address_data = RenoWebAddressInfo(
+                self._address_id,
+                self._municipality.capitalize(),
+                street.capitalize(),
+                house_number
+            )
+            return address_data
         else:
             raise RenowWebNotSupportedError("Cannot find Municipality")
 
-    async def get_data(self, address_id: str) -> dict[str, Any]:
+    async def get_data(self, address_id: str) -> RenoWebPickupData:
         """Get the garbage collection data."""
 
         pickup_data: list[RenoWebPickupData] = []

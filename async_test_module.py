@@ -9,7 +9,7 @@ import logging
 import time
 import sys
 
-from pyrenoweb import GarbageCollection, RenoWebPickupData
+from pyrenoweb import GarbageCollection, RenoWebAddressInfo, RenoWebPickupData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,8 +25,13 @@ async def main() -> None:
 
     if sys.argv[1] == "address_id":
         try:
-            address_id = await garbage.get_address_id(street=sys.argv[3],house_number=sys.argv[4])
-            _LOGGER.info("Address ID: %s", address_id)
+            address_data: RenoWebAddressInfo = await garbage.get_address_id(street=sys.argv[3],house_number=sys.argv[4])
+            print("")
+            print("========================================================")
+            print("Address ID: ", address_data.address_id)
+            print("Kommune: ", address_data.kommunenavn)
+            print("Vejnavn: ", address_data.vejnavn)
+            print("Hus nr.: ", address_data.husnr)
 
         except Exception as err:
             print(err)

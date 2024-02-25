@@ -8,7 +8,7 @@ from pyrenoweb.api import (
     RenowWebNotSupportedError,
     RenowWebNotValidAddressError,
 )
-from pyrenoweb.data import RenoWebPickupData
+from pyrenoweb.data import RenoWebAddressInfo, RenoWebPickupData
 
 __title__ = "pymrenoweb"
 __version__ = "2.0.0"
