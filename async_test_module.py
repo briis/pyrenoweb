@@ -7,6 +7,7 @@ import asyncio
 import aiohttp
 import logging
 import time
+import sys
 
 from pyrenoweb import GarbageCollection, RenoWebPickupData
 
@@ -18,38 +19,45 @@ async def main() -> None:
     logging.basicConfig(level=logging.DEBUG)
     start = time.time()
 
-    MUNICIPALITY = "Roskilde"
-    STREET = "Toftebuen"
-    HOUSE_NUMBER = "69"
-    ADDRESS_ID = "85146"
+    # MUNICIPALITY = "Roskilde"
+    # STREET = "Toftebuen"
+    # HOUSE_NUMBER = "69"
+    # ADDRESS_ID = "85146"
+
+    MUNICIPALITY = "Hillerød"
+    STREET = "Tværvej"
+    HOUSE_NUMBER = "1"
+    ADDRESS_ID = "17330"
 
     session = aiohttp.ClientSession()
     garbage = GarbageCollection( MUNICIPALITY, STREET, HOUSE_NUMBER, ADDRESS_ID, session)
 
-    # try:
-    #     address_id = await garbage.get_address_id()
-    #     _LOGGER.info("Address ID: %s", address_id)
+    if sys.argv[1] == "address_id":
+        try:
+            address_id = await garbage.get_address_id()
+            _LOGGER.info("Address ID: %s", address_id)
 
-    # except Exception as err:
-    #     print(err)
+        except Exception as err:
+            print(err)
 
 
-    try:
-        garbage_data: RenoWebPickupData = await garbage.get_data()
-        for row in garbage_data:
-            print("")
-            print("========================================================")
-            print("Name: ", row.name)
-            print("Ordnings Navn: ", row.ordningnavn)
-            print("Material Navn: ", row.materielnavn)
-            print("Tømnings dato: ", row.toemningsdato)
-            print("Pickup Date: ", row.pickup_date)
-            print("Fraction: ", row.fractionid)
-            print("Icon: ", row.icon)
-            print("")
+    elif sys.argv[1] == "data":
+        try:
+            garbage_data: RenoWebPickupData = await garbage.get_data()
+            for row in garbage_data:
+                print("")
+                print("========================================================")
+                print("Name: ", row.name)
+                print("Ordnings Navn: ", row.ordningnavn)
+                print("Material Navn: ", row.materielnavn)
+                print("Tømnings dato: ", row.toemningsdato)
+                print("Pickup Date: ", row.pickup_date)
+                print("Fraction: ", row.fractionid)
+                print("Icon: ", row.icon)
+                print("")
 
-    except Exception as err:
-        print(err)
+        except Exception as err:
+            print(err)
 
 
     if session is not None:

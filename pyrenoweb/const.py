@@ -3,31 +3,41 @@ API_URL_SEARCH = ".renoweb.dk/Legacy/JService.asmx/Adresse_SearchByString"
 
 ICON_LIST = {
     "Restaffald-Madaffald": "mdi:trash-can",
+    "Rest/mad": "mdi:trash-can",
     "Dagrenovation": "mdi:trash-can",
     "Metal-Glas": "mdi:glass-fragile",
     "PAPPI": "mdi:recycle",
     "Farligt affald": "mdi:biohazard",
+    "Farligt affald/Miljøboks":"mdi:biohazard",
+    "Flis": "mdi:leaf",
     "Tekstiler": "mdi:hanger",
     "Jern": "mdi:bucket",
     "Papir": "mdi:file",
+    "Papir/metal": "mdi:delete-empty",
     "Pap": "mdi:note",
     "Plast Metal": "mdi:trash-can-outline",
     "Storskrald": "mdi:table-furniture",
+    "Storskrald og tekstilaffald": "mdi:table-furniture",
     "Haveaffald": "mdi:leaf",
 }
 
 NAME_LIST = {
     "Restaffald-Madaffald": "Rest og madaffald",
+    "Rest/mad": "Rest og madaffald",
     "Dagrenovation": "Dagrenovation",
     "Metal-Glas": "Meta og glas",
     "PAPPI": "Papir og plast",
     "Farligt affald": "Farligt affald",
+    "Farligt affald/Miljøboks":"Farligt affald",
+    "Flis": "Flis",
     "Tekstiler": "Tekstiler",
     "Jern": "Jern",
     "Papir": "Papir",
+    "Papir/metal": "Papir og Metal",
     "Pap": "Pap",
     "Plast Metal": "Plast og metal",
     "Storskrald": "Storskrald",
+    "Storskrald og tekstilaffald": "Storskrald og Tekstil",
     "Haveaffald": "Haveaffald",
 }
 MUNICIPALITIES_LIST = {
