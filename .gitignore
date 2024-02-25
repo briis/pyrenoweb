@@ -140,3 +140,4 @@ data/kommuner.json
 data/dawa.json
 data/kommuner.txt
 test.py
+municipalities_raw.json
