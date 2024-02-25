@@ -56,5 +56,8 @@ class RenoWebPickupData:
         if self.toemningsdato is None:
             return None
 
+        if self.toemningsdato == "Ingen tømningsdato fundet!":
+            return None
+
         index = self.toemningsdato.rfind(" ")
         return datetime.datetime.strptime(self.toemningsdato[index+1:], "%d-%m-%Y").date()
