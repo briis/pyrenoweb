@@ -1,28 +1,10 @@
 import datetime
 from dataclasses import dataclass, field
 
-@dataclass
-class RenowWebDataItem:
-    """Represent a RenoWeb data itm."""
-    key: str
-    date: datetime.date
-    date_long: str
-    date_short: str
-    icon: str
-    icon_color: str
-    valid_data: bool
-    name: str
-    schedule: str
-    days_to: int
-    state_text: str
-    fraction_id: str
-    last_refresh: datetime.datetime
-
-@dataclass
-class RenoWebDataSet:
-    """Represent a RenoWeb dataset"""
-    key: str
-    item: list[RenowWebDataItem] = field(default_factory=list)
+from .const import (
+    ICON_LIST,
+    NAME_LIST,
+)
 
 @dataclass
 class RenoWebPickupData:
@@ -37,6 +19,28 @@ class RenoWebPickupData:
     vejnavn: str        
     fractionid: int
     modulId: int
+
+    @property
+    def icon(self) -> str:
+        """Return the icon."""
+        if self.ordningnavn is None:
+            return None
+        
+        for key, value in ICON_LIST.items():
+            if self.ordningnavn == key:
+                return value
+        return None
+
+    @property
+    def name(self) -> str:
+        """Return the name."""
+        if self.ordningnavn is None:
+            return None
+        
+        for key, value in NAME_LIST.items():
+            if self.ordningnavn == key:
+                return value
+        return None
 
     @property
     def pickup_date(self) -> datetime.date:

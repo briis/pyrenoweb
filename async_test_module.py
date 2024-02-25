@@ -39,11 +39,13 @@ async def main() -> None:
         for row in garbage_data:
             print("")
             print("========================================================")
+            print("Name: ", row.name)
             print("Ordnings Navn: ", row.ordningnavn)
             print("Material Navn: ", row.materielnavn)
             print("Tømnings dato: ", row.toemningsdato)
             print("Pickup Date: ", row.pickup_date)
             print("Fraction: ", row.fractionid)
+            print("Icon: ", row.icon)
             print("")
 
     except Exception as err:
