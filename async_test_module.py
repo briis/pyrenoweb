@@ -19,22 +19,23 @@ async def main() -> None:
     logging.basicConfig(level=logging.DEBUG)
     start = time.time()
 
-    # MUNICIPALITY = "Roskilde"
-    # STREET = "Toftebuen"
-    # HOUSE_NUMBER = "69"
-    # ADDRESS_ID = "85146"
+    MUNICIPALITY = "Roskilde"
+    STREET = "Toftebuen"
+    HOUSE_NUMBER = "69"
+    ADDRESS_ID = "85146"
 
-    MUNICIPALITY = "Hillerød"
-    STREET = "Tværvej"
-    HOUSE_NUMBER = "1"
-    ADDRESS_ID = "17330"
+    # MUNICIPALITY = "Hillerød"
+    # STREET = "Tværvej"
+    # HOUSE_NUMBER = "1"
+    # ADDRESS_ID = "17330"
 
     session = aiohttp.ClientSession()
-    garbage = GarbageCollection( MUNICIPALITY, STREET, HOUSE_NUMBER, ADDRESS_ID, session)
+    garbage = GarbageCollection(municipality=sys.argv[2], session=session)
+    await garbage.async_init()
 
     if sys.argv[1] == "address_id":
         try:
-            address_id = await garbage.get_address_id()
+            address_id = await garbage.get_address_id(street=sys.argv[3],house_number=sys.argv[4])
             _LOGGER.info("Address ID: %s", address_id)
 
         except Exception as err:
@@ -43,7 +44,7 @@ async def main() -> None:
 
     elif sys.argv[1] == "data":
         try:
-            garbage_data: RenoWebPickupData = await garbage.get_data()
+            garbage_data: RenoWebPickupData = await garbage.get_data(address_id=sys.argv[3])
             for row in garbage_data:
                 print("")
                 print("========================================================")
@@ -53,6 +54,7 @@ async def main() -> None:
                 print("Tømnings dato: ", row.toemningsdato)
                 print("Pickup Date: ", row.pickup_date)
                 print("Fraction: ", row.fractionid)
+                print("Type Id: ", row.mattypeid)
                 print("Icon: ", row.icon)
                 print("")
 
