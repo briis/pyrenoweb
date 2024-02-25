@@ -43,6 +43,7 @@ NAME_LIST = {
 MUNICIPALITIES_LIST = {
     "aabenraa": "aabenraa",
     "aalborg": "aalborg",
+    "ålborg": "aalborg",
     "aarhus": "aarhus",
     "albertslund": "albertslund",
     "allerød": "alleroed",
