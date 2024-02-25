@@ -1,5 +1,5 @@
 import datetime
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from .const import (
     ICON_LIST,
@@ -14,14 +14,16 @@ class RenoWebAddressInfo:
     vejnavn: str
     husnr: str
 
-@dataclass
+@dataclass(order=True)
 class RenoWebPickupData:
     """Represent RenoWeb pickup data."""
+    sort_index: int = field(init=False, repr=False)
     id: int
     materielnavn: str
     ordningnavn: str
     toemningsdage: str
     toemningsdato: str
+    toemningsint: int
     mattypeid: int
     antal: int
     vejnavn: str

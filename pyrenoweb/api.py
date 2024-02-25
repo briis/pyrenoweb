@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import abc
+import datetime
 import json
 import logging
+import operator
 
 from typing import Any
 
@@ -45,8 +47,6 @@ class RenoWebAPI(RenoWebAPIBase):
     async def async_api_request(self, url: str, body: str) -> dict[str, Any]:
         """Make an API request."""
 
-        # _LOGGER.debug("URL: %s", url)
-        # _LOGGER.debug("BODY: %s", body)
         is_new_session = False
         if self.session is None:
             self.session = aiohttp.ClientSession()
@@ -141,7 +141,18 @@ class GarbageCollection:
             data = await self._api.async_api_request(url, body)
             result = json.loads(data['d'])
             garbage_data = result['list']
+
+
             for row in garbage_data:
+                date_integer: int = 20301231
+                if row['toemningsdato'] != "Ingen tømningsdato fundet!":
+                    _toemningsdato: str = row['toemningsdato']
+                    index =_toemningsdato.rfind(" ") + 1
+                    _year = _toemningsdato[index+6:index+10]
+                    _month = _toemningsdato[index+3:index+5]
+                    _day = _toemningsdato[index:index+2]
+                    date_integer = int(f"{_year}{_month}{_day}")
+
                 pickup_data.append(
                     RenoWebPickupData(
                         row['id'],
@@ -149,6 +160,7 @@ class GarbageCollection:
                         row['ordningnavn'],
                         row['toemningsdage'],
                         row['toemningsdato'],
+                        date_integer,
                         row['mattypeid'],
                         row['antal'],
                         row['vejnavn'],
@@ -156,4 +168,4 @@ class GarbageCollection:
                         row['modulId'],
                     )
                 )
-            return pickup_data
+            return sorted(pickup_data, key=lambda RenoWebPickupData: RenoWebPickupData.toemningsint)

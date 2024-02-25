@@ -47,6 +47,7 @@ async def main() -> None:
                 print("Ordnings Navn: ", row.ordningnavn)
                 print("Material Navn: ", row.materielnavn)
                 print("Tømnings dato: ", row.toemningsdato)
+                print("Tømnings int: ", row.toemningsint)
                 print("Pickup Date: ", row.pickup_date)
                 print("Fraction: ", row.fractionid)
                 print("Type Id: ", row.mattypeid)
