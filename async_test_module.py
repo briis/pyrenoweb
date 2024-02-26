@@ -49,6 +49,7 @@ async def main() -> None:
                 print("Tømnings dato: ", row.toemningsdato)
                 print("Tømnings int: ", row.toemningsint)
                 print("Pickup Date: ", row.pickup_date)
+                print("UTC Timestamp: ", row.timestamp)
                 print("Fraction: ", row.fractionid)
                 print("Type Id: ", row.mattypeid)
                 print("Icon: ", row.icon)
