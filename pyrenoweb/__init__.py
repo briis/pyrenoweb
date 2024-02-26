@@ -11,7 +11,7 @@ from pyrenoweb.api import (
 )
 from pyrenoweb.data import RenoWebAddressInfo, RenoWebCollectionData
 
-from pyrenoweb.const import ICON_LIST, MUNICIPALITIES_ARRAY
+from pyrenoweb.const import ICON_LIST, MUNICIPALITIES_ARRAY, NAME_LIST
 
 __title__ = "pymrenoweb"
 __version__ = "2.0.0"
