@@ -15,7 +15,7 @@ from .const import (
     API_URL_SEARCH,
     MUNICIPALITIES_LIST,
 )
-from .data import RenoWebAddressInfo, RenoWebCollectionData, RenoWebPickupData
+from .data import RenoWebAddressInfo, RenoWebCollectionData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -134,7 +134,7 @@ class GarbageCollection:
         else:
             raise RenowWebNotSupportedError("Cannot find Municipality")
 
-    async def get_data(self, address_id: str) -> RenoWebPickupData:
+    async def get_data(self, address_id: str) -> RenoWebCollectionData:
         """Get the garbage collection data."""
 
         # pickup_data: list[RenoWebPickupData] = []
@@ -167,15 +167,6 @@ class GarbageCollection:
 
 
             for row in garbage_data:
-                # date_integer: int = 20301231
-                # if row['toemningsdato'] != "Ingen tømningsdato fundet!":
-                #     _toemningsdato: str = row['toemningsdato']
-                #     index =_toemningsdato.rfind(" ") + 1
-                #     _year = _toemningsdato[index+6:index+10]
-                #     _month = _toemningsdato[index+3:index+5]
-                #     _day = _toemningsdato[index:index+2]
-                #     date_integer = int(f"{_year}{_month}{_day}")
-
                 _pickup_date = None
                 if row['toemningsdato'] != "Ingen tømningsdato fundet!" and row['toemningsdato'] is not None:
                     _pickup_date = to_date(row['toemningsdato'])
@@ -244,22 +235,6 @@ class GarbageCollection:
 
             return sensor_data
 
-            #     pickup_data.append(
-            #         RenoWebPickupData(
-            #             row['id'],
-            #             row['materielnavn'],
-            #             row['ordningnavn'].lower(),
-            #             row['toemningsdage'],
-            #             row['toemningsdato'],
-            #             date_integer,
-            #             row['mattypeid'],
-            #             row['antal'],
-            #             row['vejnavn'],
-            #             row['fractionid'],
-            #             row['modulId'],
-            #         )
-            #     )
-            # return sorted(pickup_data, key=lambda RenoWebPickupData: RenoWebPickupData.toemningsint)
 
 def to_date(datetext: str) -> dt.datetime:
     """Convert a date string to a datetime object."""
