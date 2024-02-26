@@ -9,7 +9,7 @@ import logging
 import time
 import sys
 
-from pyrenoweb import GarbageCollection, RenoWebAddressInfo, RenoWebPickupData
+from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, RenoWebAddressInfo, RenoWebPickupData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -58,6 +58,9 @@ async def main() -> None:
         except Exception as err:
             print(err)
 
+    elif sys.argv[1] == "municipalities":
+        for row in MUNICIPALITIES_ARRAY:
+            print(row.capitalize())
 
     if session is not None:
         await session.close()

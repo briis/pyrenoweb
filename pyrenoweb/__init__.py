@@ -10,6 +10,8 @@ from pyrenoweb.api import (
 )
 from pyrenoweb.data import RenoWebAddressInfo, RenoWebPickupData
 
+from pyrenoweb.const import MUNICIPALITIES_ARRAY
+
 __title__ = "pymrenoweb"
 __version__ = "2.0.0"
 __author__ = "briis"

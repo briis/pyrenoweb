@@ -40,6 +40,8 @@ NAME_LIST = {
     "Storskrald og tekstilaffald": "Storskrald og Tekstil",
     "Haveaffald": "Haveaffald",
 }
+
+
 MUNICIPALITIES_LIST = {
     "aabenraa": "aabenraa",
     "aalborg": "aalborg",
@@ -137,3 +139,5 @@ MUNICIPALITIES_LIST = {
     "viborg": "viborg",
     "vordingborg": "vordingborg"
 }
+
+MUNICIPALITIES_ARRAY = list(MUNICIPALITIES_LIST.keys())
