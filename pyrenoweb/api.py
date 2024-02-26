@@ -25,6 +25,9 @@ class RenowWebNotSupportedError(Exception):
 class RenowWebNotValidAddressError(Exception):
     """Raised when the address is not found."""
 
+class RenowWebNoConnection(Exception):
+    """Raised when no data is received."""
+
 class RenoWebAPIBase:
     """Base class for the API."""
 
@@ -64,6 +67,8 @@ class RenoWebAPI(RenoWebAPIBase):
                 if response.status == 404:
                     raise RenowWebNotSupportedError("Municipality not supported")
 
+                raise RenowWebNoConnection(f"Error {response.status} from {url}")
+
             data = await response.text()
             if is_new_session:
                 await self.session.close()
@@ -90,16 +95,15 @@ class GarbageCollection:
         self._address_id = None
         if session:
             self._api.session = session
+        for key, value in MUNICIPALITIES_LIST.items():
+            if key == self._municipality.lower():
+                self._municipality_url = value
+                break
 
 
     async def async_init(self) -> None:
         """Initialize the connection."""
         if self._municipality is not None:
-            for key, value in MUNICIPALITIES_LIST.items():
-                if key == self._municipality.lower():
-                    self._municipality_url = value
-                    break
-
             url = f"https://{self._municipality_url}{API_URL_SEARCH}"
             body = {"searchterm":f"{self._street} {self._house_number}", "addresswithmateriel":7}
             await self._api.async_api_request(url, body)

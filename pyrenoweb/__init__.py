@@ -7,6 +7,7 @@ from pyrenoweb.api import (
     GarbageCollection,
     RenowWebNotSupportedError,
     RenowWebNotValidAddressError,
+    RenowWebNoConnection,
 )
 from pyrenoweb.data import RenoWebAddressInfo, RenoWebPickupData
 
