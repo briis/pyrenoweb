@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import abc
+import datetime as dt
 import json
 import logging
 
@@ -14,7 +15,7 @@ from .const import (
     API_URL_SEARCH,
     MUNICIPALITIES_LIST,
 )
-from .data import RenoWebAddressInfo, RenoWebPickupData
+from .data import RenoWebAddressInfo, RenoWebCollectionData, RenoWebPickupData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -136,7 +137,7 @@ class GarbageCollection:
     async def get_data(self, address_id: str) -> RenoWebPickupData:
         """Get the garbage collection data."""
 
-        pickup_data: list[RenoWebPickupData] = []
+        # pickup_data: list[RenoWebPickupData] = []
         if self._municipality_url is not None:
             url = f"https://{self._municipality_url}{API_URL_DATA}"
             body = {"adrid":f"{address_id}", "common":"false"}
@@ -144,30 +145,126 @@ class GarbageCollection:
             result = json.loads(data['d'])
             garbage_data = result['list']
 
+            restaffaldmadaffald = None
+            restmad = None
+            dagrenovation = None
+            metalglas = None
+            pappi = None
+            farligtaffald = None
+            farligtaffaldmiljoboks = None
+            flis = None
+            tekstiler = None
+            jern = None
+            papir = None
+            papirmetal = None
+            pap = None
+            plastmetal = None
+            storskrald = None
+            storskraldogtekstilaffald = None
+            haveaffald = None
+            next_pickup = dt.datetime(2030,12,31,23,59,00)
+            next_pickup_item = None
+
 
             for row in garbage_data:
-                date_integer: int = 20301231
-                if row['toemningsdato'] != "Ingen tømningsdato fundet!":
-                    _toemningsdato: str = row['toemningsdato']
-                    index =_toemningsdato.rfind(" ") + 1
-                    _year = _toemningsdato[index+6:index+10]
-                    _month = _toemningsdato[index+3:index+5]
-                    _day = _toemningsdato[index:index+2]
-                    date_integer = int(f"{_year}{_month}{_day}")
+                # date_integer: int = 20301231
+                # if row['toemningsdato'] != "Ingen tømningsdato fundet!":
+                #     _toemningsdato: str = row['toemningsdato']
+                #     index =_toemningsdato.rfind(" ") + 1
+                #     _year = _toemningsdato[index+6:index+10]
+                #     _month = _toemningsdato[index+3:index+5]
+                #     _day = _toemningsdato[index:index+2]
+                #     date_integer = int(f"{_year}{_month}{_day}")
 
-                pickup_data.append(
-                    RenoWebPickupData(
-                        row['id'],
-                        row['materielnavn'],
-                        row['ordningnavn'],
-                        row['toemningsdage'],
-                        row['toemningsdato'],
-                        date_integer,
-                        row['mattypeid'],
-                        row['antal'],
-                        row['vejnavn'],
-                        row['fractionid'],
-                        row['modulId'],
-                    )
-                )
-            return sorted(pickup_data, key=lambda RenoWebPickupData: RenoWebPickupData.toemningsint)
+                _pickup_date = None
+                if row['toemningsdato'] != "Ingen tømningsdato fundet!" and row['toemningsdato'] is not None:
+                    _pickup_date = to_isodate(row['toemningsdato'])
+
+                key = str(row['ordningnavn']).lower().replace(" ", "").replace("/", "").replace("-", "")
+                if key == "restaffaldmadaffald":
+                    restaffaldmadaffald = _pickup_date
+                elif key == "restmad":
+                    restmad = _pickup_date
+                elif key == "dagrenovation":
+                    dagrenovation = _pickup_date
+                elif key == "metalglas":
+                    metalglas = _pickup_date
+                elif key == "pappi":
+                    pappi = _pickup_date
+                elif key == "farligtaffald":
+                    farligtaffald = _pickup_date
+                elif key == "farligtaffaldmiljoboks":
+                    farligtaffaldmiljoboks = _pickup_date
+                elif key == "flis":
+                    flis = _pickup_date
+                elif key == "tekstiler":
+                    tekstiler = _pickup_date
+                elif key == "jern":
+                    jern = _pickup_date
+                elif key == "papir":
+                    papir = _pickup_date
+                elif key == "papirmetal":
+                    papirmetal = _pickup_date
+                elif key == "pap":
+                    pap = _pickup_date
+                elif key == "plastmetal":
+                    plastmetal = _pickup_date
+                elif key == "storskrald":
+                    storskrald = _pickup_date
+                elif key == "storskraldogtekstilaffald":
+                    storskraldogtekstilaffald = _pickup_date
+                elif key == "haveaffald":
+                    haveaffald = _pickup_date
+
+                if _pickup_date < next_pickup:
+                    next_pickup = _pickup_date
+                    next_pickup_item = key
+
+            sensor_data = RenoWebCollectionData(
+                restaffaldmadaffald.isoformat() if restaffaldmadaffald is not None else None,
+                restmad.isoformat() if restmad is not None else None,
+                dagrenovation.isoformat() if dagrenovation is not None else None,
+                metalglas.isoformat() if metalglas is not None else None,
+                pappi.isoformat() if pappi is not None else None,
+                farligtaffald.isoformat() if farligtaffald is not None else None,
+                farligtaffaldmiljoboks.isoformat() if farligtaffaldmiljoboks is not None else None,
+                flis.isoformat() if flis is not None else None,
+                tekstiler.isoformat() if tekstiler is not None else None,
+                jern.isoformat() if jern is not None else None,
+                papir.isoformat() if papir is not None else None,
+                papirmetal.isoformat() if papirmetal is not None else None,
+                pap.isoformat() if pap is not None else None,
+                plastmetal.isoformat() if plastmetal is not None else None,
+                storskrald.isoformat() if storskrald is not None else None,
+                storskraldogtekstilaffald.isoformat() if storskraldogtekstilaffald is not None else None,
+                haveaffald.isoformat() if haveaffald is not None else None,
+                next_pickup.isoformat() if next_pickup is not None else None,
+                next_pickup_item,
+            )
+
+            return sensor_data
+
+            #     pickup_data.append(
+            #         RenoWebPickupData(
+            #             row['id'],
+            #             row['materielnavn'],
+            #             row['ordningnavn'].lower(),
+            #             row['toemningsdage'],
+            #             row['toemningsdato'],
+            #             date_integer,
+            #             row['mattypeid'],
+            #             row['antal'],
+            #             row['vejnavn'],
+            #             row['fractionid'],
+            #             row['modulId'],
+            #         )
+            #     )
+            # return sorted(pickup_data, key=lambda RenoWebPickupData: RenoWebPickupData.toemningsint)
+
+def to_isodate(datetext: str) -> dt.datetime:
+    """Convert a date string to a datetime object."""
+    if datetext == "Ingen tømningsdato fundet!":
+        return None
+
+    index = datetext.rfind(" ")
+    return dt.datetime.strptime(f"{datetext[index+1:]} 00:00:00", "%d-%m-%Y %H:%M:%S")

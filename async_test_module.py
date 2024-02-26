@@ -9,7 +9,7 @@ import logging
 import time
 import sys
 
-from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, RenoWebAddressInfo, RenoWebPickupData
+from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, RenoWebAddressInfo, RenoWebCollectionData
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -39,21 +39,29 @@ async def main() -> None:
 
     elif sys.argv[1] == "data":
         try:
-            garbage_data: RenoWebPickupData = await garbage.get_data(address_id=sys.argv[3])
-            for row in garbage_data:
-                print("")
-                print("========================================================")
-                print("Name: ", row.name)
-                print("Ordnings Navn: ", row.ordningnavn)
-                print("Material Navn: ", row.materielnavn)
-                print("Tømnings dato: ", row.toemningsdato)
-                print("Tømnings int: ", row.toemningsint)
-                print("Pickup Date: ", row.pickup_date)
-                print("UTC Timestamp: ", row.timestamp)
-                print("Fraction: ", row.fractionid)
-                print("Type Id: ", row.mattypeid)
-                print("Icon: ", row.icon)
-                print("")
+            garbage_data: RenoWebCollectionData = await garbage.get_data(address_id=sys.argv[3])
+            print("")
+            print("========================================================")
+            print("Rest og madaffald: ", garbage_data.restaffaldmadaffald)
+            print("Rest/mad", garbage_data.restmad)
+            print("Dagrenovation: ", garbage_data.dagrenovation)
+            print("Metal-Glas: ", garbage_data.metalglas)
+            print("PAPPI: ", garbage_data.pappi)
+            print("Farligt affald: ", garbage_data.farligtaffald)
+            print("Farligt affald/Miljøboks: ", garbage_data.farligtaffaldmiljoboks)
+            print("Flis: ", garbage_data.flis)
+            print("Tekstiler: ", garbage_data.tekstiler)
+            print("Jern: ", garbage_data.jern)
+            print("Papir: ", garbage_data.papir)
+            print("Papir/metal: ", garbage_data.papirmetal)
+            print("Pap: ", garbage_data.pap)
+            print("Plast Metal: ", garbage_data.plastmetal)
+            print("Storskrald: ", garbage_data.storskrald)
+            print("Storskrald og tekstilaffald: ", garbage_data.storskraldogtekstilaffald)
+            print("Haveaffald: ", garbage_data.haveaffald)
+            print("Næste Afhentningsdato: ", garbage_data.next_pickup)
+            print("Næste Afhentning: ", garbage_data.next_pickup_item)
+            print("")
 
         except Exception as err:
             print(err)

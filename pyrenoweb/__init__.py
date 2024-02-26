@@ -9,7 +9,7 @@ from pyrenoweb.api import (
     RenowWebNotValidAddressError,
     RenowWebNoConnection,
 )
-from pyrenoweb.data import RenoWebAddressInfo, RenoWebPickupData
+from pyrenoweb.data import RenoWebAddressInfo, RenoWebCollectionData
 
 from pyrenoweb.const import MUNICIPALITIES_ARRAY
 
