@@ -178,7 +178,7 @@ class GarbageCollection:
 
                 _pickup_date = None
                 if row['toemningsdato'] != "Ingen tømningsdato fundet!" and row['toemningsdato'] is not None:
-                    _pickup_date = to_isodate(row['toemningsdato'])
+                    _pickup_date = to_date(row['toemningsdato'])
 
                 key = str(row['ordningnavn']).lower().replace(" ", "").replace("/", "").replace("-", "")
                 if key == "restaffaldmadaffald":
@@ -221,24 +221,24 @@ class GarbageCollection:
                     next_pickup_item = key
 
             sensor_data = RenoWebCollectionData(
-                restaffaldmadaffald.isoformat() if restaffaldmadaffald is not None else None,
-                restmad.isoformat() if restmad is not None else None,
-                dagrenovation.isoformat() if dagrenovation is not None else None,
-                metalglas.isoformat() if metalglas is not None else None,
-                pappi.isoformat() if pappi is not None else None,
-                farligtaffald.isoformat() if farligtaffald is not None else None,
-                farligtaffaldmiljoboks.isoformat() if farligtaffaldmiljoboks is not None else None,
-                flis.isoformat() if flis is not None else None,
-                tekstiler.isoformat() if tekstiler is not None else None,
-                jern.isoformat() if jern is not None else None,
-                papir.isoformat() if papir is not None else None,
-                papirmetal.isoformat() if papirmetal is not None else None,
-                pap.isoformat() if pap is not None else None,
-                plastmetal.isoformat() if plastmetal is not None else None,
-                storskrald.isoformat() if storskrald is not None else None,
-                storskraldogtekstilaffald.isoformat() if storskraldogtekstilaffald is not None else None,
-                haveaffald.isoformat() if haveaffald is not None else None,
-                next_pickup.isoformat() if next_pickup is not None else None,
+                restaffaldmadaffald,
+                restmad,
+                dagrenovation,
+                metalglas,
+                pappi,
+                farligtaffald,
+                farligtaffaldmiljoboks,
+                flis,
+                tekstiler,
+                jern,
+                papir,
+                papirmetal,
+                pap,
+                plastmetal,
+                storskrald,
+                storskraldogtekstilaffald,
+                haveaffald,
+                next_pickup,
                 next_pickup_item,
             )
 
@@ -261,7 +261,7 @@ class GarbageCollection:
             #     )
             # return sorted(pickup_data, key=lambda RenoWebPickupData: RenoWebPickupData.toemningsint)
 
-def to_isodate(datetext: str) -> dt.datetime:
+def to_date(datetext: str) -> dt.datetime:
     """Convert a date string to a datetime object."""
     if datetext == "Ingen tømningsdato fundet!":
         return None
