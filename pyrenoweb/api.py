@@ -54,9 +54,9 @@ class RenoWebAPI(RenoWebAPIBase):
             is_new_session = True
 
         headers = {'Content-Type': 'application/json'}
-        self.session.headers.update(headers)
+        # self.session.headers.update(headers)
 
-        async with self.session.post(url, data=json.dumps(body)) as response:
+        async with self.session.post(url, headers=headers, data=json.dumps(body)) as response:
             if response.status != 200:
                 if is_new_session:
                     await self.session.close()
