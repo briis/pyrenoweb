@@ -151,7 +151,7 @@ class GarbageCollection:
             data = await self._api.async_api_request(url, body)
             result = json.loads(data['d'])
             garbage_data = result['list']
-            _LOGGER.debug("Garbage data: %s", garbage_data)
+            # _LOGGER.debug("Garbage data: %s", garbage_data)
 
             restaffaldmadaffald = None
             glas = None
@@ -170,6 +170,7 @@ class GarbageCollection:
             storskrald = None
             storskraldogtekstilaffald = None
             haveaffald = None
+            papirglas = None
             next_pickup = dt.datetime(2030,12,31,23,59,00)
             next_pickup_item = None
 
@@ -220,6 +221,8 @@ class GarbageCollection:
                     haveaffald = _pickup_date
                 elif key == "glas":
                     glas = _pickup_date
+                elif key == "papirglas":
+                    papirglas = _pickup_date
 
                 if _pickup_date is not None:
                     if _pickup_date < next_pickup:
@@ -244,6 +247,7 @@ class GarbageCollection:
                 storskrald,
                 storskraldogtekstilaffald,
                 haveaffald,
+                papirglas,
                 next_pickup,
                 next_pickup_item,
             )

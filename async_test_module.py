@@ -59,6 +59,7 @@ async def main() -> None:
             print("Storskrald: ", garbage_data.storskrald)
             print("Storskrald og tekstilaffald: ", garbage_data.storskraldogtekstilaffald)
             print("Haveaffald: ", garbage_data.haveaffald)
+            print("Papir, Pap & Glas: ", garbage_data.papirglas)
             print("Næste Afhentningsdato: ", garbage_data.next_pickup)
             print("Næste Afhentning: ", garbage_data.next_pickup_item)
             print("")

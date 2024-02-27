@@ -8,7 +8,7 @@ NON_SUPPORTED_ITEMS = [
 ]
 
 SUPPORTED_ITEMS = {
-    "restaffaldmadaffald": ["Restaffald-Madaffald", "Rest/mad", "Restaffald", "Rest - Mad", "Rest-/Madaffald", "Mad- og restaffald", "Mad/rest"],
+    "restaffaldmadaffald": ["Restaffald-Madaffald", "Rest/mad", "Restaffald", "Rest - Mad", "Rest-/Madaffald", "Mad- og restaffald", "Mad/rest", "Rest-/madaffald"],
     "dagrenovation": ["Dagrenovation"],
     "glas": ["Industri Genbrugeligt"],
     "metalglas": ["Glas og metal", "Metal-Glas", "Glas/Metal"],
@@ -21,10 +21,11 @@ SUPPORTED_ITEMS = {
     "papir": ["Papir", "Papir 660 L"],
     "papirmetal": ["Papir & Metal", "Papir/metal"],
     "pap": ["Pap"],
-    "plastmetal": ["Plast & Metal", "Plast, metal & MDK 660L", "Plast/MDK"],
+    "plastmetal": ["Plast & Metal", "Plast, metal & MDK 660L", "Plast/MDK", "Plast/ Metal"],
     "storskrald": ["Storskrald"],
     "storskraldogtekstilaffald": ["Storskrald og tekstilaffald"],
     "haveaffald": ["Haveaffald, flishugning", "Haveaffald"],
+    "papirglas": ["Papir og pap/Glas"],
 }
 
 ICON_LIST = {
@@ -45,6 +46,7 @@ ICON_LIST = {
     "storskrald": "mdi:table-furniture",
     "storskraldogtekstilaffald": "mdi:table-furniture",
     "haveaffald": "mdi:leaf",
+    "papirglas": "mdi:greenhouse",
 }
 
 NAME_LIST = {
@@ -65,6 +67,7 @@ NAME_LIST = {
     "storskrald": "Storskrald",
     "storskraldogtekstilaffald": "Storskrald & Tekstilaffald",
     "haveaffald": "Haveaffald",
+    "papirglas": "Papir, Pap & Glas"
 }
 
 
@@ -152,6 +155,7 @@ MUNICIPALITIES_LIST = {
     "struer": "struer",
     "svendborg": "svendborg",
     "syddjurs": "syddjurs",
+    "sønderborg": "sonderborg",
     "tårnby": "taarnby",
     "thisted": "thisted",
     "tønder": "toender",
