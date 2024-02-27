@@ -10,6 +10,7 @@ You need a Municipality ID and a Address ID to get the Sensor Data. In order to 
 
 Some Municipalities uses a totally different solution, than this Wrapper supports. Currently the following Municipalities are NOT supported:
 
+- Fåborg-Midtfyn
 - København
 - Århus
 

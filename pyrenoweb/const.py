@@ -8,11 +8,11 @@ NON_SUPPORTED_ITEMS = [
 ]
 
 SUPPORTED_ITEMS = {
-    "restaffaldmadaffald": ["Restaffald-Madaffald", "Rest/mad", "Restaffald", "Rest - Mad", "Rest-/Madaffald", "Mad- og restaffald"],
+    "restaffaldmadaffald": ["Restaffald-Madaffald", "Rest/mad", "Restaffald", "Rest - Mad", "Rest-/Madaffald", "Mad- og restaffald", "Mad/rest"],
     "dagrenovation": ["Dagrenovation"],
     "glas": ["Industri Genbrugeligt"],
-    "metalglas": ["Glas og metal", "Metal-Glas"],
-    "pappi": ["Plast MDK og papir", "PAPPI"],
+    "metalglas": ["Glas og metal", "Metal-Glas", "Glas/Metal"],
+    "pappi": ["Plast MDK og papir", "PAPPI", "Plast/MD-karton/PP"],
     "farligtaffald": ["Farligt affald", "Miljøkasser"],
     "farligtaffaldmiljoboks": ["Farligt affald/Miljøboks"],
     "flis": ["Flis"],
@@ -129,6 +129,7 @@ MUNICIPALITIES_LIST = {
     "norddjurs": "norddjurs",
     "nordfyns": "nordfyns",
     "nyborg": "nyborg",
+    "næstved": "naestved",
     "odder": "odder",
     "odense": "odense",
     "odsherred": "odsherred",
