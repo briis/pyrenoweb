@@ -50,7 +50,7 @@ async def main() -> None:
             print("Farligt affald: ", garbage_data.farligtaffald)
             print("Farligt affald/Miljøboks: ", garbage_data.farligtaffaldmiljoboks)
             print("Flis: ", garbage_data.flis)
-            print("Tekstiler: ", garbage_data.tekstiler)
+            print("Genbrug: ", garbage_data.genbrug)
             print("Jern: ", garbage_data.jern)
             print("Papir: ", garbage_data.papir)
             print("Papir/metal: ", garbage_data.papirmetal)

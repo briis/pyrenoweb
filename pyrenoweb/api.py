@@ -186,7 +186,6 @@ class GarbageCollection:
                 if key == row['ordningnavn'] and key != "Bestillerordning":
                     _LOGGER.warning("Garbage type %s is not defined in the system. Please notify the developer", key)
 
-                # key = str(row['ordningnavn']).lower().replace(" ", "").replace("/", "").replace("-", "")
                 if key == "restaffaldmadaffald":
                     restaffaldmadaffald = _pickup_date
                 elif key == "dagrenovation":

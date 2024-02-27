@@ -8,7 +8,7 @@ NON_SUPPORTED_ITEMS = [
 ]
 
 SUPPORTED_ITEMS = {
-    "restaffaldmadaffald": ["Restaffald-Madaffald", "Rest/mad", "Restaffald", "Rest - Mad"],
+    "restaffaldmadaffald": ["Restaffald-Madaffald", "Rest/mad", "Restaffald", "Rest - Mad", "Rest-/Madaffald", "Mad- og restaffald"],
     "dagrenovation": ["Dagrenovation"],
     "glas": ["Industri Genbrugeligt"],
     "metalglas": ["Glas og metal", "Metal-Glas"],
