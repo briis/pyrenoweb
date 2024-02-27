@@ -161,7 +161,7 @@ class GarbageCollection:
             farligtaffald = None
             farligtaffaldmiljoboks = None
             flis = None
-            tekstiler = None
+            genbrug = None
             jern = None
             papir = None
             papirmetal = None
@@ -201,8 +201,8 @@ class GarbageCollection:
                     farligtaffaldmiljoboks = _pickup_date
                 elif key == "flis":
                     flis = _pickup_date
-                elif key == "tekstiler":
-                    tekstiler = _pickup_date
+                elif key == "genbrug":
+                    genbrug = _pickup_date
                 elif key == "jern":
                     jern = _pickup_date
                 elif key == "papir":
@@ -236,7 +236,7 @@ class GarbageCollection:
                 farligtaffald,
                 farligtaffaldmiljoboks,
                 flis,
-                tekstiler,
+                genbrug,
                 jern,
                 papir,
                 papirmetal,

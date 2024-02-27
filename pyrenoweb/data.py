@@ -23,7 +23,7 @@ class RenoWebCollectionData:
     farligtaffald: dt.datetime
     farligtaffaldmiljoboks: dt.datetime
     flis: dt.datetime
-    tekstiler: dt.datetime
+    genbrug: dt.datetime
     jern: dt.datetime
     papir: dt.datetime
     papirmetal: dt.datetime
