@@ -6,6 +6,13 @@ You need a Municipality ID and a Address ID to get the Sensor Data. In order to 
 
 `renoweb.py find <municipality name> <road name> <house number>` - this will return the following, if the data is found:
 
+## Municipalities NOT supported
+
+Some Municipalities uses a totally different solution, than this Wrapper supports. Currently the following Municipalities are NOT supported:
+
+- København
+- Århus
+
 ```txt
 ID NUMBERS
 **************************

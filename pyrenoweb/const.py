@@ -45,8 +45,6 @@ NAME_LIST = {
 MUNICIPALITIES_LIST = {
     "aabenraa": "aabenraa",
     "aalborg": "aalborg",
-    "ålborg": "aalborg",
-    "aarhus": "aarhus",
     "albertslund": "albertslund",
     "allerød": "alleroed",
     "assens": "assens",
@@ -93,7 +91,6 @@ MUNICIPALITIES_LIST = {
     "kalundborg": "kalundborg",
     "kerteminde": "kerteminde",
     "kolding": "kolding",
-    "københavn": "kk",
     "køge": "koege",
     "læsø": "laesoe",
     "lolland": "lolland",
