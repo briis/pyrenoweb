@@ -14,6 +14,7 @@ from .const import (
     API_URL_DATA,
     API_URL_SEARCH,
     MUNICIPALITIES_LIST,
+    NON_SUPPORTED_ITEMS,
     SUPPORTED_ITEMS,
 )
 from .data import RenoWebAddressInfo, RenoWebCollectionData
@@ -174,6 +175,9 @@ class GarbageCollection:
 
 
             for row in garbage_data:
+                if row["ordningnavn"] in NON_SUPPORTED_ITEMS:
+                    continue
+
                 _pickup_date = None
                 if row['toemningsdato'] != "Ingen tømningsdato fundet!" and row['toemningsdato'] is not None:
                     _pickup_date = to_date(row['toemningsdato'])

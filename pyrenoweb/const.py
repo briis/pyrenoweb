@@ -1,16 +1,22 @@
 API_URL_DATA = ".renoweb.dk/Legacy/JService.asmx/GetAffaldsplanMateriel_mitAffald"
 API_URL_SEARCH = ".renoweb.dk/Legacy/JService.asmx/Adresse_SearchByString"
 
+NON_SUPPORTED_ITEMS = [
+    "Asbest",
+    "Beholderservice",
+    "Bestillerordning",
+]
+
 SUPPORTED_ITEMS = {
-    "restaffaldmadaffald": ["Restaffald-Madaffald", "Rest/mad", "Restaffald"],
+    "restaffaldmadaffald": ["Restaffald-Madaffald", "Rest/mad", "Restaffald", "Rest - Mad"],
     "dagrenovation": ["Dagrenovation"],
     "glas": ["Industri Genbrugeligt"],
     "metalglas": ["Glas og metal", "Metal-Glas"],
     "pappi": ["Plast MDK og papir", "PAPPI"],
-    "farligtaffald": ["Farligt affald"],
+    "farligtaffald": ["Farligt affald", "Miljøkasser"],
     "farligtaffaldmiljoboks": ["Farligt affald/Miljøboks"],
     "flis": ["Flis"],
-    "tekstiler": ["Tekstiler"],
+    "genbrug": ["Tekstiler", "Genbrug"],
     "jern": ["Jern"],
     "papir": ["Papir", "Papir 660 L"],
     "papirmetal": ["Papir & Metal", "Papir/metal"],
@@ -20,6 +26,7 @@ SUPPORTED_ITEMS = {
     "storskraldogtekstilaffald": ["Storskrald og tekstilaffald"],
     "haveaffald": ["Haveaffald, flishugning", "Haveaffald"],
 }
+
 ICON_LIST = {
     "restaffaldmadaffald": "mdi:trash-can",
     "dagrenovation": "mdi:trash-can",
@@ -29,7 +36,7 @@ ICON_LIST = {
     "farligtaffald": "mdi:biohazard",
     "farligtaffaldmiljoboks":"mdi:biohazard",
     "flis": "mdi:leaf",
-    "tekstiler": "mdi:hanger",
+    "genbrug": "mdi:recycle",
     "jern": "mdi:bucket",
     "papir": "mdi:file",
     "papirmetal": "mdi:delete-empty",
@@ -49,7 +56,7 @@ NAME_LIST = {
     "farligtaffald": "Farligt affald",
     "farligtaffaldmiljoboks":"Farligt affald & Miljøboks",
     "flis": "Flis",
-    "tekstiler": "Tekstiler",
+    "genbrug": "Genbrug",
     "jern": "Jern",
     "papir": "Papir",
     "papirmetal": "Papir & Metal",
