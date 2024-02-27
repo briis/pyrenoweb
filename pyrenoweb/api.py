@@ -150,6 +150,7 @@ class GarbageCollection:
             data = await self._api.async_api_request(url, body)
             result = json.loads(data['d'])
             garbage_data = result['list']
+            _LOGGER.debug("Garbage data: %s", garbage_data)
 
             restaffaldmadaffald = None
             glas = None
