@@ -16,7 +16,7 @@ class RenoWebAddressInfo:
 class RenoWebCollectionData:
     """Represent RenoWeb collection data."""
     restaffaldmadaffald: dt.datetime
-    restmad: dt.datetime
+    glas: dt.datetime
     dagrenovation: dt.datetime
     metalglas: dt.datetime
     pappi: dt.datetime

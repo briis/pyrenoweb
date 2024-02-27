@@ -1,10 +1,29 @@
 API_URL_DATA = ".renoweb.dk/Legacy/JService.asmx/GetAffaldsplanMateriel_mitAffald"
 API_URL_SEARCH = ".renoweb.dk/Legacy/JService.asmx/Adresse_SearchByString"
 
+SUPPORTED_ITEMS = {
+    "restaffaldmadaffald": ["Restaffald-Madaffald", "Rest/mad", "Restaffald"],
+    "dagrenovation": ["Dagrenovation"],
+    "glas": ["Industri Genbrugeligt"],
+    "metalglas": ["Glas og metal", "Metal-Glas"],
+    "pappi": ["Plast MDK og papir", "PAPPI"],
+    "farligtaffald": ["Farligt affald"],
+    "farligtaffaldmiljoboks": ["Farligt affald & Miljøboks"],
+    "flis": ["Flis"],
+    "tekstiler": ["Tekstiler"],
+    "jern": ["Jern"],
+    "papir": ["Papir", "Papir 660 L"],
+    "papirmetal": ["Papir & Metal"],
+    "pap": ["Pap"],
+    "plastmetal": ["Plast & Metal", "Plast, metal & MDK 660L"],
+    "storskrald": ["Storskrald"],
+    "storskraldogtekstilaffald": ["Storskrald & Tekstilaffald"],
+    "haveaffald": ["Haveaffald, flishugning"],
+}
 ICON_LIST = {
     "restaffaldmadaffald": "mdi:trash-can",
-    "restmad": "mdi:trash-can",
     "dagrenovation": "mdi:trash-can",
+    "glas": "liquor",
     "metalglas": "mdi:glass-fragile",
     "pappi": "mdi:recycle",
     "farligtaffald": "mdi:biohazard",
@@ -23,8 +42,8 @@ ICON_LIST = {
 
 NAME_LIST = {
     "restaffaldmadaffald": "Rest & Madaffald",
-    "restmad": "Rest & Madaffald",
     "dagrenovation": "Dagrenovation",
+    "glas": "Glas",
     "metalglas": "Metal & Glas",
     "pappi": "Papir & Plast",
     "farligtaffald": "Farligt affald",

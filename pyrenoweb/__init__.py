@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from pyrenoweb.api import (
     GarbageCollection,
+    RenowWebGarbageTypeNotFound,
     RenowWebNotSupportedError,
     RenowWebNotValidAddressError,
     RenowWebNoConnection,

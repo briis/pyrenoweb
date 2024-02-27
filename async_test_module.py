@@ -43,7 +43,7 @@ async def main() -> None:
             print("")
             print("========================================================")
             print("Rest og madaffald: ", garbage_data.restaffaldmadaffald)
-            print("Rest/mad", garbage_data.restmad)
+            print("Glas", garbage_data.glas)
             print("Dagrenovation: ", garbage_data.dagrenovation)
             print("Metal-Glas: ", garbage_data.metalglas)
             print("PAPPI: ", garbage_data.pappi)

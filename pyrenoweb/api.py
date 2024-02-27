@@ -14,6 +14,7 @@ from .const import (
     API_URL_DATA,
     API_URL_SEARCH,
     MUNICIPALITIES_LIST,
+    SUPPORTED_ITEMS,
 )
 from .data import RenoWebAddressInfo, RenoWebCollectionData
 
@@ -28,6 +29,11 @@ class RenowWebNotValidAddressError(Exception):
 
 class RenowWebNoConnection(Exception):
     """Raised when no data is received."""
+
+
+class RenowWebGarbageTypeNotFound(Exception):
+    """Raised when new garbage type is detected."""
+
 
 class RenoWebAPIBase:
     """Base class for the API."""
@@ -146,7 +152,7 @@ class GarbageCollection:
             garbage_data = result['list']
 
             restaffaldmadaffald = None
-            restmad = None
+            glas = None
             dagrenovation = None
             metalglas = None
             pappi = None
@@ -171,11 +177,13 @@ class GarbageCollection:
                 if row['toemningsdato'] != "Ingen tømningsdato fundet!" and row['toemningsdato'] is not None:
                     _pickup_date = to_date(row['toemningsdato'])
 
-                key = str(row['ordningnavn']).lower().replace(" ", "").replace("/", "").replace("-", "")
+                key = get_garbage_type(row['ordningnavn'])
+                if key == row['ordningnavn'] and key != "Bestillerordning":
+                    _LOGGER.warning("Garbage type %s is not defined in the system. Please notify the developer", key)
+
+                # key = str(row['ordningnavn']).lower().replace(" ", "").replace("/", "").replace("-", "")
                 if key == "restaffaldmadaffald":
                     restaffaldmadaffald = _pickup_date
-                elif key == "restmad":
-                    restmad = _pickup_date
                 elif key == "dagrenovation":
                     dagrenovation = _pickup_date
                 elif key == "metalglas":
@@ -206,14 +214,17 @@ class GarbageCollection:
                     storskraldogtekstilaffald = _pickup_date
                 elif key == "haveaffald":
                     haveaffald = _pickup_date
+                elif key == "glas":
+                    glas = _pickup_date
 
-                if _pickup_date < next_pickup:
-                    next_pickup = _pickup_date
-                    next_pickup_item = key
+                if _pickup_date is not None:
+                    if _pickup_date < next_pickup:
+                        next_pickup = _pickup_date
+                        next_pickup_item = key
 
             sensor_data = RenoWebCollectionData(
                 restaffaldmadaffald,
-                restmad,
+                glas,
                 dagrenovation,
                 metalglas,
                 pappi,
@@ -243,3 +254,10 @@ def to_date(datetext: str) -> dt.datetime:
 
     index = datetext.rfind(" ")
     return dt.datetime.strptime(f"{datetext[index+1:]} 00:00:00", "%d-%m-%Y %H:%M:%S")
+
+def get_garbage_type(item: str) -> str:
+    """Get the garbage type."""
+    for key, value in SUPPORTED_ITEMS.items():
+        if item in value:
+            return key
+    return item
