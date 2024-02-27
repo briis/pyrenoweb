@@ -35,7 +35,7 @@ ICON_LIST = {
     "pappi": "mdi:recycle",
     "farligtaffald": "mdi:biohazard",
     "farligtaffaldmiljoboks":"mdi:biohazard",
-    "flis": "mdi:leaf",
+    "flis": "mdi:tree",
     "genbrug": "mdi:recycle",
     "jern": "mdi:bucket",
     "papir": "mdi:file",
