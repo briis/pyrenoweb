@@ -72,7 +72,7 @@ NAME_LIST = {
     "papirglas": "Papir, Pap & Glas",
     "plastmadkarton": "Plast & Madkarton",
 }
-
+NAME_ARRAY = list(NAME_LIST.keys())
 
 MUNICIPALITIES_LIST = {
     "aabenraa": "aabenraa",

@@ -9,7 +9,7 @@ import logging
 import time
 import sys
 
-from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, RenoWebAddressInfo, RenoWebCollectionData
+from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, NAME_ARRAY, RenoWebAddressInfo, RenoWebCollectionData, PickupEvents, PickupType
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -72,8 +72,22 @@ async def main() -> None:
             print(row.capitalize())
 
     elif sys.argv[1] == "pickup_data":
-        data = await garbage.get_pickup_data(address_id=sys.argv[3])
-        print(data)
+        try:
+            data: PickupEvents = await garbage.get_pickup_data(address_id=sys.argv[3])
+            print("")
+            print("========================================================")
+            for item in NAME_ARRAY:
+                if data.get(item) is None:
+                    continue
+                print(f"{data[item].friendly_name}:")
+                print("  Dato: ", data[item].date.strftime("%d-%m-%Y"))
+                print("  Beskrivelse: ", data[item].description)
+                print("  Icon: ", data[item].icon)
+                print("  Picture: ", data[item].entity_picture)
+                print("  ======================================================")
+
+        except Exception as err:
+            print(err)
 
     if session is not None:
         await session.close()

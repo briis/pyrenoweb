@@ -25,27 +25,27 @@ class PickupType:
 @dataclass(frozen=True)
 class PickupEvents:
     """Represent RenoWeb collection data."""
-    restaffaldmadaffald: list[PickupType]
-    glas: list[PickupType]
-    dagrenovation: list[PickupType]
-    metalglas: list[PickupType]
-    pappi: list[PickupType]
-    farligtaffald: list[PickupType]
-    farligtaffaldmiljoboks: list[PickupType]
-    flis: list[PickupType]
-    genbrug: list[PickupType]
-    jern: list[PickupType]
-    papir: list[PickupType]
-    papirmetal: list[PickupType]
-    pap: list[PickupType]
-    plastmetal: list[PickupType]
-    storskrald: list[PickupType]
-    storskraldogtekstilaffald: list[PickupType]
-    haveaffald: list[PickupType]
-    papirglas: list[PickupType]
-    plastmadkarton: list[PickupType]
-    next_pickup: list[PickupType]
-    next_pickup_item: str
+    restaffaldmadaffald: list[PickupType] | None = None
+    glas: list[PickupType] | None = None
+    dagrenovation: list[PickupType] | None = None
+    metalglas: list[PickupType] | None = None
+    pappi: list[PickupType] | None = None
+    farligtaffald: list[PickupType] | None = None
+    farligtaffaldmiljoboks: list[PickupType] | None = None
+    flis: list[PickupType] | None = None
+    genbrug: list[PickupType] | None = None
+    jern: list[PickupType] | None = None
+    papir: list[PickupType] | None = None
+    papirmetal: list[PickupType] | None = None
+    pap: list[PickupType] | None = None
+    plastmetal: list[PickupType] | None = None
+    storskrald: list[PickupType] | None = None
+    storskraldogtekstilaffald: list[PickupType] | None = None
+    haveaffald: list[PickupType] | None = None
+    papirglas: list[PickupType] | None = None
+    plastmadkarton: list[PickupType] | None = None
+    next_pickup: list[PickupType] | None = None
+    next_pickup_item: str | None = None
 
 
 @dataclass

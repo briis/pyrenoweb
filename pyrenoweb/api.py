@@ -270,29 +270,7 @@ class GarbageCollection:
             result = json.loads(data['d'])
             garbage_data = result['list']
 
-            restaffaldmadaffald = None
-            glas = None
-            dagrenovation = None
-            metalglas = None
-            pappi = None
-            farligtaffald = None
-            farligtaffaldmiljoboks = None
-            flis = None
-            genbrug = None
-            jern = None
-            papir = None
-            papirmetal = None
-            pap = None
-            plastmetal = None
-            storskrald = None
-            storskraldogtekstilaffald = None
-            haveaffald = None
-            papirglas = None
-            plastmadkarton = None
-            next_pickup = dt.datetime(2030,12,31,23,59,00)
-            next_pickup_item = None
-
-
+            pickup_events: PickupEvents = {}
             for row in garbage_data:
                 if row["ordningnavn"] in NON_SUPPORTED_ITEMS:
                     continue
@@ -306,7 +284,7 @@ class GarbageCollection:
                     _LOGGER.warning("Garbage type %s is not defined in the system. Please notify the developer", key)
                     continue
 
-                _pickup_data: PickupEvents = {
+                _pickup_event: PickupType = {
                     key: PickupType(
                         _pickup_date,
                         NAME_LIST.get(key),
@@ -315,77 +293,9 @@ class GarbageCollection:
                         row["materielnavn"],
                     )
                 }
+                pickup_events.update(_pickup_event)
 
-                return _pickup_data
-            #     if key == "restaffaldmadaffald":
-            #         restaffaldmadaffald = _pickup_date
-            #     elif key == "dagrenovation":
-            #         dagrenovation = _pickup_date
-            #     elif key == "metalglas":
-            #         metalglas = _pickup_date
-            #     elif key == "pappi":
-            #         pappi = _pickup_date
-            #     elif key == "farligtaffald":
-            #         farligtaffald = _pickup_date
-            #     elif key == "farligtaffaldmiljoboks":
-            #         farligtaffaldmiljoboks = _pickup_date
-            #     elif key == "flis":
-            #         flis = _pickup_date
-            #     elif key == "genbrug":
-            #         genbrug = _pickup_date
-            #     elif key == "jern":
-            #         jern = _pickup_date
-            #     elif key == "papir":
-            #         papir = _pickup_date
-            #     elif key == "papirmetal":
-            #         papirmetal = _pickup_date
-            #     elif key == "pap":
-            #         pap = _pickup_date
-            #     elif key == "plastmetal":
-            #         plastmetal = _pickup_date
-            #     elif key == "storskrald":
-            #         storskrald = _pickup_date
-            #     elif key == "storskraldogtekstilaffald":
-            #         storskraldogtekstilaffald = _pickup_date
-            #     elif key == "haveaffald":
-            #         haveaffald = _pickup_date
-            #     elif key == "glas":
-            #         glas = _pickup_date
-            #     elif key == "papirglas":
-            #         papirglas = _pickup_date
-            #     elif key == "plastmadkarton":
-            #         plastmadkarton = _pickup_date
-
-            #     if _pickup_date is not None:
-            #         if _pickup_date < next_pickup:
-            #             next_pickup = _pickup_date
-            #             next_pickup_item = key
-
-            # sensor_data = RenoWebCollectionData(
-            #     restaffaldmadaffald,
-            #     glas,
-            #     dagrenovation,
-            #     metalglas,
-            #     pappi,
-            #     farligtaffald,
-            #     farligtaffaldmiljoboks,
-            #     flis,
-            #     genbrug,
-            #     jern,
-            #     papir,
-            #     papirmetal,
-            #     pap,
-            #     plastmetal,
-            #     storskrald,
-            #     storskraldogtekstilaffald,
-            #     haveaffald,
-            #     papirglas,
-            #     plastmadkarton,
-            #     next_pickup,
-            #     next_pickup_item,
-            # )
-
-            # return sensor_data
+            return pickup_events
 
 def to_date(datetext: str) -> dt.datetime:
     """Convert a date string to a datetime object."""
