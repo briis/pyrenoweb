@@ -71,6 +71,10 @@ async def main() -> None:
         for row in MUNICIPALITIES_ARRAY:
             print(row.capitalize())
 
+    elif sys.argv[1] == "pickup_data":
+        data = await garbage.get_pickup_data(address_id=sys.argv[3])
+        print(data)
+
     if session is not None:
         await session.close()
 

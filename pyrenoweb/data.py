@@ -12,6 +12,42 @@ class RenoWebAddressInfo:
     vejnavn: str
     husnr: str
 
+@dataclass(frozen=True)
+class PickupType:
+    """Define a waste pickup type."""
+
+    date: dt.datetime
+    friendly_name: str | None = None
+    icon: str | None = None
+    entity_picture: str | None = None
+    description: str | None = None
+
+@dataclass(frozen=True)
+class PickupEvents:
+    """Represent RenoWeb collection data."""
+    restaffaldmadaffald: list[PickupType]
+    glas: list[PickupType]
+    dagrenovation: list[PickupType]
+    metalglas: list[PickupType]
+    pappi: list[PickupType]
+    farligtaffald: list[PickupType]
+    farligtaffaldmiljoboks: list[PickupType]
+    flis: list[PickupType]
+    genbrug: list[PickupType]
+    jern: list[PickupType]
+    papir: list[PickupType]
+    papirmetal: list[PickupType]
+    pap: list[PickupType]
+    plastmetal: list[PickupType]
+    storskrald: list[PickupType]
+    storskraldogtekstilaffald: list[PickupType]
+    haveaffald: list[PickupType]
+    papirglas: list[PickupType]
+    plastmadkarton: list[PickupType]
+    next_pickup: list[PickupType]
+    next_pickup_item: str
+
+
 @dataclass
 class RenoWebCollectionData:
     """Represent RenoWeb collection data."""
