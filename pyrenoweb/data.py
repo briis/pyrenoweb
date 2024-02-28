@@ -33,6 +33,7 @@ class RenoWebCollectionData:
     storskraldogtekstilaffald: dt.datetime
     haveaffald: dt.datetime
     papirglas: dt.datetime
+    plastmadkarton: dt.datetime
     next_pickup: dt.datetime
     next_pickup_item: str
 

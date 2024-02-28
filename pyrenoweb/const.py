@@ -21,11 +21,12 @@ SUPPORTED_ITEMS = {
     "papir": ["Papir", "Papir 660 L"],
     "papirmetal": ["Papir & Metal", "Papir/metal"],
     "pap": ["Pap"],
-    "plastmetal": ["Plast & Metal", "Plast, metal & MDK 660L", "Plast/MDK", "Plast/ Metal"],
+    "plastmetal": ["Plast & Metal", "Plast, metal & MDK 660L", "Plast/ Metal"],
     "storskrald": ["Storskrald"],
     "storskraldogtekstilaffald": ["Storskrald og tekstilaffald"],
     "haveaffald": ["Haveaffald, flishugning", "Haveaffald"],
     "papirglas": ["Papir og pap/Glas"],
+    "plastmadkarton": ["Plast/MDK"],
 }
 
 ICON_LIST = {
@@ -47,6 +48,7 @@ ICON_LIST = {
     "storskraldogtekstilaffald": "mdi:table-furniture",
     "haveaffald": "mdi:leaf",
     "papirglas": "mdi:greenhouse",
+    "plastmadkarton": "mdi:recycle",
 }
 
 NAME_LIST = {
@@ -67,7 +69,8 @@ NAME_LIST = {
     "storskrald": "Storskrald",
     "storskraldogtekstilaffald": "Storskrald & Tekstilaffald",
     "haveaffald": "Haveaffald",
-    "papirglas": "Papir, Pap & Glas"
+    "papirglas": "Papir, Pap & Glas",
+    "plastmadkarton": "Plast & Madkarton",
 }
 
 

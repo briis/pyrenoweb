@@ -171,6 +171,7 @@ class GarbageCollection:
             storskraldogtekstilaffald = None
             haveaffald = None
             papirglas = None
+            plastmadkarton = None
             next_pickup = dt.datetime(2030,12,31,23,59,00)
             next_pickup_item = None
 
@@ -223,6 +224,8 @@ class GarbageCollection:
                     glas = _pickup_date
                 elif key == "papirglas":
                     papirglas = _pickup_date
+                elif key == "plastmadkarton":
+                    plastmadkarton = _pickup_date
 
                 if _pickup_date is not None:
                     if _pickup_date < next_pickup:
@@ -248,6 +251,7 @@ class GarbageCollection:
                 storskraldogtekstilaffald,
                 haveaffald,
                 papirglas,
+                plastmadkarton,
                 next_pickup,
                 next_pickup_item,
             )
