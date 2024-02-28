@@ -87,6 +87,15 @@ async def main() -> None:
                 print("  Picture: ", data[item].entity_picture)
                 print("  ======================================================")
 
+            item = "next_pickup"
+            print("Mext Pickup:")
+            print("  Gruppe: ", data[item].group)
+            print("  Dato: ", data[item].date.strftime("%d-%m-%Y"))
+            print("  Beskrivelse: ", data[item].description)
+            print("  Icon: ", data[item].icon)
+            print("  Picture: ", data[item].entity_picture)
+            print("  ======================================================")
+
         except Exception as err:
             print(err)
 
