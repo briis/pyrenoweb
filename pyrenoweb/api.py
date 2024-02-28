@@ -19,7 +19,7 @@ from .const import (
     NON_SUPPORTED_ITEMS,
     SUPPORTED_ITEMS,
 )
-from .data import PickupEvents, PickupType, RenoWebAddressInfo, RenoWebCollectionData
+from .data import PickupEvents, PickupType, RenoWebAddressInfo
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -143,124 +143,8 @@ class GarbageCollection:
         else:
             raise RenowWebNotSupportedError("Cannot find Municipality")
 
-    async def get_data(self, address_id: str) -> RenoWebCollectionData:
-        """Get the garbage collection data."""
 
-        # pickup_data: list[RenoWebPickupData] = []
-        if self._municipality_url is not None:
-            url = f"https://{self._municipality_url}{API_URL_DATA}"
-            body = {"adrid":f"{address_id}", "common":"false"}
-            data = await self._api.async_api_request(url, body)
-            result = json.loads(data['d'])
-            garbage_data = result['list']
-            # _LOGGER.debug("Garbage data: %s", garbage_data)
-
-            restaffaldmadaffald = None
-            glas = None
-            dagrenovation = None
-            metalglas = None
-            pappi = None
-            farligtaffald = None
-            farligtaffaldmiljoboks = None
-            flis = None
-            genbrug = None
-            jern = None
-            papir = None
-            papirmetal = None
-            pap = None
-            plastmetal = None
-            storskrald = None
-            storskraldogtekstilaffald = None
-            haveaffald = None
-            papirglas = None
-            plastmadkarton = None
-            next_pickup = dt.datetime(2030,12,31,23,59,00)
-            next_pickup_item = None
-
-
-            for row in garbage_data:
-                if row["ordningnavn"] in NON_SUPPORTED_ITEMS:
-                    continue
-
-                _pickup_date = None
-                if row['toemningsdato'] != "Ingen tømningsdato fundet!" and row['toemningsdato'] is not None:
-                    _pickup_date = to_date(row['toemningsdato'])
-
-                key = get_garbage_type(row['ordningnavn'])
-                if key == row['ordningnavn'] and key != "Bestillerordning":
-                    _LOGGER.warning("Garbage type %s is not defined in the system. Please notify the developer", key)
-
-                if key == "restaffaldmadaffald":
-                    restaffaldmadaffald = _pickup_date
-                elif key == "dagrenovation":
-                    dagrenovation = _pickup_date
-                elif key == "metalglas":
-                    metalglas = _pickup_date
-                elif key == "pappi":
-                    pappi = _pickup_date
-                elif key == "farligtaffald":
-                    farligtaffald = _pickup_date
-                elif key == "farligtaffaldmiljoboks":
-                    farligtaffaldmiljoboks = _pickup_date
-                elif key == "flis":
-                    flis = _pickup_date
-                elif key == "genbrug":
-                    genbrug = _pickup_date
-                elif key == "jern":
-                    jern = _pickup_date
-                elif key == "papir":
-                    papir = _pickup_date
-                elif key == "papirmetal":
-                    papirmetal = _pickup_date
-                elif key == "pap":
-                    pap = _pickup_date
-                elif key == "plastmetal":
-                    plastmetal = _pickup_date
-                elif key == "storskrald":
-                    storskrald = _pickup_date
-                elif key == "storskraldogtekstilaffald":
-                    storskraldogtekstilaffald = _pickup_date
-                elif key == "haveaffald":
-                    haveaffald = _pickup_date
-                elif key == "glas":
-                    glas = _pickup_date
-                elif key == "papirglas":
-                    papirglas = _pickup_date
-                elif key == "plastmadkarton":
-                    plastmadkarton = _pickup_date
-
-                if _pickup_date is not None:
-                    if _pickup_date < next_pickup:
-                        next_pickup = _pickup_date
-                        next_pickup_item = key
-
-            sensor_data = RenoWebCollectionData(
-                restaffaldmadaffald,
-                glas,
-                dagrenovation,
-                metalglas,
-                pappi,
-                farligtaffald,
-                farligtaffaldmiljoboks,
-                flis,
-                genbrug,
-                jern,
-                papir,
-                papirmetal,
-                pap,
-                plastmetal,
-                storskrald,
-                storskraldogtekstilaffald,
-                haveaffald,
-                papirglas,
-                plastmadkarton,
-                next_pickup,
-                next_pickup_item,
-            )
-
-            return sensor_data
-
-    async def get_pickup_data(self, address_id: str) -> RenoWebCollectionData:
+    async def get_pickup_data(self, address_id: str) -> PickupEvents:
         """Get the garbage collection data."""
 
         if self._municipality_url is not None:

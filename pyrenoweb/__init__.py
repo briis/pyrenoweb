@@ -5,14 +5,12 @@ from __future__ import annotations
 
 from pyrenoweb.api import (
     GarbageCollection,
-    PickupEvents,
-    PickupType,
     RenowWebGarbageTypeNotFound,
     RenowWebNotSupportedError,
     RenowWebNotValidAddressError,
     RenowWebNoConnection,
 )
-from pyrenoweb.data import RenoWebAddressInfo, RenoWebCollectionData
+from pyrenoweb.data import PickupEvents, PickupType, RenoWebAddressInfo
 
 from pyrenoweb.const import ICON_LIST, MUNICIPALITIES_ARRAY, NAME_ARRAY, NAME_LIST
 
