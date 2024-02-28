@@ -46,7 +46,6 @@ class PickupEvents:
     papirglas: list[PickupType] | None = None
     plastmadkarton: list[PickupType] | None = None
     next_pickup: list[PickupType] | None = None
-    next_pickup_item: str | None = None
 
 
 @dataclass

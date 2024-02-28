@@ -270,7 +270,10 @@ class GarbageCollection:
             result = json.loads(data['d'])
             garbage_data = result['list']
 
+            next_pickup = dt.datetime(2030,12,31,23,59,00)
             pickup_events: PickupEvents = {}
+            next_pickup_event: PickupType = None
+
             for row in garbage_data:
                 if row["ordningnavn"] in NON_SUPPORTED_ITEMS:
                     continue
@@ -296,6 +299,12 @@ class GarbageCollection:
                 }
                 pickup_events.update(_pickup_event)
 
+                if _pickup_date is not None:
+                    if _pickup_date < next_pickup:
+                        next_pickup_event = _pickup_event
+
+
+            pickup_events.update(next_pickup_event)
             return pickup_events
 
 def to_date(datetext: str) -> dt.datetime:
