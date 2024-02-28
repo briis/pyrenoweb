@@ -9,7 +9,7 @@ import logging
 import time
 import sys
 
-from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, NAME_ARRAY, RenoWebAddressInfo, RenoWebCollectionData, PickupEvents, PickupType
+from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, NAME_ARRAY, RenoWebAddressInfo, PickupEvents
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -32,37 +32,6 @@ async def main() -> None:
             print("Kommune: ", address_data.kommunenavn)
             print("Vejnavn: ", address_data.vejnavn)
             print("Hus nr.: ", address_data.husnr)
-
-        except Exception as err:
-            print(err)
-
-
-    elif sys.argv[1] == "data":
-        try:
-            garbage_data: RenoWebCollectionData = await garbage.get_data(address_id=sys.argv[3])
-            print("")
-            print("========================================================")
-            print("Rest og madaffald: ", garbage_data.restaffaldmadaffald)
-            print("Glas", garbage_data.glas)
-            print("Dagrenovation: ", garbage_data.dagrenovation)
-            print("Metal-Glas: ", garbage_data.metalglas)
-            print("PAPPI: ", garbage_data.pappi)
-            print("Farligt affald: ", garbage_data.farligtaffald)
-            print("Farligt affald/Miljøboks: ", garbage_data.farligtaffaldmiljoboks)
-            print("Flis: ", garbage_data.flis)
-            print("Genbrug: ", garbage_data.genbrug)
-            print("Jern: ", garbage_data.jern)
-            print("Papir: ", garbage_data.papir)
-            print("Papir/metal: ", garbage_data.papirmetal)
-            print("Pap: ", garbage_data.pap)
-            print("Plast Metal: ", garbage_data.plastmetal)
-            print("Storskrald: ", garbage_data.storskrald)
-            print("Storskrald og tekstilaffald: ", garbage_data.storskraldogtekstilaffald)
-            print("Haveaffald: ", garbage_data.haveaffald)
-            print("Papir, Pap & Glas: ", garbage_data.papirglas)
-            print("Næste Afhentningsdato: ", garbage_data.next_pickup)
-            print("Næste Afhentning: ", garbage_data.next_pickup_item)
-            print("")
 
         except Exception as err:
             print(err)
