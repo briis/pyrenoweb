@@ -286,11 +286,12 @@ class GarbageCollection:
 
                 _pickup_event: PickupType = {
                     key: PickupType(
-                        _pickup_date,
-                        NAME_LIST.get(key),
-                        ICON_LIST.get(key),
-                        "a_picture.svg",
-                        row["materielnavn"],
+                        date=_pickup_date,
+                        group=row["ordningnavn"],
+                        friendly_name=NAME_LIST.get(key),
+                        icon=ICON_LIST.get(key),
+                        entity_picture=f"{key}.svg",
+                        description=row["materielnavn"],
                     )
                 }
                 pickup_events.update(_pickup_event)

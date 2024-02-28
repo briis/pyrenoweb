@@ -17,6 +17,7 @@ class PickupType:
     """Define a waste pickup type."""
 
     date: dt.datetime
+    group: str | None = None
     friendly_name: str | None = None
     icon: str | None = None
     entity_picture: str | None = None

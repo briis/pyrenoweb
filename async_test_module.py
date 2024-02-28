@@ -80,6 +80,7 @@ async def main() -> None:
                 if data.get(item) is None:
                     continue
                 print(f"{data[item].friendly_name}:")
+                print("  Gruppe: ", data[item].group)
                 print("  Dato: ", data[item].date.strftime("%d-%m-%Y"))
                 print("  Beskrivelse: ", data[item].description)
                 print("  Icon: ", data[item].icon)
