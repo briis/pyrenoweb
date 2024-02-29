@@ -106,7 +106,7 @@ class GarbageCollection:
         if session:
             self._api.session = session
         for key, value in MUNICIPALITIES_LIST.items():
-            if key == self._municipality.lower():
+            if key.lower() == self._municipality.lower():
                 self._municipality_url = value
                 break
 
