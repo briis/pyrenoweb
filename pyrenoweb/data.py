@@ -22,6 +22,7 @@ class PickupType:
     icon: str | None = None
     entity_picture: str | None = None
     description: str | None = None
+    last_updated: str | None = None
 
 @dataclass(frozen=True)
 class PickupEvents:

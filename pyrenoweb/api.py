@@ -171,6 +171,7 @@ class GarbageCollection:
                     _LOGGER.warning("Garbage type %s is not defined in the system. Please notify the developer", key)
                     continue
 
+                _last_update = dt.datetime.now()
                 _pickup_event = {
                     key: PickupType(
                         date=_pickup_date,
@@ -179,6 +180,7 @@ class GarbageCollection:
                         icon=ICON_LIST.get(key),
                         entity_picture=f"{key}.svg",
                         description=row["materielnavn"],
+                        last_updated=_last_update.strftime("%Y-%m-%d %H:%M:%S"),
                     )
                 }
                 pickup_events.update(_pickup_event)
@@ -194,6 +196,7 @@ class GarbageCollection:
                                 icon=ICON_LIST.get(key),
                                 entity_picture=f"{key}.svg",
                                 description=row["materielnavn"],
+                                last_updated=_last_update.strftime("%Y-%m-%d %H:%M:%S"),
                             )
                         }
 
