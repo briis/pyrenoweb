@@ -9,7 +9,7 @@ import logging
 import time
 import sys
 
-from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, NAME_ARRAY, RenoWebAddressInfo, PickupEvents
+from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, NAME_ARRAY, RenoWebAddressInfo, PickupEvents, RenowWebNoConnection
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -21,7 +21,6 @@ async def main() -> None:
 
     session = aiohttp.ClientSession()
     garbage = GarbageCollection(municipality=sys.argv[2], session=session)
-    await garbage.async_init()
 
     if sys.argv[1] == "address_id":
         try:
@@ -67,6 +66,8 @@ async def main() -> None:
             print("  Sidst Opdateret: ", data[item].last_updated)
             print("  ======================================================")
 
+        except RenowWebNoConnection as err:
+            print(err)
         except Exception as err:
             print(err)
 

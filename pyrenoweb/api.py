@@ -77,6 +77,9 @@ class RenoWebAPI(RenoWebAPIBase):
                 if response.status == 404:
                     raise RenowWebNotSupportedError("Municipality not supported")
 
+                if response.status == 503:
+                    raise RenowWebNoConnection("System API is currently not available")
+
                 raise RenowWebNoConnection(f"Error {response.status} from {url}")
 
             data = await response.text()
