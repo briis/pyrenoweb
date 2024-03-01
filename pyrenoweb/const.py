@@ -115,7 +115,7 @@ MUNICIPALITIES_LIST = {
     "Holstebro": "holstebro",
     "Horsens": "horsens",
     "Hvidovre": "hvidovre",
-    "Høje-taastrup": "htk",
+    "Høje-Taastrup": "htk",
     "Hørsholm": "horsholm",
     "Ikast-Brande": "ikast-brande",
     "Ishøj": "ishoj",
