@@ -5,6 +5,7 @@ NON_SUPPORTED_ITEMS = [
     "Asbest",
     "Beholderservice",
     "Bestillerordning",
+    "Henteordning for grene",
 ]
 
 SUPPORTED_ITEMS = {
@@ -26,7 +27,8 @@ SUPPORTED_ITEMS = {
     "storskraldogtekstilaffald": ["Storskrald og tekstilaffald"],
     "haveaffald": ["Haveaffald, flishugning", "Haveaffald"],
     "papirglas": ["Papir og pap/Glas"],
-    "plastmadkarton": ["Plast/MDK"],
+    "plastmadkarton": ["Plast/MDK", "Plast & mad- og drikkekartoner"],
+    "pappapirglasmetal": ["Pap, papir, tekstil & metal og glas"],
 }
 
 ICON_LIST = {
@@ -48,7 +50,8 @@ ICON_LIST = {
     "storskraldogtekstilaffald": "mdi:table-furniture",
     "haveaffald": "mdi:leaf",
     "papirglas": "mdi:greenhouse",
-    "plastmadkarton": "mdi:recycle",
+    "plastmadkarton": "mdi:trash-can",
+    "pappapirglasmetal": "mdi:trash-can",
 }
 
 NAME_LIST = {
@@ -71,14 +74,14 @@ NAME_LIST = {
     "haveaffald": "Haveaffald",
     "papirglas": "Papir, Pap & Glas",
     "plastmadkarton": "Plast & Madkarton",
+    "pappapirglasmetal": "Pap, Papir, Glas & Metal",
 }
 NAME_ARRAY = list(NAME_LIST.keys())
 
 MUNICIPALITIES_LIST = {
     "Aabenraa": "aabenraa",
     "Aalborg": "aalborg",
-    "Albertslund": "albertslund",
-    "Allerød": "alleroed",
+    "Allerød": "allerod",
     "Assens": "assens",
     "Ballerup": "ballerup",
     "Billund": "billund",

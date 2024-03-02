@@ -131,6 +131,10 @@ class GarbageCollection:
             body = {"searchterm":f"{street} {house_number}", "addresswithmateriel":7}
             data: dict[str, Any] = await self._api.async_api_request(url, body)
             result = json.loads(data['d'])
+            # _LOGGER.debug("Address Data: %s", result)
+            if 'list' not in result:
+                raise RenowWebNoConnection(f"Renoweb API: {result['status']['status']} - {result['status']['msg']}")
+
             self._address_id = result['list'][0]['value']
 
             if self._address_id  == "0000":
@@ -155,6 +159,7 @@ class GarbageCollection:
             body = {"adrid":f"{address_id}", "common":"false"}
             data = await self._api.async_api_request(url, body)
             result = json.loads(data['d'])
+            # _LOGGER.debug("Garbage Data: %s", result)
             garbage_data = result['list']
 
             pickup_events: PickupEvents = {}
@@ -168,10 +173,12 @@ class GarbageCollection:
                 _pickup_date = None
                 if row['toemningsdato'] != "Ingen tømningsdato fundet!" and row['toemningsdato'] is not None:
                     _pickup_date = to_date(row['toemningsdato'])
+                else:
+                    continue
 
                 key = get_garbage_type(row['ordningnavn'])
                 if key == row['ordningnavn'] and key != "Bestillerordning":
-                    _LOGGER.warning("Garbage type %s is not defined in the system. Please notify the developer", key)
+                    _LOGGER.warning("Garbage type [%s] is not defined in the system. Please notify the developer", key)
                     continue
 
                 _last_update = dt.datetime.now()
