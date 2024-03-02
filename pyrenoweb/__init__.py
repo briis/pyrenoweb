@@ -1,19 +1,20 @@
+# ruff: noqa: F401
 """A Python Wrapper to communicate with RenoWeb API."""
 
-from pyrenoweb.client import RenoWeb, RenoWebData
-from pyrenoweb.errors import (
-    InvalidApiKey,
-    RequestError,
-    ResultError,
-    MunicipalityError,
+from __future__ import annotations
+
+from pyrenoweb.api import (
+    GarbageCollection,
+    RenowWebGarbageTypeNotFound,
+    RenowWebNotSupportedError,
+    RenowWebNotValidAddressError,
+    RenowWebNoConnection,
 )
-from pyrenoweb.const import (
-    TYPE_METAL_GLASS,
-    TYPE_PAPER,
-    TYPE_RESIDUAL,
-    TYPE_PLASTIC,
-    TYPE_STORSKRALD,
-    TYPE_HAVEAFFALD,
-    TYPE_GLASS,
-    TYPE_METAL,
-)
+from pyrenoweb.data import PickupEvents, PickupType, RenoWebAddressInfo
+
+from pyrenoweb.const import ICON_LIST, MUNICIPALITIES_ARRAY, NAME_ARRAY, NAME_LIST
+
+__title__ = "pymrenoweb"
+__version__ = "2.0.4"
+__author__ = "briis"
+__license__ = "MIT"

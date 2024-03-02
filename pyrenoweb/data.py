@@ -1,25 +1,52 @@
-import datetime
-from dataclasses import dataclass, field
+import datetime as dt
+from dataclasses import dataclass
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 @dataclass
-class RenowWebDataItem:
-    """Represent a RenoWeb data itm."""
-    key: str
-    date: datetime.date
-    date_long: str
-    date_short: str
-    icon: str
-    icon_color: str
-    valid_data: bool
-    name: str
-    schedule: str
-    days_to: int
-    state_text: str
-    fraction_id: str
-    last_refresh: datetime.datetime
+class RenoWebAddressInfo:
+    """Represent RenoWeb address info."""
+    address_id: str
+    kommunenavn: str
+    vejnavn: str
+    husnr: str
 
-@dataclass
-class RenoWebDataSet:
-    """Represent a RenoWeb dataset"""
-    key: str
-    item: list[RenowWebDataItem] = field(default_factory=list)
+@dataclass(frozen=True)
+class PickupType:
+    """Define a waste pickup type."""
+
+    date: dt.datetime
+    group: str | None = None
+    friendly_name: str | None = None
+    icon: str | None = None
+    entity_picture: str | None = None
+    description: str | None = None
+    last_updated: str | None = None
+
+@dataclass(frozen=True)
+class PickupEvents:
+    """Represent RenoWeb collection data."""
+    restaffaldmadaffald: list[PickupType] | None = None
+    glas: list[PickupType] | None = None
+    dagrenovation: list[PickupType] | None = None
+    metalglas: list[PickupType] | None = None
+    pappi: list[PickupType] | None = None
+    farligtaffald: list[PickupType] | None = None
+    farligtaffaldmiljoboks: list[PickupType] | None = None
+    flis: list[PickupType] | None = None
+    genbrug: list[PickupType] | None = None
+    jern: list[PickupType] | None = None
+    papir: list[PickupType] | None = None
+    papirmetal: list[PickupType] | None = None
+    pap: list[PickupType] | None = None
+    plastmetal: list[PickupType] | None = None
+    storskrald: list[PickupType] | None = None
+    storskraldogtekstilaffald: list[PickupType] | None = None
+    haveaffald: list[PickupType] | None = None
+    papirglas: list[PickupType] | None = None
+    plastmadkarton: list[PickupType] | None = None
+    next_pickup: list[PickupType] | None = None
+
+
+

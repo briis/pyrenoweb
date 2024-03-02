@@ -1,30 +1,25 @@
-from distutils.core import setup
+"""Package Setup."""
 
-setup(
+import setuptools
+
+with open("README.md") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
     name="pyrenoweb",
-    packages=["pyrenoweb"],
-    version="1.1.3",
-    license="MIT",
-    description="Python Wrapper for RenoWeb Garbage System API",
-    long_description=" ".join(
-    ["A module to retrieve Garbage Collection data ",
-    "for Danish Municipalities that are using RenoWeb."]),
-    author="Bjarne Riis",
+    version="2.0.4",
+    author="briis",
     author_email="bjarne@briis.com",
+    description="Gets garbage collection data from RenoWeb",
+    license="MIT",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/briis/pyrenoweb",
-    keywords=["Garbage", "RenoWeb", "Home Assistant", "Python"],
-    install_requires=[
-        "aiohttp",
-        "asyncio",
-    ],
+    packages=setuptools.find_packages(),
     classifiers=[
-        "Development Status :: 4 - Beta",  # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as the current state of your package
-        "Intended Audience :: Developers",
-        "Topic :: Software Development :: Build Tools",
-        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Development Status :: 4 - Beta",
     ],
 )

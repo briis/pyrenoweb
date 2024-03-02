@@ -1,58 +1,175 @@
-BASE_URL = "https://servicesgh.renoweb.dk/v1_13"
-DAWA_URL = "https://dawa.aws.dk/kommuner"
+API_URL_DATA = ".renoweb.dk/Legacy/JService.asmx/GetAffaldsplanMateriel_mitAffald"
+API_URL_SEARCH = ".renoweb.dk/Legacy/JService.asmx/Adresse_SearchByString"
 
-DEFAULT_TIMEOUT = 10
+NON_SUPPORTED_ITEMS = [
+    "Asbest",
+    "Beholderservice",
+    "Bestillerordning",
+    "Henteordning for grene",
+]
 
-TYPE_RESIDUAL = ["Restaffald-Madaffald", "Dagrenovation"]
-TYPE_GLASS = ["Glas", "Glas Papir"]
-TYPE_METAL_GLASS = ["Metal-Glas"]
-TYPE_METAL = ["Jern"]
-TYPE_PAPER = ["Papir", "Pap"]
-TYPE_PLASTIC = ["Plast"]
-TYPE_PLASTIC_METAL = ["Plast Metal"]
-TYPE_STORSKRALD = ["Storskrald"]
-TYPE_HAVEAFFALD = ["Haveaffald"]
+SUPPORTED_ITEMS = {
+    "restaffaldmadaffald": [
+        "Restaffald-Madaffald",
+        "Rest/mad", "Restaffald",
+        "Rest - Mad",
+        "Rest-/Madaffald",
+        "Mad- og restaffald",
+        "Mad/rest",
+        "Rest-/madaffald",
+        "Mad/Rest",
+        "Mad og restaffald",
+        "Mad-/ og restaffald",
+        "Rest / Mad",
+        "Rest Mad",
+        "Energispand - Obligatorisk min. 1 spand",
+        "Rest/madaffald",
+        "Energibeholder (mad/rest)",
+        "Rest- og Madaffald"
+    ],
+    "dagrenovation": ["Dagrenovation"],
+    "glas": ["Industri Genbrugeligt"],
+    "metalglas": ["Glas og metal", "Metal-Glas", "Glas/Metal", "Metal og Glas"],
+    "pappi": ["Plast MDK og papir", "PAPPI", "Plast/MD-karton/PP", "Plast/Papir", "Papir/Plast og kartoner", "Plast og Mad- & drikkekartoner/Papir", "Plast, Metal, MDK"],
+    "farligtaffald": ["Farligt affald", "Miljøkasser", "Farligt Affald, Rød boks", "Genbrugsbilen"],
+    "farligtaffaldmiljoboks": ["Farligt affald/Miljøboks", "Papir og glas/dåser"],
+    "flis": ["Flis", "Flishugning"],
+    "genbrug": ["Tekstiler", "Genbrug", "Genbrugsøer", "Genanvendeligt"],
+    "jern": ["Jern"],
+    "papir": ["Papir", "Papir 660 L"],
+    "papirmetal": ["Papir & Metal", "Papir/metal", "Metal/papir", "Papir og Metal"],
+    "pap": ["Pap"],
+    "plastmetal": ["Plast & Metal", "Plast, metal & MDK 660L", "Plast/ Metal", "Plast/MDK/Metal", "Plast-metal", "Plast/Metal"],
+    "storskrald": ["Storskrald", "Stort elektronik", "Storskrald og genbrug", "Pap og Storskrald"],
+    "storskraldogtekstilaffald": ["Storskrald og tekstilaffald"],
+    "haveaffald": ["Haveaffald, flishugning", "Haveaffald", "Trærødder og stammer", "Haveaffald - Frivilligt"],
+    "papirglas": ["Papir og pap/Glas", "Glas-papir", "Papir, Pap/Glas"],
+    "plastmadkarton": ["Plast/MDK", "Plast & mad- og drikkekartoner", "Plast/ Mad- og drikkekartoner", "Plast og MDK"],
+    "pappapirglasmetal": ["Pap, papir, tekstil & metal og glas", "4delt beholder", "Ressourcebeholder (pap/papir og glas/metal)"],
+    "plastmetalmadmdk": ["Plast/Metal/Mad- & drikkekartoner"],
+    "pappapir": ["Pap/Papir", "Papir/Pap", "Papir og Pap"],
+    "tekstil": ["Standplads", "Tekstilaffald", "Miljøkasse/tekstiler", "Tekstil"],
+    "glasplast": ["Glas/Plast og MDK"],
+    "plastmetalpapir": ["Plast/Metal/Papir ", "Genbrugsspand - Obligatorisk min. 1 spand"],
+    "plast": ["Plast - Obligatorisk min. 1 spand", "Plast"],
+}
 
 ICON_LIST = {
-    "Restaffald-Madaffald": "mdi:trash-can",
-    "Dagrenovation": "mdi:trash-can",
-    "Metal-Glas": "mdi:glass-fragile",
-    "PAPPI": "mdi:recycle",
-    "Farligt affald": "mdi:biohazard",
-    "Tekstiler": "mdi:hanger",
-    "Jern": "mdi:bucket",
-    "Papir": "mdi:file",
-    "Pap": "mdi:note",
-    "Plast Metal": "mdi:trash-can-outline",
-    "Storskrald": "mdi:table-furniture",
-    "Haveaffald": "mdi:leaf",
+    "restaffaldmadaffald": "mdi:trash-can",
+    "dagrenovation": "mdi:trash-can",
+    "glas": "liquor",
+    "metalglas": "mdi:glass-fragile",
+    "pappi": "mdi:recycle",
+    "farligtaffald": "mdi:biohazard",
+    "farligtaffaldmiljoboks":"mdi:biohazard",
+    "flis": "mdi:tree",
+    "genbrug": "mdi:recycle",
+    "jern": "mdi:bucket",
+    "papir": "mdi:file",
+    "papirmetal": "mdi:delete-empty",
+    "pap": "mdi:note",
+    "plastmetal": "mdi:trash-can-outline",
+    "storskrald": "mdi:table-furniture",
+    "storskraldogtekstilaffald": "mdi:table-furniture",
+    "haveaffald": "mdi:leaf",
+    "papirglas": "mdi:greenhouse",
+    "plastmadkarton": "mdi:trash-can",
+    "pappapirglasmetal": "mdi:trash-can",
+    "plastmetalmadmdk": "mdi:trash-can",
+    "pappapir": "mdi:file",
+    "tekstil": "mdi:recycle",
+    "glasplast": "mdi:trash-can",
+    "plastmetalpapir": "mdi:trash-can",
+    "plast": "mdi:trash-can",
 }
 
 NAME_LIST = {
-    "Restaffald-Madaffald": "Rest og madaffald",
-    "Dagrenovation": "Dagrenovation",
-    "Metal-Glas": "Meta og glas",
-    "PAPPI": "Papir og plast",
-    "Farligt affald": "Farligt affald",
-    "Tekstiler": "Tekstiler",
-    "Jern": "Jern",
-    "Papir": "Papir",
-    "Pap": "Pap",
-    "Plast Metal": "Plast og metal",
-    "Storskrald": "Storskrald",
-    "Haveaffald": "Haveaffald",
+    "restaffaldmadaffald": "Rest & Madaffald",
+    "dagrenovation": "Dagrenovation",
+    "glas": "Glas",
+    "metalglas": "Metal & Glas",
+    "pappi": "Papir & Plast",
+    "farligtaffald": "Farligt affald",
+    "farligtaffaldmiljoboks":"Farligt affald & Miljøboks",
+    "flis": "Flis",
+    "genbrug": "Genbrug",
+    "jern": "Jern",
+    "papir": "Papir",
+    "papirmetal": "Papir & Metal",
+    "pap": "Pap",
+    "plastmetal": "Plast & Metal",
+    "storskrald": "Storskrald",
+    "storskraldogtekstilaffald": "Storskrald & Tekstilaffald",
+    "haveaffald": "Haveaffald",
+    "papirglas": "Papir, Pap & Glas",
+    "plastmadkarton": "Plast & Madkarton",
+    "pappapirglasmetal": "Pap, Papir, Glas & Metal",
+    "plastmetalmadmdk": "Plast, Metal, Mad & Drikkekartoner",
+    "pappapir" : "Pap & Papir",
+    "tekstil": "Tekstilaffald",
+    "glasplast": "Glas, Plast & Madkartoner",
+    "plastmetalpapir": "Plast, Metal & Papir",
+    "plast": "Plast",
+
+}
+NAME_ARRAY = list(NAME_LIST.keys())
+
+MUNICIPALITIES_LIST = {
+    "Aabenraa": "aabenraa",
+    "Aalborg": "aalborg",
+    "Albertslund": "albertslund",
+    "Allerød": "allerod",
+    "Brøndby": "brondby",
+    "Brønderslev": "bronderslev",
+    "Dragør": "dragoer",
+    "Egedal": "egedal",
+    "Esbjerg": "esbjerg",
+    "Faxe": "faxe",
+    "Fredensborg": "fredensborg",
+    "Frederiksberg": "frederiksberg",
+    "Frederikssund": "frederikssund",
+    "Furesø": "furesoe",
+    "Gentofte": "gentofte",
+    "Gladsaxe": "gladsaxe",
+    "Glostrup": "glostrup",
+    "Greve": "greve",
+    "Gribskov": "gribskov",
+    "Halsnæs": "halsnaes",
+    "Hedensted": "hedensted",
+    "Helsingør": "helsingor",
+    "Herlev": "herlev",
+    "Hillerød": "hillerod",
+    "Hjørring": "hjoerring",
+    "Horsens": "horsens",
+    "Hvidovre": "hvidovre",
+    "Høje-Taastrup": "htk",
+    "Hørsholm": "hoersholm",
+    "Jammerbugt": "jammerbugt",
+    "Kerteminde": "kerteminde",
+    "Køge": "koege",
+    "Lyngby-Taarbæk": "ltf",
+    "Mariagerfjord": "mariagerfjord",
+    "Næstved": "naestved",
+    "Odsherred": "odsherred",
+    "Randers": "randers",
+    "Rebild": "rebild",
+    "Ringkøbing-Skjern": "rksk",
+    "Ringsted": "ringsted",
+    "Roskilde": "roskilde",
+    "Rødovre": "rk",
+    "Samsø": "samsoe",
+    "Slagelse": "slagelse",
+    "Solrød": "solrod",
+    "Sorø": "soroe",
+    "Stevns": "stevns",
+    "Svendborg": "svendborg",
+    "Sønderborg": "sonderborg",
+    "Tårnby": "taarnby",
+    "Varde": "varde",
+    "Vejen": "vejen",
+    "Vordingborg": "vordingborg"
 }
 
-class color:
-    """Defines colors used for Terminal Output."""
+MUNICIPALITIES_ARRAY = list(MUNICIPALITIES_LIST.keys())
 
-    PURPLE = '\033[95m'
-    CYAN = '\033[96m'
-    DARKCYAN = '\033[36m'
-    BLUE = '\033[94m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    END = '\033[0m'
+WEEKDAYS = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"]
