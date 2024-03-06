@@ -119,7 +119,7 @@ class GarbageCollection:
         """Initialize the connection."""
         if self._municipality is not None:
             url = f"https://{self._municipality_url}{API_URL_SEARCH}"
-            body = {"searchterm":f"{self._street} {self._house_number}", "addresswithmateriel":7}
+            body = {"searchterm":f"{self._street} {self._house_number}", "addresswithmateriel":0}
             await self._api.async_api_request(url, body)
 
 
@@ -129,7 +129,7 @@ class GarbageCollection:
         if self._municipality_url is not None:
             _LOGGER.debug("Municipality URL: %s", self._municipality_url)
             url = f"https://{self._municipality_url}{API_URL_SEARCH}"
-            body = {"searchterm":f"{street} {house_number}", "addresswithmateriel":7}
+            body = {"searchterm":f"{street} {house_number}", "addresswithmateriel":0}
             data: dict[str, Any] = await self._api.async_api_request(url, body)
             # _LOGGER.debug("Address Data: %s", json.loads(data))
             result = json.loads(data['d'])
