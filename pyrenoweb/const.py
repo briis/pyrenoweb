@@ -116,6 +116,7 @@ NAME_ARRAY = list(NAME_LIST.keys())
 
 SPECIAL_MUNICIPALITIES_LIST = [
     "egedal",
+    "randers",
 ]
 
 MUNICIPALITIES_LIST = {

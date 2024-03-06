@@ -133,7 +133,7 @@ class GarbageCollection:
             body = {"searchterm":f"{street} {house_number}", "addresswithmateriel":0}
             data: dict[str, Any] = await self._api.async_api_request(url, body)
             result = json.loads(data['d'])
-            # _LOGGER.debug("Address Data: %s", result)
+            _LOGGER.debug("Address Data: %s", result)
             if 'list' not in result:
                 raise RenowWebNoConnection(f"Renoweb API: {result['status']['status']} - {result['status']['msg']}")
 
@@ -162,7 +162,7 @@ class GarbageCollection:
             data = await self._api.async_api_request(url, body)
             result = json.loads(data['d'])
             garbage_data = result['list']
-            # _LOGGER.debug("Garbage Data: %s", garbage_data)
+            _LOGGER.debug("Garbage Data: %s", garbage_data)
 
             pickup_events: PickupEvents = {}
             _next_pickup = dt.datetime(2030,12,31,23,59,00)
@@ -253,13 +253,17 @@ def get_next_weekday(weekday: str) -> dt.datetime:
 def deep_search(municipality: str, ordningsnavn: str, materialenavn: str) -> str:
     """Search deeper to get the right garbage type."""
 
+    # _LOGGER.debug("Deep search: %s, %s", ordningsnavn, materialenavn)
     if municipality == "egedal":
-        _LOGGER.debug("Deep search: %s, %s", ordningsnavn, materialenavn)
         if ordningsnavn.lower() == "genbrug" and "plast" in materialenavn.lower():
             return "pappi"
-        elif ordningsnavn.lower() == "genbrug" and "pap" in materialenavn.lower():
+        if ordningsnavn.lower() == "genbrug" and "pap" in materialenavn.lower():
             return "pap"
-        elif ordningsnavn.lower() == "genbrug" and "glas" in materialenavn.lower():
+        if ordningsnavn.lower() == "genbrug" and "glas" in materialenavn.lower():
             return "metalglas"
-        else:
-            return get_garbage_type(ordningsnavn)
+
+    if municipality == "randers":
+        if ordningsnavn.lower() == "genbrug" and "metal, glas, plast" in materialenavn.lower():
+            return "pappapirglasmetal"
+
+    return get_garbage_type(ordningsnavn)
