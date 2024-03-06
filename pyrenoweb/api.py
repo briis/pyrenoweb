@@ -17,6 +17,7 @@ from .const import (
     MUNICIPALITIES_LIST,
     NAME_LIST,
     NON_SUPPORTED_ITEMS,
+    SPECIAL_MUNICIPALITIES_LIST,
     SUPPORTED_ITEMS,
     WEEKDAYS,
 )
@@ -131,8 +132,8 @@ class GarbageCollection:
             url = f"https://{self._municipality_url}{API_URL_SEARCH}"
             body = {"searchterm":f"{street} {house_number}", "addresswithmateriel":0}
             data: dict[str, Any] = await self._api.async_api_request(url, body)
-            # _LOGGER.debug("Address Data: %s", json.loads(data))
             result = json.loads(data['d'])
+            # _LOGGER.debug("Address Data: %s", result)
             if 'list' not in result:
                 raise RenowWebNoConnection(f"Renoweb API: {result['status']['status']} - {result['status']['msg']}")
 
@@ -179,10 +180,15 @@ class GarbageCollection:
                 else:
                     continue
 
-                key = get_garbage_type(row['ordningnavn'])
+                if self._municipality_url in SPECIAL_MUNICIPALITIES_LIST:
+                    key = deep_search(self._municipality_url, row["ordningnavn"], row["materielnavn"])
+                else:
+                    key = get_garbage_type(row['ordningnavn'])
+
                 if key == row['ordningnavn'] and key != "Bestillerordning":
                     _LOGGER.warning("Garbage type [%s] is not defined in the system. Please notify the developer", key)
                     continue
+
 
                 _last_update = dt.datetime.now()
                 _pickup_event = {
@@ -243,3 +249,17 @@ def get_next_weekday(weekday: str) -> dt.datetime:
     days_ahead = (target_weekday - current_weekday) % 7
     next_date = dt.datetime.now() + dt.timedelta(days=days_ahead)
     return next_date
+
+def deep_search(municipality: str, ordningsnavn: str, materialenavn: str) -> str:
+    """Search deeper to get the right garbage type."""
+
+    if municipality == "egedal":
+        _LOGGER.debug("Deep search: %s, %s", ordningsnavn, materialenavn)
+        if ordningsnavn.lower() == "genbrug" and "plast" in materialenavn.lower():
+            return "pappi"
+        elif ordningsnavn.lower() == "genbrug" and "pap" in materialenavn.lower():
+            return "pap"
+        elif ordningsnavn.lower() == "genbrug" and "glas" in materialenavn.lower():
+            return "metalglas"
+        else:
+            return get_garbage_type(ordningsnavn)
