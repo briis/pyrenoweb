@@ -299,4 +299,10 @@ def deep_search(municipality: str, ordningsnavn: str, materialenavn: str) -> str
         ):
             return "pappapirglasmetal"
 
+    if municipality == "rudersdal":
+        if ordningsnavn.lower() == "genbrug" and "pap" in materialenavn.lower():
+            return "pap"
+        if ordningsnavn.lower() == "genbrug" and "glas" in materialenavn.lower():
+            return "metalglas"
+
     return get_garbage_type(ordningsnavn)
