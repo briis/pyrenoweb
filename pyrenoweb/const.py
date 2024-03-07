@@ -11,7 +11,8 @@ NON_SUPPORTED_ITEMS = [
 SUPPORTED_ITEMS = {
     "restaffaldmadaffald": [
         "Restaffald-Madaffald",
-        "Rest/mad", "Restaffald",
+        "Rest/mad",
+        "Restaffald",
         "Rest - Mad",
         "Rest-/Madaffald",
         "Mad- og restaffald",
@@ -25,32 +26,81 @@ SUPPORTED_ITEMS = {
         "Energispand - Obligatorisk min. 1 spand",
         "Rest/madaffald",
         "Energibeholder (mad/rest)",
-        "Rest- og Madaffald"
+        "Rest- og Madaffald",
     ],
     "dagrenovation": ["Dagrenovation"],
     "glas": ["Industri Genbrugeligt"],
     "metalglas": ["Glas og metal", "Metal-Glas", "Glas/Metal", "Metal og Glas"],
-    "pappi": ["Plast MDK og papir", "PAPPI", "Plast/MD-karton/PP", "Plast/Papir", "Papir/Plast og kartoner", "Plast og Mad- & drikkekartoner/Papir", "Plast, Metal, MDK"],
-    "farligtaffald": ["Farligt affald", "Miljøkasser", "Farligt Affald, Rød boks", "Genbrugsbilen"],
+    "pappi": [
+        "Plast MDK og papir",
+        "PAPPI",
+        "Plast/MD-karton/PP",
+        "Plast/Papir",
+        "Papir/Plast og kartoner",
+        "Plast og Mad- & drikkekartoner/Papir",
+        "Plast, Metal, MDK",
+    ],
+    "farligtaffald": [
+        "Farligt affald",
+        "Miljøkasser",
+        "Farligt Affald, Rød boks",
+        "Genbrugsbilen",
+    ],
     "farligtaffaldmiljoboks": ["Farligt affald/Miljøboks", "Papir og glas/dåser"],
     "flis": ["Flis", "Flishugning"],
-    "genbrug": ["Tekstiler", "Genbrug", "Genbrugsøer", "Genanvendeligt", "Genbrug 240 L"],
+    "genbrug": [
+        "Tekstiler",
+        "Genbrug",
+        "Genbrugsøer",
+        "Genanvendeligt",
+        "Genbrug 240 L",
+    ],
     "jern": ["Jern"],
     "papir": ["Papir", "Papir 660 L"],
     "papirmetal": ["Papir & Metal", "Papir/metal", "Metal/papir", "Papir og Metal"],
     "pap": ["Pap"],
-    "plastmetal": ["Plast & Metal", "Plast, metal & MDK 660L", "Plast/ Metal", "Plast/MDK/Metal", "Plast-metal", "Plast/Metal"],
-    "storskrald": ["Storskrald", "Stort elektronik", "Storskrald og genbrug", "Pap og Storskrald"],
+    "plastmetal": [
+        "Plast & Metal",
+        "Plast, metal & MDK 660L",
+        "Plast/ Metal",
+        "Plast/MDK/Metal",
+        "Plast-metal",
+        "Plast/Metal",
+    ],
+    "storskrald": [
+        "Storskrald",
+        "Stort elektronik",
+        "Storskrald og genbrug",
+        "Pap og Storskrald",
+    ],
     "storskraldogtekstilaffald": ["Storskrald og tekstilaffald"],
-    "haveaffald": ["Haveaffald, flishugning", "Haveaffald", "Trærødder og stammer", "Haveaffald - Frivilligt", "Haveaffald 140 L"],
+    "haveaffald": [
+        "Haveaffald, flishugning",
+        "Haveaffald",
+        "Trærødder og stammer",
+        "Haveaffald - Frivilligt",
+        "Haveaffald 140 L",
+    ],
     "papirglas": ["Papir og pap/Glas", "Glas-papir", "Papir, Pap/Glas"],
-    "plastmadkarton": ["Plast/MDK", "Plast & mad- og drikkekartoner", "Plast/ Mad- og drikkekartoner", "Plast og MDK"],
-    "pappapirglasmetal": ["Pap, papir, tekstil & metal og glas", "4delt beholder", "Ressourcebeholder (pap/papir og glas/metal)"],
+    "plastmadkarton": [
+        "Plast/MDK",
+        "Plast & mad- og drikkekartoner",
+        "Plast/ Mad- og drikkekartoner",
+        "Plast og MDK",
+    ],
+    "pappapirglasmetal": [
+        "Pap, papir, tekstil & metal og glas",
+        "4delt beholder",
+        "Ressourcebeholder (pap/papir og glas/metal)",
+    ],
     "plastmetalmadmdk": ["Plast/Metal/Mad- & drikkekartoner"],
     "pappapir": ["Pap/Papir", "Papir/Pap", "Papir og Pap"],
     "tekstil": ["Standplads", "Tekstilaffald", "Miljøkasse/tekstiler", "Tekstil"],
     "glasplast": ["Glas/Plast og MDK"],
-    "plastmetalpapir": ["Plast/Metal/Papir ", "Genbrugsspand - Obligatorisk min. 1 spand"],
+    "plastmetalpapir": [
+        "Plast/Metal/Papir ",
+        "Genbrugsspand - Obligatorisk min. 1 spand",
+    ],
     "plast": ["Plast - Obligatorisk min. 1 spand", "Plast"],
 }
 
@@ -61,7 +111,7 @@ ICON_LIST = {
     "metalglas": "mdi:glass-fragile",
     "pappi": "mdi:recycle",
     "farligtaffald": "mdi:biohazard",
-    "farligtaffaldmiljoboks":"mdi:biohazard",
+    "farligtaffaldmiljoboks": "mdi:biohazard",
     "flis": "mdi:tree",
     "genbrug": "mdi:recycle",
     "jern": "mdi:bucket",
@@ -90,7 +140,7 @@ NAME_LIST = {
     "metalglas": "Metal & Glas",
     "pappi": "Papir & Plast",
     "farligtaffald": "Farligt affald",
-    "farligtaffaldmiljoboks":"Farligt affald & Miljøboks",
+    "farligtaffaldmiljoboks": "Farligt affald & Miljøboks",
     "flis": "Flis",
     "genbrug": "Genbrug",
     "jern": "Jern",
@@ -105,12 +155,11 @@ NAME_LIST = {
     "plastmadkarton": "Plast & Madkarton",
     "pappapirglasmetal": "Pap, Papir, Glas & Metal",
     "plastmetalmadmdk": "Plast, Metal, Mad & Drikkekartoner",
-    "pappapir" : "Pap & Papir",
+    "pappapir": "Pap & Papir",
     "tekstil": "Tekstilaffald",
     "glasplast": "Glas, Plast & Madkartoner",
     "plastmetalpapir": "Plast, Metal & Papir",
     "plast": "Plast",
-
 }
 NAME_ARRAY = list(NAME_LIST.keys())
 
@@ -172,7 +221,7 @@ MUNICIPALITIES_LIST = {
     "Tårnby": "taarnby",
     "Varde": "varde",
     "Vejen": "vejen",
-    "Vordingborg": "vordingborg"
+    "Vordingborg": "vordingborg",
 }
 
 MUNICIPALITIES_ARRAY = list(MUNICIPALITIES_LIST.keys())
