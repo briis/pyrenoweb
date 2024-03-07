@@ -24,7 +24,7 @@ async def main() -> None:
 
     if sys.argv[1] == "address_id":
         try:
-            address_data: RenoWebAddressInfo = await garbage.get_address_id(street=sys.argv[3],house_number=sys.argv[4])
+            address_data: RenoWebAddressInfo = await garbage.get_address_id(zipcode=sys.argv[3],street=sys.argv[4],house_number=sys.argv[5])
             print("")
             print("========================================================")
             print("Address ID: ", address_data.address_id)

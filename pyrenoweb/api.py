@@ -17,6 +17,7 @@ from .const import (
     MUNICIPALITIES_LIST,
     NAME_LIST,
     NON_SUPPORTED_ITEMS,
+    SPECIAL_MUNICIPALITIES_LIST,
     SUPPORTED_ITEMS,
     WEEKDAYS,
 )
@@ -28,8 +29,10 @@ _LOGGER = logging.getLogger(__name__)
 class RenowWebNotSupportedError(Exception):
     """Raised when the municipality is not supported."""
 
+
 class RenowWebNotValidAddressError(Exception):
     """Raised when the address is not found."""
+
 
 class RenowWebNoConnection(Exception):
     """Raised when no data is received."""
@@ -43,11 +46,12 @@ class RenoWebAPIBase:
     """Base class for the API."""
 
     @abc.abstractmethod
-    async def async_api_request( self, url: str) -> dict[str, Any]:
+    async def async_api_request(self, url: str) -> dict[str, Any]:
         """Override this."""
         raise NotImplementedError(
             "users must define async_api_request to use this base class"
         )
+
 
 class RenoWebAPI(RenoWebAPIBase):
     """Class to get data from Renoweb."""
@@ -64,10 +68,12 @@ class RenoWebAPI(RenoWebAPIBase):
             self.session = aiohttp.ClientSession()
             is_new_session = True
 
-        headers = {'Content-Type': 'application/json'}
+        headers = {"Content-Type": "application/json"}
         # self.session.headers.update(headers)
 
-        async with self.session.post(url, headers=headers, data=json.dumps(body)) as response:
+        async with self.session.post(
+            url, headers=headers, data=json.dumps(body)
+        ) as response:
             if response.status != 200:
                 if is_new_session:
                     await self.session.close()
@@ -89,6 +95,7 @@ class RenoWebAPI(RenoWebAPIBase):
 
             json_data = json.loads(data)
             return json_data
+
 
 class GarbageCollection:
     """Class to get garbage collection data."""
@@ -114,57 +121,70 @@ class GarbageCollection:
                 self._municipality_url = value
                 break
 
-
     async def async_init(self) -> None:
         """Initialize the connection."""
         if self._municipality is not None:
             url = f"https://{self._municipality_url}{API_URL_SEARCH}"
-            body = {"searchterm":f"{self._street} {self._house_number}", "addresswithmateriel":7}
+            body = {
+                "searchterm": f"{self._street} {self._house_number}",
+                "addresswithmateriel": 0,
+            }
             await self._api.async_api_request(url, body)
 
-
-    async def get_address_id(self, street: str, house_number: str) -> RenoWebAddressInfo:
+    async def get_address_id(
+        self, zipcode: str, street: str, house_number: str
+    ) -> RenoWebAddressInfo:
         """Get the address id."""
 
         if self._municipality_url is not None:
             _LOGGER.debug("Municipality URL: %s", self._municipality_url)
             url = f"https://{self._municipality_url}{API_URL_SEARCH}"
-            body = {"searchterm":f"{street} {house_number}", "addresswithmateriel":7}
+            body = {"searchterm": f"{street} {house_number}", "addresswithmateriel": 0}
             data: dict[str, Any] = await self._api.async_api_request(url, body)
-            # _LOGGER.debug("Address Data: %s", json.loads(data))
-            result = json.loads(data['d'])
-            if 'list' not in result:
-                raise RenowWebNoConnection(f"Renoweb API: {result['status']['status']} - {result['status']['msg']}")
+            result = json.loads(data["d"])
+            # _LOGGER.debug("Address Data: %s", result)
+            if "list" not in result:
+                raise RenowWebNoConnection(
+                    f"Renoweb API: {result['status']['status']} - {result['status']['msg']}"
+                )
 
-            self._address_id = result['list'][0]['value']
+            _result_count = len(result["list"])
+            _item: int = 0
+            _row_index: int = 0
+            if _result_count > 1:
+                for row in result["list"]:
+                    if zipcode in row["label"]:
+                        _item = _row_index
+                        break
+                    _row_index += 1
+            self._address_id = result["list"][_item]["value"]
 
-            if self._address_id  == "0000":
+            if self._address_id == "0000":
                 raise RenowWebNotValidAddressError("Address not found")
 
             address_data = RenoWebAddressInfo(
                 self._address_id,
                 self._municipality.capitalize(),
                 street.capitalize(),
-                house_number
+                house_number,
             )
             return address_data
         else:
             raise RenowWebNotSupportedError("Cannot find Municipality")
-
 
     async def get_pickup_data(self, address_id: str) -> PickupEvents:
         """Get the garbage collection data."""
 
         if self._municipality_url is not None:
             url = f"https://{self._municipality_url}{API_URL_DATA}"
-            body = {"adrid":f"{address_id}", "common":"false"}
+            body = {"adrid": f"{address_id}", "common": "false"}
             data = await self._api.async_api_request(url, body)
-            result = json.loads(data['d'])
-            garbage_data = result['list']
+            result = json.loads(data["d"])
+            garbage_data = result["list"]
             # _LOGGER.debug("Garbage Data: %s", garbage_data)
 
             pickup_events: PickupEvents = {}
-            _next_pickup = dt.datetime(2030,12,31,23,59,00)
+            _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 00)
             _next_pickup_event: PickupType = None
 
             for row in garbage_data:
@@ -172,16 +192,29 @@ class GarbageCollection:
                     continue
 
                 _pickup_date = None
-                if row['toemningsdato'] != "Ingen tømningsdato fundet!" and row['toemningsdato'] != "Skal tilmeldes" and row['toemningsdato'] is not None:
-                    _pickup_date = to_date(row['toemningsdato'])
-                elif str(row['toemningsdage']).capitalize() in WEEKDAYS:
-                    _pickup_date = get_next_weekday(row['toemningsdage'])
+                if (
+                    row["toemningsdato"] != "Ingen tømningsdato fundet!"
+                    and row["toemningsdato"] != "Skal tilmeldes"
+                    and row["toemningsdato"] is not None
+                ):
+                    _pickup_date = to_date(row["toemningsdato"])
+                elif str(row["toemningsdage"]).capitalize() in WEEKDAYS:
+                    _pickup_date = get_next_weekday(row["toemningsdage"])
                 else:
                     continue
 
-                key = get_garbage_type(row['ordningnavn'])
-                if key == row['ordningnavn'] and key != "Bestillerordning":
-                    _LOGGER.warning("Garbage type [%s] is not defined in the system. Please notify the developer", key)
+                if self._municipality_url in SPECIAL_MUNICIPALITIES_LIST:
+                    key = deep_search(
+                        self._municipality_url, row["ordningnavn"], row["materielnavn"]
+                    )
+                else:
+                    key = get_garbage_type(row["ordningnavn"])
+
+                if key == row["ordningnavn"] and key != "Bestillerordning":
+                    _LOGGER.warning(
+                        "Garbage type [%s] is not defined in the system. Please notify the developer",
+                        key,
+                    )
                     continue
 
                 _last_update = dt.datetime.now()
@@ -213,9 +246,9 @@ class GarbageCollection:
                             )
                         }
 
-
             pickup_events.update(_next_pickup_event)
             return pickup_events
+
 
 def to_date(datetext: str) -> dt.datetime:
     """Convert a date string to a datetime object."""
@@ -227,6 +260,7 @@ def to_date(datetext: str) -> dt.datetime:
         return None
     return dt.datetime.strptime(f"{datetext[index+1:]} 00:00:00", "%d-%m-%Y %H:%M:%S")
 
+
 def get_garbage_type(item: str) -> str:
     """Get the garbage type."""
     for key, value in SUPPORTED_ITEMS.items():
@@ -236,6 +270,7 @@ def get_garbage_type(item: str) -> str:
                     return key
     return item
 
+
 def get_next_weekday(weekday: str) -> dt.datetime:
     weekdays = WEEKDAYS
     current_weekday = dt.datetime.now().weekday()
@@ -243,3 +278,25 @@ def get_next_weekday(weekday: str) -> dt.datetime:
     days_ahead = (target_weekday - current_weekday) % 7
     next_date = dt.datetime.now() + dt.timedelta(days=days_ahead)
     return next_date
+
+
+def deep_search(municipality: str, ordningsnavn: str, materialenavn: str) -> str:
+    """Search deeper to get the right garbage type."""
+
+    # _LOGGER.debug("Deep search: %s, %s", ordningsnavn, materialenavn)
+    if municipality == "egedal":
+        if ordningsnavn.lower() == "genbrug" and "plast" in materialenavn.lower():
+            return "pappi"
+        if ordningsnavn.lower() == "genbrug" and "pap" in materialenavn.lower():
+            return "pap"
+        if ordningsnavn.lower() == "genbrug" and "glas" in materialenavn.lower():
+            return "metalglas"
+
+    if municipality == "randers":
+        if (
+            ordningsnavn.lower() == "genbrug"
+            and "metal, glas, plast" in materialenavn.lower()
+        ):
+            return "pappapirglasmetal"
+
+    return get_garbage_type(ordningsnavn)
