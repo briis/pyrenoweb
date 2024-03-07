@@ -2,7 +2,7 @@
 
 ## Version 2.0.5
 
-**Date**: `2024-03-xx`
+**Date**: `2024-03-07`
 
 ### What's Changed
 
@@ -11,9 +11,9 @@
 - Fixing missing containers in Aalborg. Closing https://github.com/briis/affalddk/issues/11
 - Added Rudersdal back to the list as they do work with this Integration. Closing https://github.com/briis/affalddk/issues/8
 
-## Version 2.0.4
-
-**Date**: `2024-03-02`
+<details>
+  <summary><b>Version 2.0.4</b></summary>
+  **Date**: `2024-03-02`
 
 ### Changes
 
@@ -61,3 +61,5 @@
 * Added new garbage type `glasplast` which holds *Glas, Plast & Madkartoner*
 * Added new garbage type `plastmetalpapir` which holds *Plast, Metal & Papir*
 * Fixed bug when Garbage Type could be in more than pickup type. Happens when partial strings are the same.
+
+</details>
