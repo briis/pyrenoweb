@@ -9,6 +9,7 @@
 - Added handling of Special cases where Municipalities use the same Type for several Containers. For the identified Municipalities, we now do a second validation on other fields to place the Container in the right type.
 - Handling the case where the same Road exists more than once in a Municipality. There is now a requirement to enter the Zipcode of the Address when setting up a new entity in Home Assistant.
 - Fixing missing containers in Aalborg. Closing https://github.com/briis/affalddk/issues/11
+- Added Rudersdal back to the list as they do work with this Integration. Closing https://github.com/briis/affalddk/issues/8
 
 ## Version 2.0.4
 
