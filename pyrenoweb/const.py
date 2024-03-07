@@ -206,6 +206,7 @@ MUNICIPALITIES_LIST = {
     "Næstved": "naestved",
     "Odsherred": "odsherred",
     "Randers": "randers",
+    "Rudersdal": "rudersdal",
     "Rebild": "rebild",
     "Ringkøbing-Skjern": "rksk",
     "Ringsted": "ringsted",
