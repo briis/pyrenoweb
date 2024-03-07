@@ -124,7 +124,7 @@ class GarbageCollection:
             await self._api.async_api_request(url, body)
 
 
-    async def get_address_id(self, street: str, house_number: str) -> RenoWebAddressInfo:
+    async def get_address_id(self, zipcode: str, street: str, house_number: str) -> RenoWebAddressInfo:
         """Get the address id."""
 
         if self._municipality_url is not None:
@@ -133,11 +133,20 @@ class GarbageCollection:
             body = {"searchterm":f"{street} {house_number}", "addresswithmateriel":0}
             data: dict[str, Any] = await self._api.async_api_request(url, body)
             result = json.loads(data['d'])
-            _LOGGER.debug("Address Data: %s", result)
+            # _LOGGER.debug("Address Data: %s", result)
             if 'list' not in result:
                 raise RenowWebNoConnection(f"Renoweb API: {result['status']['status']} - {result['status']['msg']}")
 
-            self._address_id = result['list'][0]['value']
+            _result_count = len(result['list'])
+            _item: int = 0
+            _row_index: int = 0
+            if _result_count > 1:
+                for row in result['list']:
+                    if zipcode in row['label']:
+                        _item = _row_index
+                        break
+                    _row_index += 1
+            self._address_id = result['list'][_item]['value']
 
             if self._address_id  == "0000":
                 raise RenowWebNotValidAddressError("Address not found")
