@@ -1,5 +1,12 @@
 # Changelog for pyrenoweb
 
+## Version 2.0.7
+
+**Date**: `2024-03-xx`
+
+### What's Changed
+- `Genbrug` is used for many different types of Containers, so there is now a new function that can handle these type of containers more generic, instead of by Municipality.
+
 ## Version 2.0.6
 
 **Date**: `2024-03-07`
