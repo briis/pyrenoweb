@@ -1,0 +1,31 @@
+"""This module contains the cembedded images for Entity Pictures."""
+from __future__ import annotations
+
+PICTURE_ITEMS = {
+    "restaffaldmadaffald": "Restaffald-Madaffald",
+    "dagrenovation": "Dagrenovation",
+    "glas": "Glas",
+    "metalglas": ["Glas/metal (1 stk.)",],
+    "pappi": ["Plast/papir (1 stk.)",],
+    "farligtaffald": "Farligt affald",
+    "farligtaffaldmiljoboks": "Farligt affald & Miljøboks",
+    "flis": "Flis",
+    "genbrug": "Genbrug",
+    "jern": "Jern",
+    "papir": "Papir",
+    "papirmetal": "Papir-Metal",
+    "pap": ["Pap 240 L (villa) (1 stk.)",],
+    "plastmetal": "Plast-Metal",
+    "storskrald": "Storskrald",
+    "storskraldogtekstilaffald": "Storskrald & Tekstilaffald",
+    "haveaffald": "Haveaffald",
+    "papirglas": "Papir-Glas",
+    "plastmadkarton": "Plast-Madkarton",
+    "pappapirglasmetal": "Papir-Pap-Glas-Metal",
+    "plastmetalmadmdk": "Plast-Metal-Madkarton",
+    "pappapir": "Pap-Papir",
+    "tekstil": "Tekstilaffald",
+    "glasplast": "Glas-Plast",
+    "plastmetalpapir": "Plast-Metal-Papir",
+    "plast": "Plast",
+}
