@@ -18,7 +18,6 @@ from .const import (
     MUNICIPALITIES_LIST,
     NAME_LIST,
     NON_SUPPORTED_ITEMS,
-    SPECIAL_MUNICIPALITIES_LIST,
     SUPPORTED_ITEMS,
     WEEKDAYS,
 )
@@ -182,7 +181,7 @@ class GarbageCollection:
             data = await self._api.async_api_request(url, body)
             result = json.loads(data["d"])
             garbage_data = result["list"]
-            # _LOGGER.debug("Garbage Data: %s", garbage_data)
+            _LOGGER.debug("Garbage Data: %s", garbage_data)
 
             pickup_events: PickupEvents = {}
             _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 00)
@@ -206,9 +205,6 @@ class GarbageCollection:
 
                 if "genbrug" in row["ordningnavn"].lower():
                     key = get_garbage_type_from_material(row["materielnavn"])
-                    # key = deep_search(
-                    #     self._municipality_url, row["ordningnavn"], row["materielnavn"]
-                    # )
                 else:
                     key = get_garbage_type(row["ordningnavn"])
 
@@ -272,14 +268,16 @@ def get_garbage_type(item: str) -> str:
                     return key
     return item
 
+
 def get_garbage_type_from_material(item: str) -> str:
     """Get the garbage type from the materialnavn."""
+    _LOGGER.debug("Material: %s", item)
     for key, value in MATERIAL_LIST.items():
         if item.lower() in str(value).lower():
             for entry in value:
                 if item.lower() == entry.lower():
                     return key
-    return item
+    return "genbrug"
 
 
 def get_next_weekday(weekday: str) -> dt.datetime:
@@ -289,39 +287,3 @@ def get_next_weekday(weekday: str) -> dt.datetime:
     days_ahead = (target_weekday - current_weekday) % 7
     next_date = dt.datetime.now() + dt.timedelta(days=days_ahead)
     return next_date
-
-
-def deep_search(municipality: str, ordningsnavn: str, materialenavn: str) -> str:
-    """Search deeper to get the right garbage type."""
-
-    _LOGGER.debug("Deep search: %s, %s", ordningsnavn, materialenavn)
-    if municipality == "egedal":
-        if ordningsnavn.lower() == "genbrug" and "plast" in materialenavn.lower():
-            return "pappi"
-        if ordningsnavn.lower() == "genbrug" and "pap" in materialenavn.lower():
-            return "pap"
-        if ordningsnavn.lower() == "genbrug" and "glas" in materialenavn.lower():
-            return "metalglas"
-
-    if municipality == "randers":
-        if (
-            ordningsnavn.lower() == "genbrug"
-            and "metal, glas, plast" in materialenavn.lower()
-        ):
-            return "pappapirglasmetal"
-
-    if municipality == "rudersdal":
-        if ordningsnavn.lower() == "genbrug" and "pap" in materialenavn.lower():
-            return "pap"
-        if ordningsnavn.lower() == "genbrug" and "glas" in materialenavn.lower():
-            return "metalglas"
-        if ordningsnavn.lower() == "genbrug" and "plast/papir" in materialenavn.lower():
-            return "pappi"
-
-    if municipality == "allerod":
-        if ordningsnavn.lower() == "genbrug" and "pap" in materialenavn.lower():
-            return "pap"
-        if ordningsnavn.lower() == "genbrug" and "glas" in materialenavn.lower():
-            return "metalglas"
-
-    return get_garbage_type(ordningsnavn)

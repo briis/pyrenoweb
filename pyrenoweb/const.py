@@ -105,32 +105,42 @@ SUPPORTED_ITEMS = {
 }
 
 MATERIAL_LIST = {
-    "restaffaldmadaffald": "Restaffald-Madaffald",
-    "dagrenovation": "Dagrenovation",
-    "glas": "Glas",
-    "metalglas": ["Glas/metal (1 stk.)",],
-    "pappi": ["Plast/papir (1 stk.)",],
-    "farligtaffald": "Farligt affald",
-    "farligtaffaldmiljoboks": "Farligt affald & Miljøboks",
-    "flis": "Flis",
-    "genbrug": "Genbrug",
-    "jern": "Jern",
-    "papir": "Papir",
-    "papirmetal": "Papir-Metal",
-    "pap": ["Pap 240 L (villa) (1 stk.)",],
-    "plastmetal": "Plast-Metal",
-    "storskrald": "Storskrald",
-    "storskraldogtekstilaffald": "Storskrald & Tekstilaffald",
-    "haveaffald": "Haveaffald",
-    "papirglas": "Papir-Glas",
-    "plastmadkarton": "Plast-Madkarton",
-    "pappapirglasmetal": "Papir-Pap-Glas-Metal",
-    "plastmetalmadmdk": "Plast-Metal-Madkarton",
-    "pappapir": "Pap-Papir",
-    "tekstil": "Tekstilaffald",
-    "glasplast": "Glas-Plast",
-    "plastmetalpapir": "Plast-Metal-Papir",
-    "plast": "Plast",
+    "restaffaldmadaffald": [""],
+    "dagrenovation": [""],
+    "glas": [""],
+    "metalglas": [
+        "Glas/metal (1 stk.)",
+        "240 l Glas/metal Egenløsning (1 stk.)",
+    ],
+    "pappi": [
+        "Plast/papir (1 stk.)",
+        "370 l Plast+MDK/Papir - Egenløsning (1 stk.)",
+    ],
+    "farligtaffald": [""],
+    "farligtaffaldmiljoboks": [""],
+    "flis": [""],
+    "jern": [""],
+    "papir": [""],
+    "papirmetal": [""],
+    "pap": [
+        "Pap 240 L (villa) (1 stk.)",
+        "240 l Pap Egenløsning (1 stk.)",
+    ],
+    "plastmetal": [""],
+    "storskrald": [""],
+    "storskraldogtekstilaffald": [""],
+    "haveaffald": [""],
+    "papirglas": [""],
+    "plastmadkarton": [""],
+    "pappapirglasmetal": [
+        "240L metal, glas, plast/papir gl. (1 stk.)",
+    ],
+    "plastmetalmadmdk": [""],
+    "pappapir": [""],
+    "tekstil": [""],
+    "glasplast": [""],
+    "plastmetalpapir": [""],
+    "plast": [""],
 }
 
 ICON_LIST = {
@@ -191,13 +201,6 @@ NAME_LIST = {
     "plast": "Plast",
 }
 NAME_ARRAY = list(NAME_LIST.keys())
-
-SPECIAL_MUNICIPALITIES_LIST = [
-    "allerod",
-    "egedal",
-    "randers",
-    "rudersdal",
-]
 
 MUNICIPALITIES_LIST = {
     "Aabenraa": "aabenraa",
