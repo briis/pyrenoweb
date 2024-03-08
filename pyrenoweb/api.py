@@ -181,7 +181,7 @@ class GarbageCollection:
             data = await self._api.async_api_request(url, body)
             result = json.loads(data["d"])
             garbage_data = result["list"]
-            # _LOGGER.debug("Garbage Data: %s", garbage_data)
+            _LOGGER.debug("Garbage Data: %s", garbage_data)
 
             pickup_events: PickupEvents = {}
             _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 00)
@@ -304,6 +304,8 @@ def deep_search(municipality: str, ordningsnavn: str, materialenavn: str) -> str
             return "pap"
         if ordningsnavn.lower() == "genbrug" and "glas" in materialenavn.lower():
             return "metalglas"
+        if ordningsnavn.lower() == "genbrug" and "plast/papir" in materialenavn.lower():
+            return "pappi"
 
     if municipality == "allerod":
         if ordningsnavn.lower() == "genbrug" and "pap" in materialenavn.lower():
