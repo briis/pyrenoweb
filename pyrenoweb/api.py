@@ -14,6 +14,7 @@ from .const import (
     API_URL_DATA,
     API_URL_SEARCH,
     ICON_LIST,
+    MATERIAL_LIST,
     MUNICIPALITIES_LIST,
     NAME_LIST,
     NON_SUPPORTED_ITEMS,
@@ -181,7 +182,7 @@ class GarbageCollection:
             data = await self._api.async_api_request(url, body)
             result = json.loads(data["d"])
             garbage_data = result["list"]
-            _LOGGER.debug("Garbage Data: %s", garbage_data)
+            # _LOGGER.debug("Garbage Data: %s", garbage_data)
 
             pickup_events: PickupEvents = {}
             _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 00)
@@ -203,10 +204,11 @@ class GarbageCollection:
                 else:
                     continue
 
-                if self._municipality_url in SPECIAL_MUNICIPALITIES_LIST:
-                    key = deep_search(
-                        self._municipality_url, row["ordningnavn"], row["materielnavn"]
-                    )
+                if "genbrug" in row["ordningnavn"].lower():
+                    key = get_garbage_type_from_material(row["materielnavn"])
+                    # key = deep_search(
+                    #     self._municipality_url, row["ordningnavn"], row["materielnavn"]
+                    # )
                 else:
                     key = get_garbage_type(row["ordningnavn"])
 
@@ -270,6 +272,15 @@ def get_garbage_type(item: str) -> str:
                     return key
     return item
 
+def get_garbage_type_from_material(item: str) -> str:
+    """Get the garbage type from the materialnavn."""
+    for key, value in MATERIAL_LIST.items():
+        if item.lower() in str(value).lower():
+            for entry in value:
+                if item.lower() == entry.lower():
+                    return key
+    return item
+
 
 def get_next_weekday(weekday: str) -> dt.datetime:
     weekdays = WEEKDAYS
@@ -283,7 +294,7 @@ def get_next_weekday(weekday: str) -> dt.datetime:
 def deep_search(municipality: str, ordningsnavn: str, materialenavn: str) -> str:
     """Search deeper to get the right garbage type."""
 
-    # _LOGGER.debug("Deep search: %s, %s", ordningsnavn, materialenavn)
+    _LOGGER.debug("Deep search: %s, %s", ordningsnavn, materialenavn)
     if municipality == "egedal":
         if ordningsnavn.lower() == "genbrug" and "plast" in materialenavn.lower():
             return "pappi"

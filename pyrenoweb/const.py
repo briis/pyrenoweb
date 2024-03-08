@@ -104,6 +104,35 @@ SUPPORTED_ITEMS = {
     "plast": ["Plast - Obligatorisk min. 1 spand", "Plast"],
 }
 
+MATERIAL_LIST = {
+    "restaffaldmadaffald": "Restaffald-Madaffald",
+    "dagrenovation": "Dagrenovation",
+    "glas": "Glas",
+    "metalglas": ["Glas/metal (1 stk.)",],
+    "pappi": ["Plast/papir (1 stk.)",],
+    "farligtaffald": "Farligt affald",
+    "farligtaffaldmiljoboks": "Farligt affald & Miljøboks",
+    "flis": "Flis",
+    "genbrug": "Genbrug",
+    "jern": "Jern",
+    "papir": "Papir",
+    "papirmetal": "Papir-Metal",
+    "pap": ["Pap 240 L (villa) (1 stk.)",],
+    "plastmetal": "Plast-Metal",
+    "storskrald": "Storskrald",
+    "storskraldogtekstilaffald": "Storskrald & Tekstilaffald",
+    "haveaffald": "Haveaffald",
+    "papirglas": "Papir-Glas",
+    "plastmadkarton": "Plast-Madkarton",
+    "pappapirglasmetal": "Papir-Pap-Glas-Metal",
+    "plastmetalmadmdk": "Plast-Metal-Madkarton",
+    "pappapir": "Pap-Papir",
+    "tekstil": "Tekstilaffald",
+    "glasplast": "Glas-Plast",
+    "plastmetalpapir": "Plast-Metal-Papir",
+    "plast": "Plast",
+}
+
 ICON_LIST = {
     "restaffaldmadaffald": "mdi:trash-can",
     "dagrenovation": "mdi:trash-can",
