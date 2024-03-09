@@ -2,10 +2,11 @@
 
 ## Version 2.0.8
 
-**Date**: `2024-03-xx`
+**Date**: `2024-03-09`
 
 ### What's Changed
 - `Genbrug` is used for many different types of Containers, so there is now a new function that can handle these type of containers more generic, instead of by Municipality.
+- Reverting the 2.0.7 implementation of embedded images, as size was too big for HA. Will be reimplemented, once I find a way to reduce the size.
 
 ## Version 2.0.6
 
