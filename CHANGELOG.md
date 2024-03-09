@@ -1,6 +1,6 @@
 # Changelog for pyrenoweb
 
-## Version 2.0.8
+## Version 2.0.9
 
 **Date**: `2024-03-09`
 

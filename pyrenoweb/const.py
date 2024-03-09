@@ -111,10 +111,12 @@ MATERIAL_LIST = {
     "metalglas": [
         "Glas/metal (1 stk.)",
         "240 l Glas/metal Egenløsning (1 stk.)",
+        "Metal/Glas 240 l - 2-kammer (1 stk.)",
     ],
     "pappi": [
         "Plast/papir (1 stk.)",
         "370 l Plast+MDK/Papir - Egenløsning (1 stk.)",
+        "Papir/Plast og MDK 240 l - 2-kammer (1 stk.)",
     ],
     "farligtaffald": [""],
     "farligtaffaldmiljoboks": [""],
@@ -125,6 +127,7 @@ MATERIAL_LIST = {
     "pap": [
         "Pap 240 L (villa) (1 stk.)",
         "240 l Pap Egenløsning (1 stk.)",
+        "Pap 240 L (1 stk.)",
     ],
     "plastmetal": [""],
     "storskrald": [""],

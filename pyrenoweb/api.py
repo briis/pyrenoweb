@@ -261,6 +261,7 @@ def to_date(datetext: str) -> dt.datetime:
 
 def get_garbage_type(item: str) -> str:
     """Get the garbage type."""
+    # _LOGGER.debug("Affalds type: %s", item)
     for key, value in SUPPORTED_ITEMS.items():
         if item.lower() in str(value).lower():
             for entry in value:
