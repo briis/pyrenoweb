@@ -22,6 +22,7 @@ from .const import (
     WEEKDAYS,
 )
 from .data import PickupEvents, PickupType, RenoWebAddressInfo
+from .images import PICTURE_ITEMS
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -222,7 +223,7 @@ class GarbageCollection:
                         group=row["ordningnavn"],
                         friendly_name=NAME_LIST.get(key),
                         icon=ICON_LIST.get(key),
-                        entity_picture=f"{key}.svg",
+                        entity_picture=PICTURE_ITEMS.get(key),
                         description=row["materielnavn"],
                         last_updated=_last_update.strftime("%Y-%m-%d %H:%M:%S"),
                     )
@@ -238,7 +239,7 @@ class GarbageCollection:
                                 group=row["ordningnavn"],
                                 friendly_name=NAME_LIST.get(key),
                                 icon=ICON_LIST.get(key),
-                                entity_picture=f"{key}.svg",
+                                entity_picture=PICTURE_ITEMS.get(key),
                                 description=row["materielnavn"],
                                 last_updated=_last_update.strftime("%Y-%m-%d %H:%M:%S"),
                             )
