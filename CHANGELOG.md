@@ -1,12 +1,11 @@
 # Changelog for pyrenoweb
 
-## Version 2.0.7
+## Version 2.0.8
 
 **Date**: `2024-03-xx`
 
 ### What's Changed
 - `Genbrug` is used for many different types of Containers, so there is now a new function that can handle these type of containers more generic, instead of by Municipality.
-- Embedding the `svg` files directly in this module, removing the need to copy them a specific folder.
 
 ## Version 2.0.6
 

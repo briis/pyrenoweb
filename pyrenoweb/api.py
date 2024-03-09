@@ -22,7 +22,6 @@ from .const import (
     WEEKDAYS,
 )
 from .data import PickupEvents, PickupType, RenoWebAddressInfo
-from .images import PICTURE_ITEMS
 
 _LOGGER = logging.getLogger(__name__)
 
