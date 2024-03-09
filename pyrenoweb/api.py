@@ -17,6 +17,7 @@ from .const import (
     MATERIAL_LIST,
     MUNICIPALITIES_LIST,
     NAME_LIST,
+    NON_MATERIAL_LIST,
     NON_SUPPORTED_ITEMS,
     SUPPORTED_ITEMS,
     WEEKDAYS,
@@ -274,6 +275,8 @@ def get_garbage_type_from_material(item: str) -> str:
     """Get the garbage type from the materialnavn."""
     # _LOGGER.debug("Material: %s", item)
     for key, value in MATERIAL_LIST.items():
+        if item in NON_MATERIAL_LIST:
+            continue
         if item.lower() in str(value).lower():
             for entry in value:
                 if item.lower() == entry.lower():

@@ -6,6 +6,7 @@ NON_SUPPORTED_ITEMS = [
     "Beholderservice",
     "Bestillerordning",
     "Henteordning for grene",
+    "Trærødder og stammer",
 ]
 
 SUPPORTED_ITEMS = {
@@ -54,6 +55,7 @@ SUPPORTED_ITEMS = {
         "Genbrugsøer",
         "Genanvendeligt",
         "Genbrug 240 L",
+        "Genbrugshal (1 stk.)",
     ],
     "jern": ["Jern"],
     "papir": ["Papir", "Papir 660 L"],
@@ -104,6 +106,10 @@ SUPPORTED_ITEMS = {
     "plast": ["Plast - Obligatorisk min. 1 spand", "Plast"],
 }
 
+NON_MATERIAL_LIST = [
+    "Pap bundtet, havebolig (1 stk.)",
+]
+
 MATERIAL_LIST = {
     "restaffaldmadaffald": [""],
     "dagrenovation": [""],
@@ -122,14 +128,28 @@ MATERIAL_LIST = {
     "farligtaffaldmiljoboks": [""],
     "flis": [""],
     "jern": [""],
+    "genbrug": [
+        "Tekstiler",
+        "Genbrug",
+        "Genbrugsøer",
+        "Genanvendeligt",
+        "Genbrug 240 L",
+        "Genbrugshal (1 stk.)",
+    ],
     "papir": [""],
-    "papirmetal": [""],
+    "papirmetal": [
+        "Metal og papir 240 L (ejer.kommune) (1 stk.)",
+    ],
     "pap": [
         "Pap 240 L (villa) (1 stk.)",
         "240 l Pap Egenløsning (1 stk.)",
         "Pap 240 L (1 stk.)",
+        "Pap 240 L (ejer:kommune) (h) (1 stk.)",
     ],
     "plastmetal": [""],
+    "plast": [
+        "Plast og MDK 240 L (ejer.kommune) (1 stk.)",
+    ],
     "storskrald": [""],
     "storskraldogtekstilaffald": [""],
     "haveaffald": [""],
@@ -143,7 +163,6 @@ MATERIAL_LIST = {
     "tekstil": [""],
     "glasplast": [""],
     "plastmetalpapir": [""],
-    "plast": [""],
 }
 
 ICON_LIST = {
