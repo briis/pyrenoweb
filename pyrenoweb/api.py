@@ -223,7 +223,7 @@ class GarbageCollection:
                         group=row["ordningnavn"],
                         friendly_name=NAME_LIST.get(key),
                         icon=ICON_LIST.get(key),
-                        entity_picture=PICTURE_ITEMS.get(key),
+                        entity_picture=f"{key}.svg",
                         description=row["materielnavn"],
                         last_updated=_last_update.strftime("%Y-%m-%d %H:%M:%S"),
                     )
@@ -239,7 +239,7 @@ class GarbageCollection:
                                 group=row["ordningnavn"],
                                 friendly_name=NAME_LIST.get(key),
                                 icon=ICON_LIST.get(key),
-                                entity_picture=PICTURE_ITEMS.get(key),
+                                entity_picture=f"{key}.svg",
                                 description=row["materielnavn"],
                                 last_updated=_last_update.strftime("%Y-%m-%d %H:%M:%S"),
                             )
