@@ -1,5 +1,15 @@
 # Changelog for pyrenoweb
 
+## Version 2.0.10
+
+**Date**: `2024-03-09`
+
+### What's Changed
+- Fixing the Genbrug category for Hvidovre kommune
+
+<details>
+  <summary><b>Previous Changes</b></summary>
+
 ## Version 2.0.9
 
 **Date**: `2024-03-09`
@@ -8,8 +18,6 @@
 - `Genbrug` is used for many different types of Containers, so there is now a new function that can handle these type of containers more generic, instead of by Municipality.
 - Adding more material details to identify containers
 
-<details>
-  <summary><b>Previous Changes</b></summary>
 
   ## Version 2.0.8
 
