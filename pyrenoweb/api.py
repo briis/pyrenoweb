@@ -181,7 +181,7 @@ class GarbageCollection:
             data = await self._api.async_api_request(url, body)
             result = json.loads(data["d"])
             garbage_data = result["list"]
-            _LOGGER.debug("Garbage Data: %s", garbage_data)
+            # _LOGGER.debug("Garbage Data: %s", garbage_data)
 
             pickup_events: PickupEvents = {}
             _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 00)
@@ -271,12 +271,17 @@ def get_garbage_type(item: str) -> str:
 
 def get_garbage_type_from_material(item: str) -> str:
     """Get the garbage type from the materialnavn."""
-    _LOGGER.debug("Material: %s", item)
+    # _LOGGER.debug("Material: %s", item)
     for key, value in MATERIAL_LIST.items():
         if item.lower() in str(value).lower():
             for entry in value:
                 if item.lower() == entry.lower():
                     return key
+
+    _LOGGER.warning(
+        "Material type [%s] is not defined in the system for Genbrug. Please notify the developer",
+        item,
+    )
     return "genbrug"
 
 
