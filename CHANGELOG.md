@@ -2,13 +2,15 @@
 
 ## Version 2.0.10
 
-**Date**: `2024-03-09`
+**Date**: `2024-03-10`
 
 ### What's Changed
 
 - Fixing the Genbrug category for Hvidovre kommune
 - Fixing the Genbrug category for Greve kommune
 - Fixing the Genbrug category for Egedal kommune
+- Fixing the Genbrug category for Rudersdal kommune
+- Fixing the Genbrug category for Høje-Taastrup kommune
 
 <details>
   <summary><b>Previous Changes</b></summary>
