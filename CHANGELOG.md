@@ -5,7 +5,10 @@
 **Date**: `2024-03-09`
 
 ### What's Changed
+
 - Fixing the Genbrug category for Hvidovre kommune
+- Fixing the Genbrug category for Greve kommune
+- Fixing the Genbrug category for Egedal kommune
 
 <details>
   <summary><b>Previous Changes</b></summary>

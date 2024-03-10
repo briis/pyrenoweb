@@ -118,11 +118,13 @@ MATERIAL_LIST = {
         "Glas/metal (1 stk.)",
         "240 l Glas/metal Egenløsning (1 stk.)",
         "Metal/Glas 240 l - 2-kammer (1 stk.)",
+        "Glas/metal, afstand over 5 meter (1 stk.)",
     ],
     "pappi": [
         "Plast/papir (1 stk.)",
         "370 l Plast+MDK/Papir - Egenløsning (1 stk.)",
         "Papir/Plast og MDK 240 l - 2-kammer (1 stk.)",
+        "Plast/papir, afstand over 5 meter (1 stk.)",
     ],
     "farligtaffald": [""],
     "farligtaffaldmiljoboks": [""],
@@ -145,22 +147,31 @@ MATERIAL_LIST = {
         "240 l Pap Egenløsning (1 stk.)",
         "Pap 240 L (1 stk.)",
         "Pap 240 L (ejer:kommune) (h) (1 stk.)",
+        "Pap - 240 l.  (1 stk.)",
     ],
-    "plastmetal": [""],
+    "plastmetal": [
+        "Plast, småt metal & MDK - 240 l. (1 stk.)",
+    ],
     "plast": [
         "Plast og MDK 240 L (ejer.kommune) (1 stk.)",
     ],
-    "storskrald": [""],
+    "storskrald": [
+        "Storskrald - fortovsindsamling (1 stk.)",
+    ],
     "storskraldogtekstilaffald": [""],
     "haveaffald": [""],
-    "papirglas": [""],
+    "papirglas": [
+        "Papir/glas - 240 l. fortovsindsamling (1 stk.)",
+    ],
     "plastmadkarton": [""],
     "pappapirglasmetal": [
         "240L metal, glas, plast/papir gl. (1 stk.)",
     ],
     "plastmetalmadmdk": [""],
     "pappapir": [""],
-    "tekstil": [""],
+    "tekstil": [
+        "Tekstil pose (1 stk.)",
+    ],
     "glasplast": [""],
     "plastmetalpapir": [""],
 }
