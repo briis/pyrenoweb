@@ -137,6 +137,7 @@ MATERIAL_LIST = {
         "Genanvendeligt",
         "Genbrug 240 L",
         "Genbrugshal (1 stk.)",
+        "Gen-Skel 0-2 meter (1 stk.)",
     ],
     "papir": [""],
     "papirmetal": [
@@ -166,6 +167,7 @@ MATERIAL_LIST = {
     "plastmadkarton": [""],
     "pappapirglasmetal": [
         "240L metal, glas, plast/papir gl. (1 stk.)",
+        "240 l genbrug 2-kammer (2023) (1 stk.)",
     ],
     "plastmetalmadmdk": [""],
     "pappapir": [""],

@@ -1,5 +1,16 @@
 # Changelog for pyrenoweb
 
+## Version 2.0.11
+
+**Date**: `2024-03-xx`
+
+### What's Changed
+
+- Fixing the Genbrug category for Kerteminde kommune
+
+<details>
+  <summary><b>Previous Changes</b></summary>
+
 ## Version 2.0.10
 
 **Date**: `2024-03-10`
@@ -11,9 +22,6 @@
 - Fixing the Genbrug category for Egedal kommune
 - Fixing the Genbrug category for Rudersdal kommune
 - Fixing the Genbrug category for Høje-Taastrup kommune
-
-<details>
-  <summary><b>Previous Changes</b></summary>
 
 ## Version 2.0.9
 
