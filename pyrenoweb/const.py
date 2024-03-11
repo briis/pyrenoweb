@@ -137,7 +137,6 @@ MATERIAL_LIST = {
         "Genanvendeligt",
         "Genbrug 240 L",
         "Genbrugshal (1 stk.)",
-        "Gen-Skel 0-2 meter (1 stk.)",
     ],
     "papir": [""],
     "papirmetal": [
@@ -160,7 +159,9 @@ MATERIAL_LIST = {
         "Storskrald - fortovsindsamling (1 stk.)",
     ],
     "storskraldogtekstilaffald": [""],
-    "haveaffald": [""],
+    "haveaffald": [
+        "Gen-Skel 0-2 meter (1 stk.)",
+    ],
     "papirglas": [
         "Papir/glas - 240 l. fortovsindsamling (1 stk.)",
     ],
