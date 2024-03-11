@@ -9,9 +9,17 @@ import logging
 import time
 import sys
 
-from pyrenoweb import GarbageCollection, MUNICIPALITIES_ARRAY, NAME_ARRAY, RenoWebAddressInfo, PickupEvents, RenowWebNoConnection
+from pyrenoweb import (
+    GarbageCollection,
+    MUNICIPALITIES_ARRAY,
+    NAME_ARRAY,
+    RenoWebAddressInfo,
+    PickupEvents,
+    RenowWebNoConnection,
+)
 
 _LOGGER = logging.getLogger(__name__)
+
 
 async def main() -> None:
     """Async test module."""
@@ -24,7 +32,9 @@ async def main() -> None:
 
     if sys.argv[1] == "address_id":
         try:
-            address_data: RenoWebAddressInfo = await garbage.get_address_id(zipcode=sys.argv[3],street=sys.argv[4],house_number=sys.argv[5])
+            address_data: RenoWebAddressInfo = await garbage.get_address_id(
+                zipcode=sys.argv[3], street=sys.argv[4], house_number=sys.argv[5]
+            )
             print("")
             print("========================================================")
             print("Address ID: ", address_data.address_id)
@@ -38,6 +48,11 @@ async def main() -> None:
     elif sys.argv[1] == "municipalities":
         for row in MUNICIPALITIES_ARRAY:
             print(row.capitalize())
+
+    elif sys.argv[1] == "categories":
+        _sorted_names = sorted(NAME_ARRAY)
+        for row in _sorted_names:
+            print(row)
 
     elif sys.argv[1] == "pickup_data":
         try:
@@ -78,5 +93,6 @@ async def main() -> None:
     end = time.time()
 
     _LOGGER.info("Execution time: %s seconds", end - start)
+
 
 asyncio.run(main())
