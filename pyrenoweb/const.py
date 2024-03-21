@@ -244,6 +244,7 @@ MUNICIPALITIES_LIST = {
     "Aalborg": "aalborg",
     "Albertslund": "albertslund",
     "Allerød": "allerod",
+    "Billund": "billund",
     "Brøndby": "brondby",
     "Brønderslev": "bronderslev",
     "Dragør": "dragoer",
