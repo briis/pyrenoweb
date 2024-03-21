@@ -193,11 +193,7 @@ class GarbageCollection:
                     continue
 
                 _pickup_date = None
-                if (
-                    row["toemningsdato"] != "Ingen tømningsdato fundet!"
-                    and row["toemningsdato"] != "Skal tilmeldes"
-                    and row["toemningsdato"] is not None
-                ):
+                if row["toemningsdato"] not in NON_SUPPORTED_ITEMS:
                     _pickup_date = to_date(row["toemningsdato"])
                 elif str(row["toemningsdage"]).capitalize() in WEEKDAYS:
                     _pickup_date = get_next_weekday(row["toemningsdage"])

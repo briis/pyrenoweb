@@ -7,6 +7,9 @@ NON_SUPPORTED_ITEMS = [
     "Bestillerordning",
     "Henteordning for grene",
     "Trærødder og stammer",
+    "Ingen tømningsdato fundet!",
+    "Skal tilmeldes",
+    "Bestil afhentning",
 ]
 
 SUPPORTED_ITEMS = {
@@ -165,13 +168,17 @@ MATERIAL_LIST = {
     "papirglas": [
         "Papir/glas - 240 l. fortovsindsamling (1 stk.)",
     ],
-    "plastmadkarton": [""],
+    "plastmadkarton": [
+        "Genbrugsbeholder PMDK/MG-240L/3uge (1 stk.)",
+    ],
     "pappapirglasmetal": [
         "240L metal, glas, plast/papir gl. (1 stk.)",
         "240 l genbrug 2-kammer (2023) (1 stk.)",
     ],
     "plastmetalmadmdk": [""],
-    "pappapir": [""],
+    "pappapir": [
+        "Genbrugsbeholder PP-240L/6uge (1 stk.)",
+    ],
     "tekstil": [
         "Tekstil pose (1 stk.)",
     ],
