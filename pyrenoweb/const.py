@@ -132,6 +132,7 @@ MATERIAL_LIST = {
         "Metal/Glas 240 l - 2-kammer (1 stk.)",
         "Glas/metal, afstand over 5 meter (1 stk.)",
         "240 L - Metal og Glas (1 stk.)",
+        "240 l glas/metal - 4 tømninger (1 stk.)",
     ],
     "pappi": [
         "Plast/papir (1 stk.)",
@@ -140,6 +141,7 @@ MATERIAL_LIST = {
         "Plast/papir, afstand over 5 meter (1 stk.)",
         "240 L - Plast og Papir (1 stk.)",
         "240L genbrug (1 stk.)",
+        "240 l PMDK/PP 3 ugers tømning (1 stk.)",
     ],
     "farligtaffald": [
         "Miljøkasse (1 stk.)",
