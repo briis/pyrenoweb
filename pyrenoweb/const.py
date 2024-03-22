@@ -55,7 +55,6 @@ SUPPORTED_ITEMS = {
     "farligtaffaldmiljoboks": ["Farligt affald/Miljøboks", "Papir og glas/dåser"],
     "flis": ["Flis", "Flishugning"],
     "genbrug": [
-        "Tekstiler",
         "Genbrug",
         "Genbrugsøer",
         "Genanvendeligt",
@@ -103,7 +102,14 @@ SUPPORTED_ITEMS = {
     ],
     "plastmetalmadmdk": ["Plast/Metal/Mad- & drikkekartoner"],
     "pappapir": ["Pap/Papir", "Papir/Pap", "Papir og Pap"],
-    "tekstil": ["Standplads", "Tekstilaffald", "Miljøkasse/tekstiler", "Tekstil"],
+    "tekstil": [
+        "Tekstiler",
+        "Standplads",
+        "Tekstilaffald",
+        "Miljøkasse/tekstiler",
+        "Tekstil",
+        "Tekstilposer (1 stk.)",
+    ],
     "glasplast": ["Glas/Plast og MDK"],
     "plastmetalpapir": [
         "Plast/Metal/Papir ",

@@ -138,9 +138,9 @@ class GarbageCollection:
         """Get the address id."""
 
         if self._municipality_url is not None:
-            _LOGGER.debug("Municipality URL: %s", self._municipality_url)
             url = f"https://{self._municipality_url}{API_URL_SEARCH}"
-            body = {"searchterm": f"{street} {house_number}", "addresswithmateriel": 0}
+            body = {"searchterm": f"{street} {house_number}", "addresswithmateriel": 7}
+            # _LOGGER.debug("Municipality URL: %s %s", url, body)
             data: dict[str, Any] = await self._api.async_api_request(url, body)
             result = json.loads(data["d"])
             # _LOGGER.debug("Address Data: %s", result)
@@ -178,11 +178,13 @@ class GarbageCollection:
 
         if self._municipality_url is not None:
             url = f"https://{self._municipality_url}{API_URL_DATA}"
+            # _LOGGER.debug("URL: %s", url)
             body = {"adrid": f"{address_id}", "common": "false"}
+            # _LOGGER.debug("Body: %s", body)
             data = await self._api.async_api_request(url, body)
             result = json.loads(data["d"])
             garbage_data = result["list"]
-            # _LOGGER.debug("Garbage Data: %s", garbage_data)
+            _LOGGER.debug("Garbage Data: %s", garbage_data)
 
             pickup_events: PickupEvents = {}
             _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 0)
@@ -219,7 +221,7 @@ class GarbageCollection:
                     )
                     continue
 
-                _last_update = dt.date.today()
+                _last_update = dt.datetime.today()
                 _pickup_event = {
                     key: PickupType(
                         date=_pickup_date,
@@ -243,6 +245,8 @@ class GarbageCollection:
                     if _pickup_date == _next_pickup:
                         _next_name.append(NAME_LIST.get(key))
                         _next_description.append(row["materielnavn"])
+
+            _last_update = dt.datetime.today()
             _next_pickup_event = {
                 "next_pickup": PickupType(
                     date=_next_pickup,
