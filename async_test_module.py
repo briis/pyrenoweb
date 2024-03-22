@@ -65,6 +65,7 @@ async def main() -> None:
                 print(f"{data[item].friendly_name}:")
                 print("  Nøgle: ", item)
                 print("  Gruppe: ", data[item].group)
+                print("  Navn: ", data[item].friendly_name)
                 print("  Dato: ", data[item].date.strftime("%d-%m-%Y"))
                 print("  Beskrivelse: ", data[item].description)
                 print("  Icon: ", data[item].icon)
@@ -75,6 +76,7 @@ async def main() -> None:
             item = "next_pickup"
             print("Mext Pickup:")
             print("  Gruppe: ", data[item].group)
+            print("  Navn: ", data[item].friendly_name)
             print("  Dato: ", data[item].date.strftime("%d-%m-%Y"))
             print("  Beskrivelse: ", data[item].description)
             print("  Icon: ", data[item].icon)

@@ -188,6 +188,8 @@ class GarbageCollection:
             _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 0)
             _next_pickup = _next_pickup.date()
             _next_pickup_event: PickupType = None
+            _next_name = []
+            _next_description = []
 
             for row in garbage_data:
                 if row["ordningnavn"] in NON_SUPPORTED_ITEMS:
@@ -236,17 +238,22 @@ class GarbageCollection:
                         continue
                     if _pickup_date < _next_pickup:
                         _next_pickup = _pickup_date
-                        _next_pickup_event = {
-                            "next_pickup": PickupType(
-                                date=_pickup_date,
-                                group=row["ordningnavn"],
-                                friendly_name=NAME_LIST.get(key),
-                                icon=ICON_LIST.get(key),
-                                entity_picture=f"{key}.svg",
-                                description=row["materielnavn"],
-                                last_updated=_last_update.strftime("%Y-%m-%d %H:%M:%S"),
-                            )
-                        }
+                        _next_name = []
+                        _next_description = []
+                    if _pickup_date == _next_pickup:
+                        _next_name.append(NAME_LIST.get(key))
+                        _next_description.append(row["materielnavn"])
+            _next_pickup_event = {
+                "next_pickup": PickupType(
+                    date=_next_pickup,
+                    group="genbrug",
+                    friendly_name=list_to_string(_next_name),
+                    icon=ICON_LIST.get("genbrug"),
+                    entity_picture="genbrug.svg",
+                    description=list_to_string(_next_description),
+                    last_updated=_last_update.strftime("%Y-%m-%d %H:%M:%S"),
+                )
+            }
 
             pickup_events.update(_next_pickup_event)
             return pickup_events
@@ -300,3 +307,8 @@ def get_next_weekday(weekday: str) -> dt.date:
     days_ahead = (target_weekday - current_weekday) % 7
     next_date: dt.date = dt.datetime.now() + dt.timedelta(days=days_ahead)
     return next_date
+
+
+def list_to_string(list: list[str]) -> str:
+    """Convert a list to a string."""
+    return ", ".join(list)
