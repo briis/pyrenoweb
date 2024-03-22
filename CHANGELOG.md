@@ -1,5 +1,13 @@
 # Changelog for pyrenoweb
 
+## Version 2.0.12
+
+**Date**: `2024-03-22`
+
+### What's Changed
+
+- see release notes for V2.0.5 of https://github.com/briis/affalddk as alle changes here are reflected there.
+
 ## Version 2.0.11
 
 **Date**: `2024-03-12`

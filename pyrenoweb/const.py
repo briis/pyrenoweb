@@ -141,7 +141,9 @@ MATERIAL_LIST = {
         "240 L - Plast og Papir (1 stk.)",
         "240L genbrug (1 stk.)",
     ],
-    "farligtaffald": [""],
+    "farligtaffald": [
+        "Miljøkasse (1 stk.)",
+    ],
     "farligtaffaldmiljoboks": [""],
     "flis": [""],
     "jern": [""],
@@ -185,6 +187,9 @@ MATERIAL_LIST = {
     "plastmadkarton": [
         "Genbrugsbeholder PMDK/MG-240L/3uge (1 stk.)",
     ],
+    "papirglasdaaser": [
+        "240 L 2-delt Papir/glas-dåser en-familie (1 stk.)",
+    ],
     "pappapirglasmetal": [
         "240L metal, glas, plast/papir gl. (1 stk.)",
         "240 l genbrug 2-kammer (2023) (1 stk.)",
@@ -197,6 +202,7 @@ MATERIAL_LIST = {
     ],
     "tekstil": [
         "Tekstil pose (1 stk.)",
+        "Tekstilpose tømning (1 stk.)",
     ],
     "glasplast": [""],
     "plastmetalpapir": [""],
@@ -224,6 +230,7 @@ ICON_LIST = {
     "haveaffald": "mdi:leaf",
     "papirglas": "mdi:greenhouse",
     "plastmadkarton": "mdi:trash-can",
+    "papirglasdaaser": "mdi:trash-can",
     "pappapirglasmetal": "mdi:trash-can",
     "plastmetalmadmdk": "mdi:trash-can",
     "pappapir": "mdi:file",
@@ -249,6 +256,7 @@ NAME_LIST = {
     "pap": "Pap",
     "papir": "Papir",
     "papirglas": "Papir, Pap & Glas",
+    "papirglasdaaser": "Papir, Glas & Dåser",
     "papirmetal": "Papir & Metal",
     "pappapir": "Pap & Papir",
     "pappapirglasmetal": "Pap, Papir, Glas & Metal",

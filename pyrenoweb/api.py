@@ -203,6 +203,7 @@ class GarbageCollection:
                 if (
                     "genbrug" in row["ordningnavn"].lower()
                     or "papir og glas/dåser" in row["ordningnavn"].lower()
+                    or "miljøkasse/tekstiler" in row["ordningnavn"].lower()
                 ):
                     key = get_garbage_type_from_material(row["materielnavn"])
                 else:
@@ -230,6 +231,8 @@ class GarbageCollection:
                 pickup_events.update(_pickup_event)
 
                 if _pickup_date is not None:
+                    if _pickup_date < dt.datetime.now():
+                        continue
                     if _pickup_date < _next_pickup:
                         _next_pickup = _pickup_date
                         _next_pickup_event = {
@@ -272,7 +275,7 @@ def get_garbage_type(item: str) -> str:
 
 def get_garbage_type_from_material(item: str) -> str:
     """Get the garbage type from the materialnavn."""
-    _LOGGER.debug("Material: %s", item)
+    # _LOGGER.debug("Material: %s", item)
     for key, value in MATERIAL_LIST.items():
         if item in NON_MATERIAL_LIST:
             continue
