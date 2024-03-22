@@ -1,5 +1,19 @@
 # Changelog for pyrenoweb
 
+## Version 2.0.14
+
+**Date**: `2024-03-22`
+
+### What's Changed
+
+- Adding support for the `Next Pickup` sensor, to display data for all containers being picked up that day.
+- Fixing missing containers for Vordingborg Kommune
+
+
+<details>
+  <summary><b>Previous Changes</b></summary>
+
+
 ## Version 2.0.13
 
 **Date**: `2024-03-22`
@@ -7,10 +21,6 @@
 ### What's Changed
 
 - Fixing datetime to date conversion
-
-
-<details>
-  <summary><b>Previous Changes</b></summary>
 
 ## Version 2.0.12
 
