@@ -9,6 +9,9 @@
 - Fixing datetime to date conversion
 
 
+<details>
+  <summary><b>Previous Changes</b></summary>
+
 ## Version 2.0.12
 
 **Date**: `2024-03-22`
@@ -24,9 +27,6 @@
 ### What's Changed
 
 - Fixing the Genbrug category for Kerteminde kommune
-
-<details>
-  <summary><b>Previous Changes</b></summary>
 
 ## Version 2.0.10
 
