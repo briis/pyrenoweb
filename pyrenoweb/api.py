@@ -200,7 +200,10 @@ class GarbageCollection:
                 else:
                     continue
 
-                if "genbrug" in row["ordningnavn"].lower():
+                if (
+                    "genbrug" in row["ordningnavn"].lower()
+                    or "papir og glas/dåser" in row["ordningnavn"].lower()
+                ):
                     key = get_garbage_type_from_material(row["materielnavn"])
                 else:
                     key = get_garbage_type(row["ordningnavn"])
@@ -269,7 +272,7 @@ def get_garbage_type(item: str) -> str:
 
 def get_garbage_type_from_material(item: str) -> str:
     """Get the garbage type from the materialnavn."""
-    # _LOGGER.debug("Material: %s", item)
+    _LOGGER.debug("Material: %s", item)
     for key, value in MATERIAL_LIST.items():
         if item in NON_MATERIAL_LIST:
             continue

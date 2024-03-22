@@ -32,7 +32,9 @@ SUPPORTED_ITEMS = {
         "Energibeholder (mad/rest)",
         "Rest- og Madaffald",
     ],
+    "batterier": ["Batterier"],
     "dagrenovation": ["Dagrenovation"],
+    "elektronik": [""],
     "glas": ["Industri Genbrugeligt"],
     "metalglas": ["Glas og metal", "Metal-Glas", "Glas/Metal", "Metal og Glas"],
     "pappi": [
@@ -62,6 +64,7 @@ SUPPORTED_ITEMS = {
     ],
     "jern": ["Jern"],
     "papir": ["Papir", "Papir 660 L"],
+    "papirglasdaaser": ["Papir og glas/dåser"],
     "papirmetal": ["Papir & Metal", "Papir/metal", "Metal/papir", "Papir og Metal"],
     "pap": ["Pap"],
     "plastmetal": [
@@ -115,7 +118,13 @@ NON_MATERIAL_LIST = [
 
 MATERIAL_LIST = {
     "restaffaldmadaffald": [""],
+    "batterier": [
+        "Batterier i pose på låg (1 stk.)",
+    ],
     "dagrenovation": [""],
+    "elektronik": [
+        "Småt elektronik i pose på låg (1 stk.)",
+    ],
     "glas": [""],
     "metalglas": [
         "Glas/metal (1 stk.)",
@@ -180,6 +189,7 @@ MATERIAL_LIST = {
         "240L metal, glas, plast/papir gl. (1 stk.)",
         "240 l genbrug 2-kammer (2023) (1 stk.)",
         "4-kammer (240 l) (1 stk.)",
+        "240 L 2-delt Papir/glas-dåser en-familie (1 stk.)",
     ],
     "plastmetalmadmdk": [""],
     "pappapir": [
@@ -193,6 +203,8 @@ MATERIAL_LIST = {
 }
 
 ICON_LIST = {
+    "batterier": "mdi:battery",
+    "elektronik": "mdi:power-plug",
     "restaffaldmadaffald": "mdi:trash-can",
     "dagrenovation": "mdi:trash-can",
     "glas": "liquor",
@@ -222,6 +234,8 @@ ICON_LIST = {
 }
 
 NAME_LIST = {
+    "batterier": "Batterier",
+    "elektronik": "Elektronik",
     "dagrenovation": "Dagrenovation",
     "farligtaffald": "Farligt affald",
     "farligtaffaldmiljoboks": "Farligt affald & Miljøboks",
