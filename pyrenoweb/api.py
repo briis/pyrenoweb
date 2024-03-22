@@ -185,7 +185,8 @@ class GarbageCollection:
             # _LOGGER.debug("Garbage Data: %s", garbage_data)
 
             pickup_events: PickupEvents = {}
-            _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 00)
+            _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 0)
+            _next_pickup = _next_pickup.date()
             _next_pickup_event: PickupType = None
 
             for row in garbage_data:
@@ -216,7 +217,7 @@ class GarbageCollection:
                     )
                     continue
 
-                _last_update = dt.datetime.now()
+                _last_update = dt.date.today()
                 _pickup_event = {
                     key: PickupType(
                         date=_pickup_date,
@@ -231,7 +232,7 @@ class GarbageCollection:
                 pickup_events.update(_pickup_event)
 
                 if _pickup_date is not None:
-                    if _pickup_date < dt.datetime.now():
+                    if _pickup_date < dt.date.today():
                         continue
                     if _pickup_date < _next_pickup:
                         _next_pickup = _pickup_date
@@ -251,7 +252,7 @@ class GarbageCollection:
             return pickup_events
 
 
-def to_date(datetext: str) -> dt.datetime:
+def to_date(datetext: str) -> dt.date:
     """Convert a date string to a datetime object."""
     if datetext == "Ingen tømningsdato fundet!":
         return None
@@ -259,7 +260,8 @@ def to_date(datetext: str) -> dt.datetime:
     index = datetext.rfind(" ")
     if index == -1:
         return None
-    return dt.datetime.strptime(f"{datetext[index+1:]} 00:00:00", "%d-%m-%Y %H:%M:%S")
+    _date = dt.datetime.strptime(f"{datetext[index+1:]}", "%d-%m-%Y")
+    return _date.date()
 
 
 def get_garbage_type(item: str) -> str:
@@ -291,10 +293,10 @@ def get_garbage_type_from_material(item: str) -> str:
     return "genbrug"
 
 
-def get_next_weekday(weekday: str) -> dt.datetime:
+def get_next_weekday(weekday: str) -> dt.date:
     weekdays = WEEKDAYS
     current_weekday = dt.datetime.now().weekday()
     target_weekday = weekdays.index(weekday.capitalize())
     days_ahead = (target_weekday - current_weekday) % 7
-    next_date = dt.datetime.now() + dt.timedelta(days=days_ahead)
+    next_date: dt.date = dt.datetime.now() + dt.timedelta(days=days_ahead)
     return next_date
