@@ -1,5 +1,14 @@
 # Changelog for pyrenoweb
 
+## Version 2.0.13
+
+**Date**: `2024-03-22`
+
+### What's Changed
+
+- Fixing datetime to date conversion
+
+
 ## Version 2.0.12
 
 **Date**: `2024-03-22`
