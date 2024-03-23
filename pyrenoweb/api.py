@@ -128,7 +128,7 @@ class GarbageCollection:
             url = f"https://{self._municipality_url}{API_URL_SEARCH}"
             body = {
                 "searchterm": f"{self._street} {self._house_number}",
-                "addresswithmateriel": 0,
+                "addresswithmateriel": 1,
             }
             await self._api.async_api_request(url, body)
 
@@ -184,7 +184,7 @@ class GarbageCollection:
             data = await self._api.async_api_request(url, body)
             result = json.loads(data["d"])
             garbage_data = result["list"]
-            _LOGGER.debug("Garbage Data: %s", garbage_data)
+            # _LOGGER.debug("Garbage Data: %s", garbage_data)
 
             pickup_events: PickupEvents = {}
             _next_pickup = dt.datetime(2030, 12, 31, 23, 59, 0)

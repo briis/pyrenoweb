@@ -175,6 +175,7 @@ MATERIAL_LIST = {
         "Pap - 240 l.  (1 stk.)",
         "Indsamling af pap (løst og beholder) (1 stk.)",
         "240 L - Pap - Skel (1 stk.)",
+        "Beholder til pap (1 stk.)",
     ],
     "plastmetal": [
         "Plast, småt metal & MDK - 240 l. (1 stk.)",
@@ -214,6 +215,9 @@ MATERIAL_LIST = {
     ],
     "glasplast": [""],
     "plastmetalpapir": [""],
+    "papirglasmetalplast": [
+        "4-kammer (370 l) (1 stk.)",
+    ],
 }
 
 ICON_LIST = {
@@ -223,7 +227,7 @@ ICON_LIST = {
     "dagrenovation": "mdi:trash-can",
     "glas": "liquor",
     "metalglas": "mdi:glass-fragile",
-    "pappi": "mdi:recycle",
+    "pappi": "mdi:trash-can",
     "farligtaffald": "mdi:biohazard",
     "farligtaffaldmiljoboks": "mdi:biohazard",
     "flis": "mdi:tree",
@@ -237,6 +241,7 @@ ICON_LIST = {
     "storskraldogtekstilaffald": "mdi:table-furniture",
     "haveaffald": "mdi:leaf",
     "papirglas": "mdi:greenhouse",
+    "papirglasmetalplast": "mdi:trash-can",
     "plastmadkarton": "mdi:trash-can",
     "papirglasdaaser": "mdi:trash-can",
     "pappapirglasmetal": "mdi:trash-can",
@@ -265,6 +270,7 @@ NAME_LIST = {
     "papir": "Papir",
     "papirglas": "Papir, Pap & Glas",
     "papirglasdaaser": "Papir, Glas & Dåser",
+    "papirglasmetalplast": "Papir, Glas, Metal & Plast",
     "papirmetal": "Papir & Metal",
     "pappapir": "Pap & Papir",
     "pappapirglasmetal": "Pap, Papir, Glas & Metal",

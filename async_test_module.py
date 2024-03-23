@@ -86,8 +86,6 @@ async def main() -> None:
 
         except RenowWebNoConnection as err:
             print(err)
-        # except Exception as err:
-        #     print(err)
 
     if session is not None:
         await session.close()

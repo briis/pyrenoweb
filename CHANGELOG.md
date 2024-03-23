@@ -2,12 +2,14 @@
 
 ## Version 2.0.15
 
-**Date**: `2024-03-xx`
+**Date**: `2024-03-23`
 
 ### What's Changed
 
-- Placing Textil correctly for Roskilde Kommune.
-
+- Placing Textil correctly for Roskilde, Aalborg (and possible other Municipalities).
+- Adding new category `papirglasmetalplast`. **Note** You need to download the image files again.
+- Fixing missing containers for Lyngby-Taarbæk
+- Fixing occasionally wrong address id being returned.
 
 <details>
   <summary><b>Previous Changes</b></summary>
