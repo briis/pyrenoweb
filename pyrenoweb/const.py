@@ -55,8 +55,14 @@ SUPPORTED_ITEMS = {
         "Farligt Affald, Rød boks",
         "Genbrugsbilen",
     ],
-    "farligtaffaldmiljoboks": ["Farligt affald/Miljøboks", "Papir og glas/dåser"],
-    "flis": ["Flis", "Flishugning"],
+    "farligtaffaldmiljoboks": [
+        "Farligt affald/Miljøboks",
+        "Papir og glas/dåser",
+    ],
+    "flis": [
+        "Flis",
+        "Flishugning",
+    ],
     "genbrug": [
         "Genbrug",
         "Genbrugsøer",
@@ -64,11 +70,25 @@ SUPPORTED_ITEMS = {
         "Genbrug 240 L",
         "Genbrugshal (1 stk.)",
     ],
-    "jern": ["Jern"],
-    "papir": ["Papir", "Papir 660 L"],
-    "papirglasdaaser": ["Papir og glas/dåser"],
-    "papirmetal": ["Papir & Metal", "Papir/metal", "Metal/papir", "Papir og Metal"],
-    "pap": ["Pap"],
+    "jern": [
+        "Jern",
+    ],
+    "papir": [
+        "Papir",
+        "Papir 660 L",
+    ],
+    "papirglasdaaser": [
+        "Papir og glas/dåser",
+    ],
+    "papirmetal": [
+        "Papir & Metal",
+        "Papir/metal",
+        "Metal/papir",
+        "Papir og Metal",
+    ],
+    "pap": [
+        "Pap",
+    ],
     "plastmetal": [
         "Plast & Metal",
         "Plast, metal & MDK 660L",
@@ -83,7 +103,9 @@ SUPPORTED_ITEMS = {
         "Storskrald og genbrug",
         "Pap og Storskrald",
     ],
-    "storskraldogtekstilaffald": ["Storskrald og tekstilaffald"],
+    "storskraldogtekstilaffald": [
+        "Storskrald og tekstilaffald",
+    ],
     "haveaffald": [
         "Haveaffald, flishugning",
         "Haveaffald",
@@ -116,7 +138,9 @@ SUPPORTED_ITEMS = {
         "Tekstil",
         "Tekstilposer (1 stk.)",
     ],
-    "glasplast": ["Glas/Plast og MDK"],
+    "glasplast": [
+        "Glas/Plast og MDK",
+    ],
     "plastmetalpapir": [
         "Plast/Metal/Papir ",
         "Genbrugsspand - Obligatorisk min. 1 spand",
