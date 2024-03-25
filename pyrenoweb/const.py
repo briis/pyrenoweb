@@ -180,9 +180,11 @@ MATERIAL_LIST = {
         "240 l PMDK/PP 3 ugers tømning (1 stk.)",
     ],
     "farligtaffald": [
+        "",
+    ],
+    "farligtaffaldmiljoboks": [
         "Miljøkasse (1 stk.)",
     ],
-    "farligtaffaldmiljoboks": [""],
     "flis": [""],
     "jern": [""],
     "genbrug": [
@@ -258,8 +260,8 @@ ICON_LIST = {
     "glas": "liquor",
     "metalglas": "mdi:glass-fragile",
     "pappi": "mdi:trash-can",
-    "farligtaffald": "mdi:biohazard",
-    "farligtaffaldmiljoboks": "mdi:biohazard",
+    "farligtaffald": "mdi:recycle",
+    "farligtaffaldmiljoboks": "mdi:recycle",
     "flis": "mdi:tree",
     "genbrug": "mdi:recycle",
     "jern": "mdi:bucket",
