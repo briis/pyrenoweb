@@ -1,5 +1,17 @@
 # Changelog for pyrenoweb
 
+## Version 2.0.16
+
+**Date**: `2024-03-xx`
+
+### What's Changed
+
+- Removed Furesø kommune as they are no longer using Renoweb.
+- Added Lejre kommune, that was left out in the initial release.
+
+<details>
+  <summary><b>Previous Changes</b></summary>
+
 ## Version 2.0.15
 
 **Date**: `2024-03-23`
@@ -10,9 +22,6 @@
 - Adding new category `papirglasmetalplast`. **Note** You need to download the image files again.
 - Fixing missing containers for Lyngby-Taarbæk
 - Fixing occasionally wrong address id being returned.
-
-<details>
-  <summary><b>Previous Changes</b></summary>
 
 ## Version 2.0.14
 
