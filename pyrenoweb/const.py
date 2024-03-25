@@ -10,6 +10,9 @@ NON_SUPPORTED_ITEMS = [
     "Ingen tømningsdato fundet!",
     "Skal tilmeldes",
     "Bestil afhentning",
+    "Farligt affald (skal bestilles)",
+    "Storskrald (skal bestilles)",
+    "Haveaffald (skal bestilles)",
 ]
 
 SUPPORTED_ITEMS = {
@@ -100,7 +103,10 @@ SUPPORTED_ITEMS = {
         "4delt beholder",
         "Ressourcebeholder (pap/papir og glas/metal)",
     ],
-    "plastmetalmadmdk": ["Plast/Metal/Mad- & drikkekartoner"],
+    "plastmetalmadmdk": [
+        "Plast/Metal/Mad- & drikkekartoner",
+        "Plast, mad- og drikkekartoner og metal",
+    ],
     "pappapir": ["Pap/Papir", "Papir/Pap", "Papir og Pap"],
     "tekstil": [
         "Tekstiler",
