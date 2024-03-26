@@ -15,6 +15,6 @@ from pyrenoweb.data import PickupEvents, PickupType, RenoWebAddressInfo
 from pyrenoweb.const import ICON_LIST, MUNICIPALITIES_ARRAY, NAME_ARRAY, NAME_LIST
 
 __title__ = "pymrenoweb"
-__version__ = "2.0.15"
+__version__ = "2.0.16"
 __author__ = "briis"
 __license__ = "MIT"
