@@ -249,6 +249,7 @@ MATERIAL_LIST = {
     "plastmetalpapir": [""],
     "papirglasmetalplast": [
         "4-kammer (370 l) (1 stk.)",
+        "Pap og papir/metal, glas og hård plast - 240 L (1 stk.)",
     ],
 }
 
