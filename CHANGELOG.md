@@ -8,6 +8,7 @@
 
 - Removed Furesø kommune as they are no longer using Renoweb.
 - Added Lejre kommune, that was left out in the initial release.
+- Fixed categories for Solrød kommune
 
 <details>
   <summary><b>Previous Changes</b></summary>
